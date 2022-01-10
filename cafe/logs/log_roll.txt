@@ -1,0 +1,18 @@
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:56:43 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Deregister driver.
+2021-12-30 13:57:04 [main] INFO  finalproject.model.dao.impl.MenuDaoImpl - Present
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Connection closed!
+2021-12-30 13:57:04 [main] INFO  epam.finalproject.model.pool.ConnectionPool - Deregister driver.
