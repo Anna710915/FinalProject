@@ -9,9 +9,7 @@ public class Router {
     private Type currentType = Type.FORWARD;
     private String currentPage;
 
-    public Router(){
-        currentPage = "/jsp/pages/signIn.jsp";
-    }
+    public Router(){}
 
     public Router(String currentPage){
         this.currentPage = currentPage;

@@ -73,10 +73,10 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_composition}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_composition"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_composition"/>
+                </div>
             </div>
             </br>
             <div class="form-group" class="mb-3">
@@ -86,10 +86,10 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_weight}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_product_weight"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_product_weight"/>
+                </div>
             </div>
             </br>
             <div class="form-group" class="mb-3">
@@ -99,10 +99,10 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_calories}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_product_calories"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_product_calories"/>
+                </div>
                 </div>
                 </br>
             <div class="form-group" class="mb-3">
@@ -112,10 +112,10 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_cooking_time}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_cooking_time"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_cooking_time"/>
+                </div>
             </div>
             </br>
             <div class="form-group" class="mb-3">
@@ -125,10 +125,10 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_discount}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_product_discount"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_product_discount"/>
+                </div>
             </div>
             </br>
             <div class="form-group" class="mb-3">
@@ -138,29 +138,32 @@
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_price}"/>
                     </div>
-                    <div class="invalid-feedback">
-                        <fmt:message key="menu.invalid_product_price"/>
-                    </div>
                 </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="menu.invalid_product_price"/>
+                </div>
             </div>
             </br>
             <select class="form-select" aria-label="Default select example" name="product_section">
                 <option selected><fmt:message key="menu.product_section"/></option>
-                <option value="1"><fmt:message key="section.pizza"/> </option>
+                <c:forEach var="item" items="${sessionScope.section_list}">
+                    <option value="${item.sectionId}">${item.sectionName}</option>
+                </c:forEach>
             </select>
             <c:if test="${! empty invalid_product_section}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_product_section}"/>
                 </div>
-                <div class="invalid-feedback">
-                    <fmt:message key="menu.invalid_product_section"/>
-                </div>
             </c:if>
+            <div class="invalid-feedback">
+                <fmt:message key="menu.invalid_product_section"/>
+            </div>
             </br>
-            <div class="text-center">
+            <div class="text-center mb-3">
                 <button type="submit" class="btn btn-primary"><fmt:message key="menu.insert_menu"/> </button>
             </div>
         </form>
+
     </div>
 
     <div class="text-center">

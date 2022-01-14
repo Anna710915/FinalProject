@@ -8,13 +8,13 @@
     <c:when test="${not empty language}"> <fmt:setLocale value="${language}" scope="session"/></c:when>
     <c:when test="${empty language}"> <fmt:setLocale value="ru_RU" scope="session"/></c:when>
 </c:choose>
-<fmt:setBundle basename="context.language"></fmt:setBundle>
+<fmt:setBundle basename="context.language"/>
 
-<fmt:message var="log" key="form.sign_in.login"></fmt:message>
-<fmt:message var="pass" key="form.sign_in.password"></fmt:message>
-<fmt:message var="errorMessage" key="error.login_or_password"></fmt:message>
-<fmt:message var="go_back" key="form.button.back_main"></fmt:message>
-<fmt:message var="user_blocked" key="form.user_status_blocked"></fmt:message>
+<fmt:message var="log" key="form.sign_in.login"/>
+<fmt:message var="pass" key="form.sign_in.password"/>
+<fmt:message var="errorMessage" key="error.login_or_password"/>
+<fmt:message var="go_back" key="form.button.back_main"/>
+<fmt:message var="user_blocked" key="form.user_status_blocked"/>
 <html>
 <head>
     <!-- Required meta tags -->

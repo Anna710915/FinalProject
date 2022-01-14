@@ -55,6 +55,17 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             calories, cooking_time, discount, price,  section_id, dish_number FROM menu
             JOIN orders_menu ON orders_menu.food_id = menu.food_id
             WHERE orders_menu.order_id = (?)""";
+    private static final String SQL_FIND_MENU_SUBLIST_BY_SECTION_ID = """
+            SELECT food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price,  section_id FROM menu
+            WHERE section_id = (?)
+            LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_ALL_MENU_ROW_COUNT = """
+            SELECT COUNT(*) FROM menu""";
+    private static final String SQL_SELECT_MENU_SUBLIST = """
+            SELECT food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, section_id FROM menu
+            LIMIT ? OFFSET ?""";
 
     @Override
     public List<Menu> findAll() throws DaoException {
@@ -80,7 +91,7 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
 
     @Override
     public Menu findEntityById(long id) throws DaoException {
-        Menu menu = new Menu();
+        Menu menu = null;
         PreparedStatement statement = null;
         try{
             statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_BY_ID);
@@ -247,5 +258,66 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             close(statement);
         }
         return orderMenu;
+    }
+
+    @Override
+    public List<Menu> findMenuSublistBySectionId(int pageSize, int offset, long sectionId) throws DaoException {
+        PreparedStatement statement = null;
+        List<Menu> menuList = new ArrayList<>();
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_FIND_MENU_SUBLIST_BY_SECTION_ID);
+            statement.setLong(1, sectionId);
+            statement.setInt(2, pageSize);
+            statement.setInt(3, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                if(optionalMenu.isPresent()){
+                    menuList.add(optionalMenu.get());
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a findMenuSublistBySection method. ", e);
+        } finally {
+            close(statement);
+        }
+        return menuList;
+    }
+
+    @Override
+    public int readRowCount() throws DaoException {
+        PreparedStatement statement = null;
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_MENU_ROW_COUNT);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a readRowCount method. ", e);
+        } finally {
+            close(statement);
+        }
+    }
+
+    @Override
+    public List<Menu> findMenuSublist(int pageSize, int offset) throws DaoException {
+        PreparedStatement statement = null;
+        List<Menu> menuSublist = new ArrayList<>();
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_SUBLIST);
+            statement.setInt(1, pageSize);
+            statement.setInt(2, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                if(optionalMenu.isPresent()){
+                    menuSublist.add(optionalMenu.get());
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a findMenuSublist method. ", e);
+        } finally {
+            close(statement);
+        }
+        return menuSublist;
     }
 }

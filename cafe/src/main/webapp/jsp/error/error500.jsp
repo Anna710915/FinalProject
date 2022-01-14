@@ -1,24 +1,29 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 19.12.2021
-  Time: 10:38
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
-<hr>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="ctg" uri="customtags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
+<c:choose>
+    <c:when test="${not empty language}"> <fmt:setLocale value="${language}" scope="session"/></c:when>
+    <c:when test="${empty language}"> <fmt:setLocale value="${language = 'ru_RU'}" scope="session"/></c:when>
+</c:choose>
+<fmt:setBundle basename="context.language"/>
+<html>
 <head>
     <title>Error 500</title>
 </head>
-<br>
-Request From -> ${pageContext.errorData.requestURI}
-<hr/>
-Exception -> ${pageContext.exception}
-<hr/>
-Exception Status -> ${pageContext.errorData.statusCode}
-<hr/>
-Servlet Name -> ${pageContext.errorData.servletName}
-<hr/>
-<a href="${pageContext.request.contextPath}/index.jsp">backToStartPage</a>
+<body>
+<div class="page">
+    <header>
+        <%@include file="../pages/header/header.jsp"%>
+    </header>
+    <div class="container justify-content-center">
+        <img src="picture/img_2.png" class="img-fluid" alt="no image">
+    </div>
+    <div class="text-center">
+        <ctg:footertag/>
+    </div>
+</div>
 </body>
 </html>

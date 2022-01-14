@@ -21,11 +21,9 @@ public class GoToUpdateProductPageCommand implements Command {
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         long menuId = Long.parseLong(request.getParameter(PRODUCT_ID));
-
         try {
             Menu menu = service.findProductById(menuId);
             if(menu == null){
-                router.setRedirectType();
                 router.setCurrentPage(ERROR_500);
                 return router;
             }

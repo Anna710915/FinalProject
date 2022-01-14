@@ -2,6 +2,7 @@ package by.epam.finalproject.model.dao.impl;
 
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.model.dao.AbstractDao;
+import by.epam.finalproject.model.dao.UserDiscountDao;
 import by.epam.finalproject.model.entity.UserDiscount;
 import by.epam.finalproject.model.mapper.impl.UserDiscountMapper;
 import org.apache.logging.log4j.Level;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDiscountDao extends AbstractDao<UserDiscount> {
+public class UserDiscountDaoImpl extends AbstractDao<UserDiscount> implements UserDiscountDao {
     private static final Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_DISCOUNTS =
             "SELECT discount_id, discount, year_orders FROM personal_discounts";
@@ -27,8 +28,13 @@ public class UserDiscountDao extends AbstractDao<UserDiscount> {
             "UPDATE personal_discounts SET discount = (?), year_orders = (?) WHERE discount_id = (?)";
     private static final String SQL_DELETE_BY_ID =
             "DELETE FROM personal_discounts WHERE discount_id = (?)";
-    private static final String SELECT_USER_DISCOUNT_BY_NUMBER_ORDERS = """
-            SELECT """; //TODO
+    private static final String SQL_SELECT_USER_DISCOUNT_ID_BY_NUMBER_ORDERS = """
+            SELECT discount_id FROM personal_discounts
+            JOIN (SELECT IF(MAX(discount) IS NULL, (SELECT MIN(discount) FROM personal_discounts) , MAX(discount)) 
+            AS max_discount FROM personal_discounts
+            WHERE year_orders < (?)
+            ORDER BY discount) AS max_personal_discount
+            ON max_personal_discount.max_discount = personal_discounts.discount""";
 
     @Override
     public List<UserDiscount> findAll() throws DaoException {
@@ -139,6 +145,21 @@ public class UserDiscountDao extends AbstractDao<UserDiscount> {
         }catch (SQLException e) {
             throw new DaoException(e);
         }finally {
+            close(statement);
+        }
+    }
+
+    @Override
+    public long findDiscountIdByNumberOrders(int numberOrders) throws DaoException {
+        PreparedStatement statement = null;
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_DISCOUNT_ID_BY_NUMBER_ORDERS);
+            statement.setInt(1, numberOrders);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next() ? resultSet.getLong(1) : -1L;
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a findDiscountIdByNumberOrders method. ", e);
+        } finally {
             close(statement);
         }
     }

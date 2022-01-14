@@ -31,7 +31,9 @@ public enum CommandType {
     CALCULATE_USER_DISCOUNT(new CalculateUserDiscountCommand()),
     GO_TO_ORDERS_PAGE(new GoToOrdersPageCommand()),
     FIND_ALL_ORDERS(new FindAllOrdersCommand()),
-    CHANGE_ORDER_STATE(new ChangeOrderStateCommand());
+    CHANGE_ORDER_STATE(new ChangeOrderStateCommand()),
+    FIND_ALL_MENU_BY_SECTION(new FindAllMenuBySectionCommand()),
+    INSERT_NEW_SECTION(new InsertNewSectionCommand());
     private final Command command;
 
     CommandType(Command command){

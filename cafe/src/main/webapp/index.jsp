@@ -4,6 +4,6 @@
     <title>Index</title>
 </head>
 <body>
-    <jsp:forward page="/jsp/pages/guest.jsp"></jsp:forward>
+    <jsp:forward page="/jsp/pages/home.jsp"></jsp:forward>
 </body>
 </html>

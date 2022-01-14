@@ -4,11 +4,11 @@
 <%@taglib prefix="ctg" uri="customtags" %>
 <c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
 <c:choose>
-    <c:when test="${not empty language}"> <fmt:setLocale value="${language}" scope="session"/></c:when>
-    <c:when test="${empty language}"> <fmt:setLocale value="${language = 'ru_RU'}" scope="session"/></c:when>
+    <c:when test="${not empty sessionScope.language}"> <fmt:setLocale value="${sessionScope.language}" scope="session"/></c:when>
+    <c:when test="${empty sessionScope.language}"> <fmt:setLocale value="${sessionScope.language = 'ru_RU'}" scope="session"/></c:when>
 </c:choose>
 <fmt:setBundle basename="context.language"/>
-
+<jsp:useBean id="order_list" scope="request" type="java.util.List"/>
 <html>
 <head>
 
@@ -34,8 +34,7 @@
     </header>
     <div class="container">
         <c:choose>
-            <c:when test="${user.role eq 'CLIENT'}">
-                <jsp:useBean id="order_list" scope="request" type="java.util.List"/>
+            <c:when test="${sessionScope.user.role eq 'CLIENT'}">
                 <c:choose>
                     <c:when test="${order_list.isEmpty()}">
                         <h3 class="text-center"><fmt:message key="order.empty_confirmed_order"/> </h3>
@@ -67,10 +66,9 @@
                     </c:otherwise>
                 </c:choose>
             </c:when>
-            <c:when test="${user.role eq 'ADMIN'}">
-                <jsp:useBean id="order_map" scope="request" type="java.util.HashMap"/>
+            <c:when test="${sessionScope.user.role eq 'ADMIN'}">
                 <c:choose>
-                    <c:when test="${order_map.isEmpty()}">
+                    <c:when test="${order_list.isEmpty()}">
                         <h3 class="text-center"><fmt:message key="order.empty_confirmed_order"/> </h3>
                     </c:when>
                     <c:otherwise>
@@ -87,33 +85,39 @@
                                 <th scope="col"><fmt:message key="order.comment"/></th>
                                 <th scope="col"><fmt:message key="registration.login"/></th>
                                 <th scope="col"><fmt:message key="registration.phone"/> </th>
+                                <th scope="col"><fmt:message key="menu.products"/> </th>
                                 <th scope="col"><fmt:message key="admin.users_action"/></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="order" items="${order_map}">
+                            <c:forEach var="orderItem" items="${order_list}">
                                 <tr>
-                                    <td><c:out value="${order.key.orderId}"/></td>
-                                    <fmt:parseDate  value="${order.key.orderDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both"/>
+                                    <td><c:out value="${orderItem.order.orderId}"/></td>
+                                    <fmt:parseDate  value="${orderItem.order.orderDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both"/>
                                     <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm:ss" var="stdDatum" />
                                     <td><c:out value="${stdDatum}"/></td>
-                                    <td><c:out value="${order.key.orderState}"/></td>
-                                    <td><c:out value="${order.key.totalCost}"/></td>
-                                    <td><c:out value="${order.key.typePayment}"/> </td>
-                                    <td><c:out value="${order.key.address}"/></td>
-                                    <td><c:out value="${order.key.userComment}"/></td>
-                                    <td><c:out value="${order.value.login}"/> </td>
-                                    <td><c:out value="${order.value.phoneNumber}"/> </td>
+                                    <td><c:out value="${orderItem.order.orderState}"/></td>
+                                    <td><c:out value="${orderItem.order.totalCost}"/></td>
+                                    <td><c:out value="${orderItem.order.typePayment}"/> </td>
+                                    <td><c:out value="${orderItem.order.address}"/></td>
+                                    <td><c:out value="${orderItem.order.userComment}"/></td>
+                                    <td><c:out value="${orderItem.user.login}"/> </td>
+                                    <td><c:out value="${orderItem.user.phoneNumber}"/> </td>
+                                    <td>
+                                        <c:forEach var="item" items="${orderItem.menuList}">
+                                            <p><c:out value="${item.nameFood}"/> - <c:out value="${item.amount}"/></p>
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <fmt:message key="order.change_state"/>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=PROCESSING&id=${order.key.orderId}">processing</a></li>
-                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=COMPLETED&id=${order.key.orderId}">completed</a></li>
-                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=RECEIVED&id=${order.key.orderId}">received</a></li>
-                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=CANCELLED&id=${order.key.orderId}">cancelled</a></li>
+                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=PROCESSING&id=${orderItem.order.orderId}">processing</a></li>
+                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=COMPLETED&id=${orderItem.order.orderId}">completed</a></li>
+                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=RECEIVED&id=${orderItem.order.orderId}">received</a></li>
+                                                <li><a class="dropdown-item" href="${absolutePath}/controller?command=change_order_state&state=CANCELLED&id=${orderItem.order.orderId}">cancelled</a></li>
                                             </ul>
                                         </div>
                                     </td>

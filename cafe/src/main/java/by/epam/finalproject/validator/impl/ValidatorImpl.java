@@ -19,6 +19,7 @@ public class ValidatorImpl implements Validator {
     private static final String COMPOSITION_PATTERN = "^.{0,200}$";
     private static final String ADDRESS_PATTERN = "^.{1,100}$";
     private static final String USER_COMMENT_PATTERN = "^.{0,200}$";
+    private static final String SECTION_NAME_PATTERN = "^.{1,20}$";
 
     private static ValidatorImpl instance;
 
@@ -82,6 +83,11 @@ public class ValidatorImpl implements Validator {
     @Override
     public boolean isCorrectUserComment(String comment) {
         return comment.matches(USER_COMMENT_PATTERN);
+    }
+
+    @Override
+    public boolean isCorrectSectionName(String sectionName) {
+        return isNotNullOrEmpty(sectionName) && sectionName.matches(SECTION_NAME_PATTERN);
     }
 
     @Override

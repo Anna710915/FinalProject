@@ -16,21 +16,23 @@ public class EncodingFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
     private static final String CODE = "encoding";
     private String code;
+
     @Override
     public void init(FilterConfig config) throws ServletException {
         logger.log(Level.INFO,"Encoding filter: method - init");
         code = config.getInitParameter(CODE);
     }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         String codeRequest = request.getCharacterEncoding();
         if(code != null && !code.equalsIgnoreCase(codeRequest)){
-            System.out.println(code);
             request.setCharacterEncoding(code);
             response.setCharacterEncoding(code);
         }
         chain.doFilter(request, response);
     }
+
     @Override
     public void destroy() {
         logger.log(Level.INFO,"Encoding filter: method - destroy");

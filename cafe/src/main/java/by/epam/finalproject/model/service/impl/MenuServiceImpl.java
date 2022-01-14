@@ -9,6 +9,7 @@ import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.service.MenuService;
 import by.epam.finalproject.validator.Validator;
 import by.epam.finalproject.validator.impl.ValidatorImpl;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +25,7 @@ import static by.epam.finalproject.controller.Parameter.PRODUCT_PRICE;
 
 public class MenuServiceImpl implements MenuService {
     private static final Logger logger = LogManager.getLogger();
+    private static final String TIME_PATTERN = "HH:mm";
     private static MenuServiceImpl instance;
 
     private MenuServiceImpl(){}
@@ -35,15 +37,15 @@ public class MenuServiceImpl implements MenuService {
         return instance;
     }
     @Override
-    public List<Menu> findAllMenu() throws ServiceException {
-        AbstractDao<Menu> menuAbstractDao = new MenuDaoImpl();
+    public List<Menu> findMenuSublist(int pageSize, int offset) throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(menuAbstractDao);
+        transaction.init(menuDao);
+        logger.log(Level.INFO, "Parameter: " + pageSize + " " + offset);
         try {
-            List<Menu> menuList = menuAbstractDao.findAll();
-            return menuList;
+            return menuDao.findMenuSublist(pageSize, offset);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a findMenuSublist method. ", e);
         }finally {
             transaction.end();
         }
@@ -67,7 +69,7 @@ public class MenuServiceImpl implements MenuService {
             String composition = map.get(PRODUCT_COMPOSITION);
             double weight = Double.parseDouble(map.get(PRODUCT_WEIGHT));
             double calories = Double.parseDouble(map.get(PRODUCT_CALORIES));
-            LocalTime time = LocalTime.parse(map.get(PRODUCT_TIME), DateTimeFormatter.ofPattern("HH:MM")); // TODO
+            LocalTime time = LocalTime.parse(map.get(PRODUCT_TIME), DateTimeFormatter.ofPattern(TIME_PATTERN));
             BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(map.get(PRODUCT_DISCOUNT)));
             BigDecimal price = BigDecimal.valueOf(Double.parseDouble(map.get(PRODUCT_PRICE)));
             long sectionId = Long.parseLong(map.get(PRODUCT_SECTION));
@@ -195,5 +197,34 @@ public class MenuServiceImpl implements MenuService {
             transaction.end();
         }
         return false;
+    }
+
+    @Override
+    public int readRowCount() throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        try {
+            return menuDao.readRowCount();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a readRowCount method. ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public List<Menu> findMenuSublistBySectionId(int pageSize, int offset, long sectionId) throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        logger.log(Level.INFO, "Parameter: " + pageSize + " " + offset);
+        try {
+            return menuDao.findMenuSublistBySectionId(pageSize, offset, sectionId);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findMenuSublist method. ", e);
+        }finally {
+            transaction.end();
+        }
     }
 }

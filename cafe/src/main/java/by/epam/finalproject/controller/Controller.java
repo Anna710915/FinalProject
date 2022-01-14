@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static by.epam.finalproject.controller.PathPage.ERROR_500;
-
 import static by.epam.finalproject.controller.Parameter.COMMAND;
 
 @WebServlet(urlPatterns = {"/controller"})
@@ -59,7 +58,7 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(ERROR_500);
             }
         } catch (CommandException e) {
-            logger.log(Level.ERROR,e.getMessage());
+            logger.log(Level.ERROR,e.getCause());
             response.sendRedirect(ERROR_500);
         }
     }

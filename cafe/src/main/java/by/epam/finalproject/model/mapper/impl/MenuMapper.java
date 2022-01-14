@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static by.epam.finalproject.model.mapper.impl.SectionMapper.SECTION;
+
 public class MenuMapper implements CustomRowMapper<Menu> {
     public static final String FOOD_ID = "food_id";
     public static final String NAME_FOOD = "name_food";
@@ -18,7 +20,6 @@ public class MenuMapper implements CustomRowMapper<Menu> {
     public static final String COOKING_TIME = "cooking_time";
     public static final String DISCOUNT = "discount";
     public static final String PRICE = "price";
-    public static final String SECTION = "section_id";
     public static final String DISH_NUMBER = "dish_number";
 
     @Override
@@ -39,7 +40,6 @@ public class MenuMapper implements CustomRowMapper<Menu> {
             optionalMenu = Optional.of(menu);
         } catch (SQLException e) {
             optionalMenu = Optional.empty();
-
         }
         return optionalMenu;
     }

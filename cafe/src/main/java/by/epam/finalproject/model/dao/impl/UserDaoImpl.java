@@ -50,6 +50,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             UPDATE users SET state_id = (?) where login = (?)""";
     private static final String SQL_UPDATE_USER_STATE_BY_ID = """
             UPDATE users SET state_id = (?) WHERE user_id = (?)""";
+    private static final String SQL_UPDATE_USER_DISCOUNT_ID = """
+            UPDATE users SET discount_id = (?) WHERE user_id = (?)""";
     private static final String SQL_SELECT_USER_BY_LOGIN = """
             SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday, 
             discount_id, state, role_name FROM users
@@ -169,7 +171,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             statement.setLong(9, entity.getState().getStateId());
             statement.setLong(10, entity.getRole().getRoleId());
             logger.log(Level.INFO,"The new row: " + entity);
-            return statement.executeUpdate() != 0;
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
@@ -384,7 +386,17 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public boolean updateUserDiscountByUserId(long id, int numberOrders) throws DaoException {
-        return false;
+    public boolean updateUserDiscountIdByUserId(long userId, long discountId) throws DaoException {
+        PreparedStatement statement = null;
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_DISCOUNT_ID);
+            statement.setLong(1, discountId);
+            statement.setLong(2, userId);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a updateUserDiscountIdByUserId method. ", e);
+        } finally {
+            close(statement);
+        }
     }
 }

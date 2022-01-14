@@ -5,8 +5,11 @@ import by.epam.finalproject.controller.command.Command;
 import by.epam.finalproject.exception.CommandException;
 import by.epam.finalproject.exception.ServiceException;
 import by.epam.finalproject.model.entity.Menu;
+import by.epam.finalproject.model.entity.Section;
 import by.epam.finalproject.model.entity.User;
+import by.epam.finalproject.model.service.SectionService;
 import by.epam.finalproject.model.service.UserService;
+import by.epam.finalproject.model.service.impl.SectionServiceImpl;
 import by.epam.finalproject.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,19 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.ADMIN_PAGE;
-import static by.epam.finalproject.controller.PathPage.CLIENT_PAGE;
-import static by.epam.finalproject.controller.PathPage.SIGN_PAGE;
 
+import static by.epam.finalproject.controller.PathPage.*;
 import static by.epam.finalproject.controller.PropertiesKey.ERROR_INCORRECT_LOGIN_OR_PASSWORD_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.USER_BLOCKED_MESSAGE;
 
 public class SignInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private static final UserService userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final SectionService sectionService = SectionServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
@@ -45,7 +48,9 @@ public class SignInCommand implements Command {
                 switch (user.getRole()){
                     case ADMIN -> {
                         session.setAttribute(USER,user);
-                        router.setCurrentPage(ADMIN_PAGE);
+                        router.setCurrentPage(HOME_PAGE);
+                        List<Section> sectionList = sectionService.findAllSections();
+                        session.setAttribute(SECTION_LIST, sectionList);
                     }
                     case CLIENT -> {
                         if(user.getState() == User.UserState.BLOCKED){
@@ -55,7 +60,9 @@ public class SignInCommand implements Command {
                             logger.log(Level.INFO,"Client page");
                             session.setAttribute(USER,user);
                             session.setAttribute(CART, new HashMap<Menu, Integer>());
-                            router.setCurrentPage(CLIENT_PAGE);
+                            List<Section> sectionList = sectionService.findAllSections();
+                            session.setAttribute(SECTION_LIST, sectionList);
+                            router.setCurrentPage(HOME_PAGE);
                         }
                     }
                 }

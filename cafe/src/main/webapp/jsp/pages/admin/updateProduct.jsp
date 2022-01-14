@@ -134,7 +134,9 @@
             </br>
             <select class="form-select" aria-label="Default select example" name="product_section">
                 <option selected ><fmt:message key="menu.product_section"/></option>
-                <option value="1"><fmt:message key="section.pizza"/> </option>
+                <c:forEach var="item" items="${sessionScope.section_list}">
+                    <option value="${item.sectionId}">${item.sectionName}</option>
+                </c:forEach>
             </select>
             <c:if test="${! empty invalid_product_section}">
                 <div class="invalid-feedback-backend" style="color: red">

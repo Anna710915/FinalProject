@@ -44,6 +44,7 @@ public class PageFilter implements Filter {
         switch (userRole){
             case ADMIN -> {
                 pages = PagePermission.ADMIN.getUserPages();
+                logger.log(Level.INFO,pages);
                 isCorrect = pages.stream().anyMatch(requestURI::contains);
             }
             case CLIENT -> {
@@ -63,7 +64,7 @@ public class PageFilter implements Filter {
             session.setAttribute(USER,user);
             httpResponse.sendRedirect(START_PAGE);
             return;
-        }else if(!isCorrect && user != null){
+        }else if(!isCorrect){
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }

@@ -18,6 +18,9 @@
             pointer-events: none;
         }
 
+        .body {
+            background-color: whitesmoke;
+        }
         .catalog-body {
             position: relative;
             color: #525252;
@@ -379,7 +382,7 @@
         }
     </script>
 </head>
-<body>
+<body class="body">
 <div class="page">
     <header>
         <%@include file="../header/header.jsp"%>
@@ -446,7 +449,6 @@
                                             </form>
                                         </div>
                                     </div>
-
                                 </div>
                             </c:if>
                         </div>
@@ -454,40 +456,11 @@
                 </div>
             </c:forEach>
         </div>
-<%--        <div class="container">--%>
-<%--            <div class="row" style="justify-content: center">--%>
-<%--                <nav aria-label="Page navigation">--%>
-<%--                    <ul class="pagination">--%>
-<%--                        <li class="page-item">--%>
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${requestScope.page > 1}">--%>
-<%--                                    <a class="page-link"--%>
-<%--                                       href="${pageContext.request.contextPath}/controller?command=show_all_jewelry&page=${requestScope.page-1}"--%>
-<%--                                       aria-label="Previous">--%>
-<%--                                        <span aria-hidden="true">&laquo;</span>--%>
-<%--                                    </a>--%>
-<%--                                </c:when>--%>
-<%--                                <c:when test="${requestScope.page < 1}">--%>
-<%--                                    <a class="page-link"--%>
-<%--                                       href="#"--%>
-<%--                                       aria-label="Previous">--%>
-<%--                                        <span aria-hidden="true">&laquo;</span>--%>
-<%--                                    </a>--%>
-<%--                                </c:when>--%>
-<%--                            </c:choose>--%>
-<%--                        </li>--%>
-<%--                        <li class="page-item"><span class="page-link">${requestScope.page}</span></li>--%>
-<%--                        <li class="page-item">--%>
-<%--                            <a class="page-link"--%>
-<%--                               href="${pageContext.request.contextPath}/controller?command=show_all_jewelry&page=${requestScope.page+1}"--%>
-<%--                               aria-label="Next">--%>
-<%--                                <span aria-hidden="true">&raquo;</span>--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+    </div>
+    <div class="pages" style="background-color: whitesmoke">
+        <div class="justify-content-center" >
+            <ctg:pagination currentPage="${requestScope.currentPage}" lastPage="${requestScope.lastPage}" url="${url}"/>
+        </div>
     </div>
     <div class="text-center">
         <ctg:footertag/>

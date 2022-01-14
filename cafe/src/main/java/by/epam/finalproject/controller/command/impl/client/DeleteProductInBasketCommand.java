@@ -28,7 +28,6 @@ public class DeleteProductInBasketCommand implements Command {
         Map<Menu, Integer> mapMenu = (HashMap<Menu, Integer>) session.getAttribute(CART);
         try {
             if(service.deleteProductFromBasket(mapMenu, id)) {
-                System.out.println("I'm here");
                 session.setAttribute(CART, mapMenu);
             }
         } catch (ServiceException e) {

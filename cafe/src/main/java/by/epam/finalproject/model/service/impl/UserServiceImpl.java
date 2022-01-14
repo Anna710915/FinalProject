@@ -2,9 +2,7 @@ package by.epam.finalproject.model.service.impl;
 
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.exception.ServiceException;
-import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.EntityTransaction;
-import by.epam.finalproject.model.dao.UserDao;
 import by.epam.finalproject.model.dao.impl.UserDaoImpl;
 import by.epam.finalproject.model.entity.User;
 import by.epam.finalproject.model.service.UserService;
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public boolean userRegistration(Map<String,String> mapData) throws ServiceException{
+    public boolean userRegistration(Map<String,String> mapData, User.UserRole role) throws ServiceException{
         UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);
@@ -89,16 +87,17 @@ public class UserServiceImpl implements UserService {
             if(!uniqResult){
                 return false;
             }
+
             User user = new User(firstName, lastName, login, encryptPassword, email,
-                    phoneNumber, date, discountId, User.UserRole.CLIENT, User.UserState.NEW);
+                    phoneNumber, date, discountId, role, User.UserState.NEW);
             boolean isUserCreate = userDao.create(user);
             if(isUserCreate){
-                Mail.createMail(email,REGISTRATION_SUBJECT,REGISTRATION_BODY);
+                Mail.createMail(email, REGISTRATION_SUBJECT, REGISTRATION_BODY);
             }
             return isUserCreate;
         } catch (DaoException e) {
             throw new ServiceException("Add user error: ", e);
-        }finally {
+        } finally {
             transaction.end();
         }
     }

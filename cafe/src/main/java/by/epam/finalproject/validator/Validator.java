@@ -19,4 +19,5 @@ public interface Validator {
     boolean isCorrectAddress(String address);
     boolean isCorrectUserComment(String comment);
     boolean checkOrderInfo(Map<String, String> orderInfo);
+    boolean isCorrectSectionName(String sectionName);
 }

@@ -5,9 +5,6 @@ import by.epam.finalproject.controller.command.Command;
 import by.epam.finalproject.exception.CommandException;
 import by.epam.finalproject.exception.ServiceException;
 import by.epam.finalproject.model.service.impl.MenuServiceImpl;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -18,7 +15,6 @@ import static by.epam.finalproject.controller.PathPage.ADD_MENU_PAGE;
 import static by.epam.finalproject.controller.PropertiesKey.*;
 
 public class InsertNewProductCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
     private static final String DEFAULT_IMAGE = "picture/default-image_1920.png";
     private static final MenuServiceImpl service = MenuServiceImpl.getInstance();
 
@@ -42,7 +38,6 @@ public class InsertNewProductCommand implements Command {
             }
             for (String key : map.keySet()) {
                 String value = map.get(key);
-                logger.log(Level.INFO,"Invalid data: " + key);
                 switch (value) {
                     case INVALID_PRODUCT_COMPOSITION -> request.setAttribute(INVALID_PRODUCT_COMPOSITION, INVALID_PRODUCT_COMPOSITION_MESSAGE);
                     case NOT_UNIQ_PRODUCT_NAME -> request.setAttribute(NOT_UNIQ_PRODUCT_NAME, NOT_UNIQ_PRODUCT_NAME_MESSAGE);

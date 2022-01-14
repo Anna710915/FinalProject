@@ -21,11 +21,11 @@ public class DeleteProductCommand implements Command {
         Router router = new Router();
         long id = Long.parseLong(request.getParameter(PRODUCT_ID));
         try {
-            router.setRedirectType();
             if(!service.deleteProductById(id)){
                 router.setCurrentPage(ERROR_500);
                 return router;
             }
+            router.setRedirectType();
             HttpSession session = request.getSession();
             String currentPage = (String) session.getAttribute(CURRENT_PAGE);
             router.setCurrentPage(currentPage);

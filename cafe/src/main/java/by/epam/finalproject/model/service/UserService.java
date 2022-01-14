@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> signIn(String login, String password) throws ServiceException;
-    boolean userRegistration(Map<String,String> mapData) throws ServiceException;
+    boolean userRegistration(Map<String,String> mapData, User.UserRole role) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
     boolean deleteUser(long id) throws ServiceException;
     Optional<User> updateUserProfile(User user, Map<String, String> updateData) throws ServiceException;

@@ -4,10 +4,12 @@ import by.epam.finalproject.controller.Router;
 import by.epam.finalproject.controller.command.Command;
 import by.epam.finalproject.exception.CommandException;
 import by.epam.finalproject.exception.ServiceException;
+import by.epam.finalproject.model.entity.User;
 import by.epam.finalproject.model.service.UserService;
 import by.epam.finalproject.model.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +33,18 @@ public class RegistrationCommand implements Command {
         mapData.put(USER_BIRTHDAY, request.getParameter(USER_BIRTHDAY));
         Router router = new Router();
         try {
-            if (service.userRegistration(mapData)) {
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute(USER);
+            User.UserRole role = user != null && user.getRole() == User.UserRole.ADMIN ?
+                    User.UserRole.ADMIN : User.UserRole.CLIENT;
+            if (service.userRegistration(mapData, role)) {
                 router.setRedirectType();
-                router.setCurrentPage(SIGN_PAGE);
+                if(role == User.UserRole.ADMIN){
+                    String currentPage = (String) session.getAttribute(CURRENT_PAGE);
+                    router.setCurrentPage(currentPage);
+                }else {
+                    router.setCurrentPage(SIGN_PAGE);
+                }
             } else {
                 for (String key : mapData.keySet()) {
                     String currentValue = mapData.get(key);

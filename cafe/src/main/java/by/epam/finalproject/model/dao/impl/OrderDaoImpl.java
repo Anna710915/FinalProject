@@ -3,6 +3,7 @@ package by.epam.finalproject.model.dao.impl;
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.OrderDao;
+import by.epam.finalproject.model.entity.ComponentOrder;
 import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.entity.Order;
 import by.epam.finalproject.model.entity.User;
@@ -52,6 +53,11 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
             AND (order_state = 'received')
             GROUP BY user_id
             HAVING user_id = (?)""";
+    private static final String SQL_SELECT_ALL_ORDER_MENU = """
+            SELECT name_food, dish_number FROM orders 
+            JOIN orders_menu ON orders_menu.order_id = orders.order_id
+            JOIN menu ON menu.food_id = orders_menu.food_id
+            WHERE orders.order_id = (?)""";
 
 
     @Override
@@ -281,5 +287,26 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
         } finally {
             close(statement);
         }
+    }
+
+    @Override
+    public List<ComponentOrder> findAllMenuOrder(long orderId) throws DaoException {
+        PreparedStatement statement = null;
+        List<ComponentOrder> componentOrders = new ArrayList<>();
+        try {
+            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_ORDER_MENU);
+            statement.setLong(1, orderId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                String nameFood = resultSet.getString(1);
+                int amount = resultSet.getInt(2);
+                componentOrders.add(new ComponentOrder(nameFood, amount));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception in a findAllMenuOrder method. ", e);
+        } finally {
+            close(statement);
+        }
+        return componentOrders;
     }
 }

@@ -6,9 +6,8 @@ import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.EntityTransaction;
 import by.epam.finalproject.model.dao.impl.OrderDaoImpl;
 import by.epam.finalproject.model.dao.impl.UserDaoImpl;
-import by.epam.finalproject.model.entity.Menu;
-import by.epam.finalproject.model.entity.Order;
-import by.epam.finalproject.model.entity.User;
+import by.epam.finalproject.model.dao.impl.UserDiscountDaoImpl;
+import by.epam.finalproject.model.entity.*;
 import by.epam.finalproject.model.service.OrderService;
 import by.epam.finalproject.util.mail.Mail;
 import by.epam.finalproject.validator.Validator;
@@ -19,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -104,25 +104,41 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllOrders() throws ServiceException {
-        AbstractDao<Order> orderDao = new OrderDaoImpl();
-        EntityTransaction transaction = new EntityTransaction();
-        transaction.init(orderDao);
-        try {
-            return orderDao.findAll();
-        } catch (DaoException e) {
-            throw new ServiceException("Exception in a findAllOrders method. ", e);
-        } finally {
-            transaction.end();
-        }
-    }
-
-    @Override
-    public boolean changeOrderStateById(long orderId, Order.OrderState state) throws ServiceException { //TODO
+    public List<CompleteOrder> findAllOrders() throws ServiceException {
         OrderDaoImpl orderDao = new OrderDaoImpl();
         UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.initTransaction(orderDao, userDao);
+        List<CompleteOrder> completeOrders = new ArrayList<>();
+        try {
+            List<Order> orderList = orderDao.findAll();
+            for(Order order: orderList){
+                Optional<User> optionalUser = userDao.findUserByOrder(order.getOrderId());
+                if(optionalUser.isPresent()){
+                    User user = optionalUser.get();
+                    List<ComponentOrder> menuList = orderDao.findAllMenuOrder(order.getOrderId());
+                    completeOrders.add(new CompleteOrder(user, order, menuList));
+                }else {
+                    logger.log(Level.INFO, "The user doesn't exist. Order ID is " + order.getOrderId());
+                }
+            }
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException("Exception in a findAllOrders method. ", e);
+        } finally {
+            transaction.endTransaction();
+        }
+        return completeOrders;
+    }
+
+    @Override
+    public boolean changeOrderStateById(long orderId, Order.OrderState state) throws ServiceException {
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        UserDaoImpl userDao = new UserDaoImpl();
+        UserDiscountDaoImpl userDiscountDao = new UserDiscountDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initTransaction(orderDao, userDao, userDiscountDao);
         try{
             boolean result;
             switch (state){
@@ -134,7 +150,13 @@ public class OrderServiceImpl implements OrderService {
                     if(optionalUser.isPresent()){
                         User user = optionalUser.get();
                         int numberOrders = orderDao.findNumberYearOrdersByUserId(user.getUserId());
-                        userDao.updateUserDiscountByUserId(user.getUserId(), numberOrders);
+                        logger.log(Level.INFO, "numberOrders = " + numberOrders);
+                        long discount_id = userDiscountDao.findDiscountIdByNumberOrders(numberOrders);
+                        logger.log(Level.INFO, "discount_id = " + discount_id);
+                        if(discount_id > 0 && discount_id != user.getDiscountId()) {
+                            userDao.updateUserDiscountIdByUserId(user.getUserId(), discount_id);
+                            logger.log(Level.INFO, "updateUserDiscountIdByUserId was successful");
+                        }
                     }
                 }
                 default -> result = false;

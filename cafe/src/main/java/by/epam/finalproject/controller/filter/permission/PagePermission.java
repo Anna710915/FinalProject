@@ -6,8 +6,7 @@ import static by.epam.finalproject.controller.PathPage.*;
 
 public enum PagePermission {
     ADMIN(Set.of(START_PAGE,
-            ADMIN_PAGE,
-            GUEST_PAGE,
+            HOME_PAGE,
             ERROR_404,
             REGISTRATION_PAGE,
             USERS_PAGE,
@@ -17,10 +16,11 @@ public enum PagePermission {
             SETTINGS_PAGE,
             ERROR_500,
             UPDATE_PRODUCT_PAGE,
-            ORDERS_PAGE)),
+            ORDERS_PAGE,
+            CONTACTS_PAGE,
+            SECTION_PAGE)),
     CLIENT(Set.of(START_PAGE,
-            CLIENT_PAGE,
-            GUEST_PAGE,
+            HOME_PAGE,
             SIGN_PAGE,
             ERROR_404,
             PROFILE_PAGE,
@@ -30,13 +30,15 @@ public enum PagePermission {
             ERROR_500,
             BASKET_PAGE,
             SUCCESS_ORDER_PAGE,
-            ORDERS_PAGE)),
+            ORDERS_PAGE,
+            CONTACTS_PAGE)),
     GUEST(Set.of(START_PAGE,
-            GUEST_PAGE,
+            HOME_PAGE,
             SIGN_PAGE,
             ERROR_404,
             REGISTRATION_PAGE,
-            ERROR_500));
+            ERROR_500,
+            CONTACTS_PAGE));
 
     Set<String> userPages;
     PagePermission(Set<String> userPages){

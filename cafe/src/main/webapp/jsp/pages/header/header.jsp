@@ -45,36 +45,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="#">${main}</a></li>
+                <li class="nav-item"><a class="nav-link active" href="${absolutePath}/jsp/pages/home.jsp">${main}</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">${about_us}</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">${contacts}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${absolutePath}/jsp/pages/common/contacts.jsp">${contacts}</a></li>
 
                           <c:choose>
                               <c:when test="${user.role eq 'ADMIN'}"><%@include file="fragment/admin_header.jspf" %></c:when>
                               <c:when test="${user.role eq 'CLIENT'}"><%@include file="fragment/client_header.jspf" %></c:when>
                           </c:choose>
 
-                          <c:choose>
-                              <c:when test="${language eq 'ru_RU'}">
-                                  <li class="nav-item">
-                                      <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=en_US">${lang}</a>
-                                  </li>
-                              </c:when>
-                              <c:when test="${language eq 'en_US'}">
-                                  <li class="nav-item">
-                                      <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=ru_RU">${lang}</a>
-                                  </li>
-                              </c:when>
-                              <c:otherwise>
-                                  <li class="nav-item">
-                                      <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=ru_RU">${lang}</a>
-                                  </li>
-                              </c:otherwise>
-                          </c:choose>
+
             </ul>
         </div>
                 <div>
                     <ul class="nav navbar-nav navbar-right">
+                        <c:choose>
+                            <c:when test="${language eq 'ru_RU'}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=en_US">${lang}</a>
+                                </li>
+                            </c:when>
+                            <c:when test="${language eq 'en_US'}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=ru_RU">${lang}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${absolutePath}/controller?command=change_language&language=ru_RU">${lang}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     <c:choose>
                         <c:when test="${user.role eq 'ADMIN' or user.role eq 'CLIENT'}">
                             <li class="nav-item"><a class="nav-link" href="${absolutePath}/controller?command=sign_out"> ${logout}</a></li>

@@ -1,6 +1,6 @@
 package by.epam.finalproject.model.dao;
 
-import by.epam.finalproject.model.dao.impl.UserDiscountDao;
+import by.epam.finalproject.model.dao.impl.UserDiscountDaoImpl;
 import by.epam.finalproject.model.entity.UserDiscount;
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.model.pool.ConnectionPool;
@@ -12,12 +12,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.testng.Assert.*;
-public class UserDiscountDaoTest {
+public class UserDiscountDaoImplTest {
     AbstractDao<UserDiscount> abstractDao;
     EntityTransaction entityTransaction;
     @BeforeClass
     public void init(){
-        abstractDao = new UserDiscountDao();
+        abstractDao = new UserDiscountDaoImpl();
         entityTransaction = new EntityTransaction();
         entityTransaction.init(abstractDao);
     }

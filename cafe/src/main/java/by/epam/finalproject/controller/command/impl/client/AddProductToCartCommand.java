@@ -27,12 +27,12 @@ public class AddProductToCartCommand implements Command {
         long id = Long.parseLong(request.getParameter(SELECTED));
         int productNumber = Integer.parseInt(request.getParameter(PRODUCT_NUMBER));
         Router router = new Router();
-        router.setRedirectType();
         try {
             if(!service.addProductToBasket(productMap, id, productNumber)){
                 router.setCurrentPage(ERROR_500);
                 return router;
             }
+            router.setRedirectType();
             session.setAttribute(CART, productMap);
             router.setCurrentPage(currentPage);
         } catch (ServiceException e) {

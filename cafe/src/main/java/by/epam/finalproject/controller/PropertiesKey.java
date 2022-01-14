@@ -26,5 +26,7 @@ public final class PropertiesKey {
     public static final String INVALID_ORDER_ADDRESS_MESSAGE = "order.invalid_address";
     public static final String INVALID_ORDER_PAYMENT_MESSAGE = "order.invalid_payment";
     public static final String INVALID_ORDER_COMMENT_MESSAGE = "order.invalid_comment";
+    public static final String INVALID_SECTION_NAME_MESSAGE = "section.invalid_name";
+    public static final String NOT_UNIQ_SECTION_NAME_MESSAGE = "section.not_uniq_name";
     private PropertiesKey(){}
 }

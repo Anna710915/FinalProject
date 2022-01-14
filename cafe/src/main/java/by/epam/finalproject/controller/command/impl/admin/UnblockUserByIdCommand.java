@@ -21,13 +21,14 @@ public class UnblockUserByIdCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
-        router.setRedirectType();
+
         long id = Long.parseLong(request.getParameter(USER_ID));
         try {
             if (!service.changeUserStateById(User.UserState.UNBLOCKED, id)) {
                 router.setCurrentPage(ERROR_500);
                 return router;
             }
+            router.setRedirectType();
             HttpSession session = request.getSession();
             String currentPage = (String) session.getAttribute(CURRENT_PAGE);
             router.setCurrentPage(currentPage);

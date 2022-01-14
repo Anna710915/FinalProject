@@ -5,6 +5,9 @@ public final class Parameter {
     public static final String CART = "cart";
     public static final String COMMAND = "command";
     public static final String CURRENT_PAGE = "current_page";
+    public static final String PAGINATION_PAGE = "currentPage";
+    public static final String PAGINATION_LAST_PAGE = "lastPage";
+    public static final String URL = "url";
     public static final String ERROR_LOG_OR_PASS = "errorLoginPassMessage";
     public static final String IMAGE_PATH = "imagePath";
     public static final String INVALID_BIRTHDAY = "invalid_birthday";
@@ -28,6 +31,7 @@ public final class Parameter {
     public static final String INVALID_ORDER_ADDRESS = "invalid_order_address";
     public static final String INVALID_ORDER_PAYMENT = "invalid_order_payment";
     public static final String INVALID_ORDER_COMMENT = "invalid_order_comment";
+    public static final String INVALID_SECTION_NAME = "invalid_section_name";
     public static final String LOGIN = "login";
     public static final String LANGUAGE = "language";
     public static final String LIST_USER = "list_user";
@@ -35,6 +39,7 @@ public final class Parameter {
     public static final String NOT_UNIQ_LOGIN = "not_uniq_login";
     public static final String NOT_UNIQ_PHONE = "not_uniq_phone";
     public static final String NOT_UNIQ_PRODUCT_NAME = "not_uniq_product_name";
+    public static final String NOT_UNIQ_SECTION_NAME = "not_uniq_section_name";
     public static final String PASSWORD = "password";
     public static final String MENU_LIST = "menu_list";
     public static final String OLD_PASSWORD = "old_password";
@@ -68,8 +73,10 @@ public final class Parameter {
     public static final String PRODUCT_ID = "id";
     public static final String PRODUCT_MENU = "menu";
     public static final String ORDER_LIST = "order_list";
-    public static final String ORDER_MAP = "order_map";
+    public static final String SECTION_LIST = "section_list";
     public static final String ORDER_ID = "id";
+    public static final String SECTION_ID = "id";
+    public static final String SECTION_NAME = "section_name";
 
     private Parameter(){}
 }

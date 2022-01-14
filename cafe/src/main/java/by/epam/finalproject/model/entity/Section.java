@@ -1,6 +1,6 @@
 package by.epam.finalproject.model.entity;
 
-public class Section {
+public class Section extends CustomEntity{
     private long sectionId;
     private String sectionName;
 
@@ -8,6 +8,10 @@ public class Section {
 
     public Section(long sectionId, String sectionName) {
         this.sectionId = sectionId;
+        this.sectionName = sectionName;
+    }
+
+    public Section(String sectionName) {
         this.sectionName = sectionName;
     }
 

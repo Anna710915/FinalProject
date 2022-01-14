@@ -4,7 +4,7 @@ import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.exception.ServiceException;
 import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.EntityTransaction;
-import by.epam.finalproject.model.dao.impl.UserDiscountDao;
+import by.epam.finalproject.model.dao.impl.UserDiscountDaoImpl;
 import by.epam.finalproject.model.entity.UserDiscount;
 import by.epam.finalproject.model.service.UserDiscountService;
 
@@ -22,7 +22,7 @@ public class UserDiscountServiceImpl implements UserDiscountService {
     }
     @Override
     public UserDiscount findDiscountById(long id) throws ServiceException {
-        AbstractDao<UserDiscount> abstractDao = new UserDiscountDao();
+        AbstractDao<UserDiscount> abstractDao = new UserDiscountDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(abstractDao);
         try {

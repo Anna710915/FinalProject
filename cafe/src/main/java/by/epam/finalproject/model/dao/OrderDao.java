@@ -1,9 +1,7 @@
 package by.epam.finalproject.model.dao;
 
 import by.epam.finalproject.exception.DaoException;
-import by.epam.finalproject.model.entity.Menu;
-import by.epam.finalproject.model.entity.Order;
-import by.epam.finalproject.model.entity.User;
+import by.epam.finalproject.model.entity.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +14,5 @@ public interface OrderDao {
     boolean createOrderMenu(long orderId, Map<Menu, Integer> mapOrderProduct) throws DaoException;
     long createOrder(Order order) throws DaoException;
     int findNumberYearOrdersByUserId(long userId) throws DaoException;
+    List<ComponentOrder> findAllMenuOrder(long orderId) throws DaoException;
 }

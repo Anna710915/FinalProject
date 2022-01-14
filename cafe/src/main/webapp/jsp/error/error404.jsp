@@ -1,26 +1,27 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 20.12.2021
-  Time: 19:27
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="ctg" uri="customtags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
+<c:choose>
+    <c:when test="${not empty language}"> <fmt:setLocale value="${language}" scope="session"/></c:when>
+    <c:when test="${empty language}"> <fmt:setLocale value="${language = 'ru_RU'}" scope="session"/></c:when>
+</c:choose>
+<fmt:setBundle basename="context.language"/>
 <html>
 <head>
     <title>Error 404</title>
-    <br>
-    Request From -> ${pageContext.errorData.requestURI}
-    <hr/>
-    Exception -> ${pageContext.exception}
-    <hr/>
-    Exception Status -> ${pageContext.errorData.statusCode}
-    <hr/>
-    Servlet Name -> ${pageContext.errorData.servletName}
-    <hr/>
-    <a href="${pageContext.request.contextPath}/index.jsp">backToStartPage</a>
 </head>
 <body>
-
+<div class="page">
+    <header>
+        <%@include file="../pages/header/header.jsp"%>
+    </header>
+    <img src="picture/img_1.png" class="img-fluid" alt="no image">
+    <div class="text-center">
+        <ctg:footertag/>
+    </div>
+</div>
 </body>
 </html>

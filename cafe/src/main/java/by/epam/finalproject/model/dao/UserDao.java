@@ -16,5 +16,5 @@ public interface UserDao {
     Optional<User> findUserByOrder(long orderId) throws DaoException;
     Optional<User.UserState> findStateById(long userId) throws DaoException;
     Optional<User> findUserByLoginAndPassword(String login, String password) throws DaoException;
-    boolean updateUserDiscountByUserId(long id, int numberOrders) throws DaoException;
+    boolean updateUserDiscountIdByUserId(long id, long discountId) throws DaoException;
 }

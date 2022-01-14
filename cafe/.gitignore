@@ -761,3 +761,4 @@ bower_components/
 
 build/
 dist/
+/logs/
