@@ -14,6 +14,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ * The type Mail sender.
+ */
 public class MailSender {
     private static final Logger logger = LogManager.getLogger();
     private MimeMessage message;
@@ -22,6 +25,14 @@ public class MailSender {
     private String mailText;
     private Properties properties;
 
+    /**
+     * Instantiates a new Mail sender.
+     *
+     * @param sendToMail  the send to mail
+     * @param mailSubject the mail subject
+     * @param mailText    the mail text
+     * @param properties  the properties
+     */
     public MailSender(String sendToMail, String mailSubject, String mailText, Properties properties) {
         this.sendToMail = sendToMail;
         this.mailSubject = mailSubject;
@@ -29,6 +40,9 @@ public class MailSender {
         this.properties = properties;
     }
 
+    /**
+     * Send.
+     */
     public void send(){
         try{
             initMessage();

@@ -7,9 +7,6 @@ import by.epam.finalproject.exception.ServiceException;
 import by.epam.finalproject.model.entity.User;
 import by.epam.finalproject.model.service.UserService;
 import by.epam.finalproject.model.service.impl.UserServiceImpl;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,22 +15,20 @@ import static by.epam.finalproject.controller.Parameter.LIST_USER;
 import static by.epam.finalproject.controller.PathPage.USERS_PAGE;
 
 /**
- * The type Find all users command.
+ * The type Find all admins command.
  */
-public class FindAllUsersCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
-    private final UserService userService = UserServiceImpl.getInstance();
+public class FindAllAdminsCommand implements Command {
+    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         try {
-            List<User> listUsers = userService.findAllClients();
-            request.setAttribute(LIST_USER,listUsers);
             router.setCurrentPage(USERS_PAGE);
-            logger.log(Level.INFO,USERS_PAGE);
+            List<User> listAdmin = service.findAllAdmins();
+            request.setAttribute(LIST_USER, listAdmin);
         } catch (ServiceException e) {
-            throw new CommandException("Exception in a FindAllUsersCommand class ", e);
+            throw new CommandException("Exception in a FindAllAdminsCommand class. ", e);
         }
         return router;
     }

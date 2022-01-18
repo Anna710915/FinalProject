@@ -8,18 +8,25 @@ import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.service.MenuService;
 import by.epam.finalproject.model.service.PaginationService;
 import by.epam.finalproject.model.service.impl.MenuServiceImpl;
-import by.epam.finalproject.util.URLUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.SECTION_ID;
 import static by.epam.finalproject.controller.Parameter.COMMAND;
+import static by.epam.finalproject.controller.Parameter.PAGINATION_PAGE;
+import static by.epam.finalproject.controller.Parameter.MENU_LIST;
+import static by.epam.finalproject.controller.Parameter.PAGINATION_LAST_PAGE;
+import static by.epam.finalproject.controller.Parameter.SIGN;
+import static by.epam.finalproject.controller.Parameter.EQUAL;
+import static by.epam.finalproject.controller.Parameter.URL;
+
 import static by.epam.finalproject.controller.PathPage.MENU_PAGE;
 
+/**
+ * The type Find all menu by section command.
+ */
 public class FindAllMenuBySectionCommand implements Command {
     private static final int PAGE_SIZE = 4;
     private final MenuService menuService = MenuServiceImpl.getInstance();
@@ -44,12 +51,11 @@ public class FindAllMenuBySectionCommand implements Command {
             request.setAttribute(MENU_LIST, menuSublist);
             request.setAttribute(PAGINATION_PAGE, currentPage);
             request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
-            Map<String, String> parameters = new HashMap<>();
-            parameters.put(COMMAND, request.getParameter(COMMAND));
-            parameters.put(SECTION_ID, request.getParameter(SECTION_ID));
-            request.setAttribute(URL, URLUtil.createURL(parameters));
+            StringBuilder builderUrl = new StringBuilder(Command.createURL(request, request.getParameter(COMMAND)));
+            builderUrl.append(SIGN).append(SECTION_ID).append(EQUAL).append(sectionId);
+            request.setAttribute(URL,builderUrl.toString());
             router.setCurrentPage(MENU_PAGE);
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a FindAllMenuCommand class", e);
         }
         return router;

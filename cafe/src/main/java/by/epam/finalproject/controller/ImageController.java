@@ -12,6 +12,9 @@ import java.nio.file.Paths;
 
 import static by.epam.finalproject.controller.Parameter.IMAGE_PATH;
 
+/**
+ * The type Image controller.
+ */
 @WebServlet(urlPatterns = {"/uploadImage"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,

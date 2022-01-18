@@ -14,12 +14,45 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.*;
-import static by.epam.finalproject.controller.PropertiesKey.*;
+import static by.epam.finalproject.controller.Parameter.USER_FIRST_NAME;
+import static by.epam.finalproject.controller.Parameter.USER_LAST_NAME;
+import static by.epam.finalproject.controller.Parameter.LOGIN;
+import static by.epam.finalproject.controller.Parameter.PASSWORD;
+import static by.epam.finalproject.controller.Parameter.USER_EMAIL;
+import static by.epam.finalproject.controller.Parameter.USER_PHONE_NUMBER;
+import static by.epam.finalproject.controller.Parameter.USER_BIRTHDAY;
+import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.INVALID_BIRTHDAY;
+import static by.epam.finalproject.controller.Parameter.INVALID_FIRST_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_EMAIL;
+import static by.epam.finalproject.controller.Parameter.INVALID_LAST_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_LOGIN;
+import static by.epam.finalproject.controller.Parameter.INVALID_PASSWORD;
+import static by.epam.finalproject.controller.Parameter.INVALID_PHONE_NUMBER;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_EMAIL;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_LOGIN;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_PHONE;
 
+import static by.epam.finalproject.controller.PathPage.SIGN_PAGE;
+import static by.epam.finalproject.controller.PathPage.REGISTRATION_PAGE;
+
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_BIRTHDAY_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_FIRST_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_EMAIL_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_EMAIL_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_LAST_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_LOGIN_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_LOGIN_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PASSWORD_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PHONE_NUMBER_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_PHONE_MESSAGE;
+
+/**
+ * The type Registration command.
+ */
 public class RegistrationCommand implements Command {
-    private static final UserService service = UserServiceImpl.getInstance();
+    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
@@ -37,6 +70,7 @@ public class RegistrationCommand implements Command {
             User user = (User) session.getAttribute(USER);
             User.UserRole role = user != null && user.getRole() == User.UserRole.ADMIN ?
                     User.UserRole.ADMIN : User.UserRole.CLIENT;
+
             if (service.userRegistration(mapData, role)) {
                 router.setRedirectType();
                 if(role == User.UserRole.ADMIN){

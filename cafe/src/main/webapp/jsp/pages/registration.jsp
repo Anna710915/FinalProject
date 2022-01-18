@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 20.12.2021
-  Time: 22:55
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -110,8 +103,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_birthday}</label>
-            <input type="text" name="birthday" class="form-control" placeholder="${e_birthday}" required pattern="^(19|20)\d\d-((0[1-9]|1[012])-(0[1-9]|[12]\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)$">
-            <div id="dateHelp" class="form-text"><fmt:message key="registration.correct_date"/></div>
+            <input type="date" name="birthday" class="form-control" placeholder="${e_birthday}" required>
             <c:if test="${!empty invalid_birthday}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_birthday}"/>

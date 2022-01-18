@@ -14,13 +14,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.*;
+
+import static by.epam.finalproject.controller.Parameter.USER_FIRST_NAME;
+import static by.epam.finalproject.controller.Parameter.USER_LAST_NAME;
+import static by.epam.finalproject.controller.Parameter.USER_EMAIL;
+import static by.epam.finalproject.controller.Parameter.USER_PHONE_NUMBER;
 import static by.epam.finalproject.controller.Parameter.USER_BIRTHDAY;
-import static by.epam.finalproject.controller.PropertiesKey.*;
+import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.INVALID_BIRTHDAY;
+import static by.epam.finalproject.controller.Parameter.INVALID_FIRST_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_EMAIL;
+import static by.epam.finalproject.controller.Parameter.INVALID_LAST_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_PHONE_NUMBER;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_EMAIL;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_PHONE;
+
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_BIRTHDAY_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_FIRST_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_EMAIL_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_EMAIL_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_LAST_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PHONE_NUMBER_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_PHONE_MESSAGE;
 
+
+/**
+ * The type Update user profile command.
+ */
 public class UpdateUserProfileCommand implements Command {
-    private static final UserService service = UserServiceImpl.getInstance();
+    private final UserService service = UserServiceImpl.getInstance();
+
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         Map<String,String> updateProfileData = new HashMap<>();
@@ -40,6 +64,7 @@ public class UpdateUserProfileCommand implements Command {
                 session.setAttribute(USER, optionalUser.get());
                 router.setRedirectType();
             }else{
+                System.out.println("------");
                 for (String key : updateProfileData.keySet()) {
                     String currentValue = updateProfileData.get(key);
                     switch (currentValue) {

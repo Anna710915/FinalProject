@@ -18,20 +18,30 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.finalproject.model.mapper.impl.UserMapper.PASSWORD;
-import static by.epam.finalproject.model.mapper.impl.UserMapper.USER_STATE;
 
+/**
+ * The type User dao.
+ */
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final Logger logger = LogManager.getLogger();
-    private static final String SQL_SELECT_ALL_USERS = """
+    private static final int ONE_UPDATE = 1;
+    private static final String SQL_SELECT_ALL_CLIENTS = """
             SELECT user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
-            JOIN user_role ON user_role.role_id = users.role_id""";
+            JOIN user_role ON user_role.role_id = users.role_id
+            WHERE role_name = 'client'""";
+    private static final String SQL_SELECT_ALL_ADMINS = """
+            SELECT user_id, first_name, last_name, login, user_password, email, phone, birthday,
+            discount_id, state, role_name FROM users
+            JOIN user_state ON user_state.state_id = users.state_id
+            JOIN user_role ON user_role.role_id = users.role_id
+            WHERE role_name = 'admin'""";
     private static final String SQL_INSERT_NEW_USER = """ 
-            INSERT INTO users(first_name, last_name, login, user_password, email, phone, birthday, 
+            INSERT INTO users(first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state_id, role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""";
     private static final String SQL_SELECT_USER_BY_ID = """
-            SELECT user_id, first_name, last_name, login, user_password, email, phone, birthday, 
+            SELECT user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id
@@ -39,45 +49,43 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String SQL_DELETE_USER_BY_ID = """
             DELETE FROM users WHERE user_id = (?)""";
     private static final String SQL_UPDATE_USER = """
-            UPDATE users SET first_name = (?), last_name = (?), login = (?), user_password = (?), email = (?), 
-            phone = (?), birthday = (?), discount_id = (?), state_id = (?), role_id = (?) 
+            UPDATE users SET first_name = (?), last_name = (?), login = (?), user_password = (?), email = (?),
+            phone = (?), birthday = (?), discount_id = (?), state_id = (?), role_id = (?)
             WHERE user_id = (?)""";
+    /**
+     * The constant SQL_SELECT_PASSWORD_BY_LOGIN.
+     */
     public static final String SQL_SELECT_PASSWORD_BY_LOGIN = """
-            SELECT user_password FROM users WHERE login = (?) """;
+            SELECT user_password FROM users WHERE login = (?)""";
     private static final String SQL_UPDATE_PASSWORD_BY_LOGIN = """
             UPDATE users SET user_password = (?) WHERE login = (?)""";
-    private static final String SQL_UPDATE_USER_STATE_BY_LOGIN = """
-            UPDATE users SET state_id = (?) where login = (?)""";
     private static final String SQL_UPDATE_USER_STATE_BY_ID = """
             UPDATE users SET state_id = (?) WHERE user_id = (?)""";
     private static final String SQL_UPDATE_USER_DISCOUNT_ID = """
             UPDATE users SET discount_id = (?) WHERE user_id = (?)""";
     private static final String SQL_SELECT_USER_BY_LOGIN = """
-            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday, 
+            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id WHERE login = (?)""";
     private static final String SQL_SELECT_USER_BY_PHONE_NUMBER = """
-            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday, 
+            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id WHERE phone = (?)""";
     private static final String SQL_SELECT_USER_BY_EMAIL = """
-            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday, 
+            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id WHERE email = (?)""";
-    private static final String SQL_SELECT_USER_STATE_BY_ID = """
-            SELECT state FROM users JOIN user_state ON users.state_id = user_state.state_id
-            WHERE users.user_id = (?)""";
     private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = """
-            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday, 
+            SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday,
             discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id WHERE login = (?) AND user_password = (?)""";
     private static final String SQL_SELECT_USER_BY_ORDER_ID = """
             SELECT users.user_id, first_name, last_name, login, user_password, email, phone, birthday,
-            discount_id, state, role_name FROM users 
+            discount_id, state, role_name FROM users
             JOIN user_state ON user_state.state_id = users.state_id
             JOIN user_role ON user_role.role_id = users.role_id
             JOIN orders ON users.user_id = orders.user_id
@@ -85,81 +93,75 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public List<User> findAll() throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<User> findAllClients() throws DaoException {
         List<User> userList = new ArrayList<>();
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_USERS);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                Optional<User> optionalUser = new UserMapper().mapRow(resultSet);
-                if(optionalUser.isPresent()) {
-                    userList.add(optionalUser.get());
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_CLIENTS)){
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<User> optionalUser = new UserMapper().mapRow(resultSet);
+                    optionalUser.ifPresent(userList::add);
                 }
             }
             logger.log(Level.INFO,"List: " + userList);
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find all clients method ");
+            throw new DaoException("Exception in a findAllAdmins method", e);
         }
         return userList;
     }
 
     @Override
-    public User findEntityById(long id) throws DaoException {
-        PreparedStatement statement = null;
-        User user = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_ID);
+    public List<User> findAllAdmins() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_ADMINS)){
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<User> optionalUser = new UserMapper().mapRow(resultSet);
+                    optionalUser.ifPresent(userList::add);
+                }
+            }
+            logger.log(Level.INFO,"List: " + userList);
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find all admins method ");
+            throw new DaoException("Exception in a findAllAdmins method", e);
+        }
+        return userList;
+    }
+
+    @Override
+    public Optional<User> findEntityById(long id) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_ID)){
             statement.setLong(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                Optional<User> optionalUser = new UserMapper().mapRow(resultSet);
-                if(optionalUser.isPresent()) {
-                    user = optionalUser.get();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new UserMapper().mapRow(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by id method ");
+            throw new DaoException("Exception while find user by id method ", e);
         }
-        return user;
+        return Optional.empty();
     }
 
     @Override
     public boolean delete(long id) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_DELETE_USER_BY_ID);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_DELETE_USER_BY_ID)){
             statement.setLong(1,id);
-            return statement.executeUpdate() != 0;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
-        }
-    }
-
-    @Override
-    public boolean delete(User entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_DELETE_USER_BY_ID);
-            statement.setLong(1,entity.getUserId());
-            return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while delete user by id method ");
+            throw new DaoException("Exception while delete user by id method ", e);
         }
     }
 
     @Override
     public boolean create(User entity) throws DaoException {
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_INSERT_NEW_USER);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_INSERT_NEW_USER)){
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getLogin());
@@ -171,21 +173,17 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             statement.setLong(9, entity.getState().getStateId());
             statement.setLong(10, entity.getRole().getRoleId());
             logger.log(Level.INFO,"The new row: " + entity);
-            return statement.executeUpdate() == 1;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while create user method ");
+            throw new DaoException("Exception while create user method ", e);
         }
     }
 
     @Override
-    public User update(User entity) throws DaoException {
-        PreparedStatement statement = null;
-        User user;
-        try{
-            user = findEntityById(entity.getUserId());
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER);
+    public Optional<User> update(User entity) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER)){
+            Optional<User> user = findEntityById(entity.getUserId());
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getLogin());
@@ -197,206 +195,149 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             statement.setLong(9, entity.getState().getStateId());
             statement.setLong(10, entity.getRole().getRoleId());
             statement.setLong(11,entity.getUserId());
-            return statement.executeUpdate() != 0 ? user : null;
+            return statement.executeUpdate() == ONE_UPDATE ? user : Optional.empty();
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while update user method ");
+            throw new DaoException("Exception while update user method ", e);
         }
     }
 
     @Override
     public Optional<String> findPasswordByLogin(String login) throws DaoException {
-        PreparedStatement statement = null;
         Optional<String> password = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_PASSWORD_BY_LOGIN);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_PASSWORD_BY_LOGIN)){
             statement.setString(1,login);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                password = Optional.of(resultSet.getString(PASSWORD));
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    password = Optional.of(resultSet.getString(PASSWORD));
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find password by login method ");
+            throw new DaoException("Exception while findPasswordByLogin method ", e);
         }
         return password;
     }
 
     @Override
     public boolean updatePasswordByLogin(String password, String login) throws DaoException {
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_PASSWORD_BY_LOGIN);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_PASSWORD_BY_LOGIN)){
             statement.setString(1,password);
             statement.setString(2,login);
-            return statement.executeUpdate() == 1;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
-        }
-    }
-
-    @Override
-    public boolean updateUserStateByLogin(User.UserState state, String login) throws DaoException{
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_STATE_BY_LOGIN);
-            statement.setLong(1,state.getStateId());
-            statement.setString(2,login);
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while update password by login method ");
+            throw new DaoException("Exception while updatePasswordByLogin method ", e);
         }
     }
 
     @Override
     public boolean updateUserState(long userId, long stateId) throws DaoException {
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_STATE_BY_ID);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_STATE_BY_ID)){
             statement.setLong(1,stateId);
             statement.setLong(2,userId);
-            return statement.executeUpdate() == 1;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while update user state method ");
+            throw new DaoException("Exception while update user state method ", e);
         }
     }
 
     @Override
     public Optional<User> findUserByLogin(String login) throws DaoException {
-        PreparedStatement statement = null;
         Optional<User> user = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)){
             statement.setString(1,login);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                user = new UserMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by login method ");
+            throw new DaoException("Exception while findUserByLogin method ", e);
         }
         return user;
     }
 
     @Override
     public Optional<User> findUserByPhoneNumber(int phone) throws DaoException {
-        PreparedStatement statement = null;
         Optional<User> user = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_PHONE_NUMBER);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_PHONE_NUMBER)){
             statement.setInt(1,phone);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                user = new UserMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by phone number method ");
+            throw new DaoException("Exception while find user by phone number method ", e);
         }
         return user;
     }
 
     @Override
     public Optional<User> findUserByEmail(String email) throws DaoException {
-        PreparedStatement statement = null;
         Optional<User> user = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_EMAIL);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_EMAIL)){
             statement.setString(1,email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                user = new UserMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by email method ");
+            throw new DaoException("Exception while find user by email method ", e);
         }
         return user;
     }
 
     @Override
     public Optional<User> findUserByOrder(long orderId) throws DaoException {
-        PreparedStatement statement = null;
         Optional<User> user = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_ORDER_ID);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_ORDER_ID)){
             statement.setLong(1,orderId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                user = new UserMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by order method ");
+            throw new DaoException("Exception while findUserByOrder method ", e);
         }
         return user;
     }
 
     @Override
-    public Optional<User.UserState> findStateById(long userId) throws DaoException {
-        PreparedStatement statement = null;
-        Optional<User.UserState> userState = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_STATE_BY_ID);
-            statement.setLong(1,userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                userState = Optional.of(User.UserState.valueOf(resultSet.getString(USER_STATE)
-                        .trim().toUpperCase()));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
-        }
-        return userState;
-    }
-
-    @Override
     public Optional<User> findUserByLoginAndPassword(String login, String password) throws DaoException {
-        PreparedStatement statement = null;
         Optional<User> user = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD)){
             statement.setString(1,login);
             statement.setString(2,password);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                user = new UserMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new UserMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find user by login and password method ");
+            throw new DaoException("Exception while find user by login and password method ", e);
         }
         return user;
     }
 
     @Override
     public boolean updateUserDiscountIdByUserId(long userId, long discountId) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_DISCOUNT_ID);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_USER_DISCOUNT_ID)){
             statement.setLong(1, discountId);
             statement.setLong(2, userId);
-            return statement.executeUpdate() != 0;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while update user discount id by user id method ");
             throw new DaoException("Exception in a updateUserDiscountIdByUserId method. ", e);
-        } finally {
-            close(statement);
         }
     }
 }

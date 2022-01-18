@@ -36,7 +36,7 @@
     <h3 class="text-center p-3"><fmt:message key="action.add_new_section"/></h3>
     <form name="add_new_section" method="post" action="${absolutePath}/controller" class="needs-validation" novalidate>
       <input type="hidden" name="command" value="insert_new_section">
-      <div class="form-group">
+      <div class="form-group mb-3">
         <label class="form-label"><fmt:message key="section.name"/></label>
         <input type="text" name="section_name" class="form-control" required pattern=".{1,20}">
         <c:if test="${! empty invalid_section_name}">
@@ -55,6 +55,69 @@
       </div>
       <div class="text-center mb-3">
         <button type="submit" class="btn btn-primary"><fmt:message key="menu.insert_menu"/></button>
+      </div>
+    </form>
+    <h3 class="text-center p-3"><fmt:message key="action.change_section_name"/></h3>
+    <form name="change_section_name" method="post" action="${absolutePath}/controller" novalidate>
+      <input type="hidden" name="command" value="change_section_name">
+      <label class="form-label"><fmt:message key="section.old_section_name"/></label>
+      <select class="form-select" aria-label="Default select example" name="product_section">
+        <option selected disabled><fmt:message key="menu.product_section"/></option>
+        <c:forEach var="item" items="${applicationScope.section_list}">
+          <option name="id" value="${item.sectionId}">${item.sectionName}</option>
+        </c:forEach>
+      </select>
+      <c:if test="${! empty invalid_product_section}">
+        <div class="invalid-feedback-backend" style="color: red">
+          <fmt:message key="${invalid_product_section}"/>
+        </div>
+      </c:if>
+      <div class="invalid-feedback">
+        <fmt:message key="menu.invalid_product_section"/>
+      </div>
+      </br>
+      <div class="form-group mb-3">
+        <label class="form-label"><fmt:message key="section.new_section_name"/></label>
+        <input type="text" name="section_name" class="form-control" required pattern=".{1,20}">
+        <c:if test="${! empty invalid_new_section_name}">
+          <div class="invalid-feedback-backend" style="color: red">
+            <fmt:message key="${invalid_new_section_name}"/>
+          </div>
+        </c:if>
+        <div class="invalid-feedback">
+          <fmt:message key="section.invalid_name"/>
+        </div>
+        <c:if test="${! empty not_uniq_new_section_name}">
+          <div class="invalid-feedback-backend" style="color: red">
+            <fmt:message key="${not_uniq_new_section_name}"/>
+          </div>
+        </c:if>
+      </div>
+      <div class="text-center mb-3">
+        <button type="submit" class="btn btn-primary"><fmt:message key="action.change"/></button>
+      </div>
+    </form>
+    <h3 class="text-center p-3"><fmt:message key="action.delete_section"/></h3>
+    <form name="delete_section_name" method="post" action="${absolutePath}/controller" novalidate>
+      <input type="hidden" name="command" value="delete_section">
+      <label class="form-label"><fmt:message key="section.select"/></label>
+      <select class="form-select" aria-label="Default select example" name="product_section">
+        <option selected disabled><fmt:message key="menu.product_section"/></option>
+        <c:forEach var="item" items="${applicationScope.section_list}">
+          <option name="id" value="${item.sectionId}">${item.sectionName}</option>
+        </c:forEach>
+      </select>
+      <c:if test="${! empty invalid_delete_product_section}">
+        <div class="invalid-feedback-backend" style="color: red">
+          <fmt:message key="${invalid_delete_product_section}"/>
+        </div>
+      </c:if>
+      <div class="invalid-feedback">
+        <fmt:message key="menu.invalid_product_section"/>
+      </div>
+      </br>
+      <div class="text-center mb-3">
+        <button type="submit" class="btn btn-primary"><fmt:message key="action.delete"/></button>
       </div>
     </form>
   </div>

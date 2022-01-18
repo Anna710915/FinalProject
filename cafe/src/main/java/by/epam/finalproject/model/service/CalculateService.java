@@ -7,17 +7,29 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
+/**
+ * The type Calculate service.
+ */
 public class CalculateService {
-    private static CalculateService instance;
+    private static final CalculateService instance = new CalculateService();
     private CalculateService(){}
 
+    /**
+     * Get instance calculate service.
+     *
+     * @return the calculate service
+     */
     public static CalculateService getInstance(){
-        if(instance == null){
-            instance = new CalculateService();
-        }
         return instance;
     }
 
+    /**
+     * Calculate total price big decimal.
+     *
+     * @param discount the discount
+     * @param map      the map
+     * @return the big decimal
+     */
     public BigDecimal calculateTotalPrice(UserDiscount discount, Map<Menu, Integer> map){
         BigDecimal totalPrice = BigDecimal.ZERO;
         for (Menu item: map.keySet()){

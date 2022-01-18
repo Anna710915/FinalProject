@@ -9,13 +9,37 @@ import java.util.Optional;
 
 import static by.epam.finalproject.model.mapper.impl.UserMapper.USER_ID;
 
+/**
+ * The type Order mapper.
+ */
 public class OrderMapper implements CustomRowMapper<Order> {
+    /**
+     * The constant ORDER_ID.
+     */
     public static final String ORDER_ID = "order_id";
+    /**
+     * The constant ORDER_DATE.
+     */
     public static final String ORDER_DATE = "order_date";
+    /**
+     * The constant ORDER_STATE.
+     */
     public static final String ORDER_STATE = "order_state";
+    /**
+     * The constant TYPE_PAYMENT.
+     */
     public static final String TYPE_PAYMENT = "type_payment";
+    /**
+     * The constant USER_COMMENT.
+     */
     public static final String USER_COMMENT = "user_comment";
+    /**
+     * The constant ADDRESS.
+     */
     public static final String ADDRESS = "address";
+    /**
+     * The constant TOTAL_COST.
+     */
     public static final String TOTAL_COST = "total_cost";
 
     @Override

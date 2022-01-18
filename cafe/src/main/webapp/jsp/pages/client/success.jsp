@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="ctg" uri="customtags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="ctg" uri="customtags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
 <c:choose>
-    <c:when test="${not empty language}"> <fmt:setLocale value="${language}" scope="session"/></c:when>
-    <c:when test="${empty language}"> <fmt:setLocale value="${language = 'ru_RU'}" scope="session"/></c:when>
+    <c:when test="${not empty sessionScope.language}"> <fmt:setLocale value="${sessionScope.language}" scope="session"/></c:when>
+    <c:when test="${empty sessionScope.language}"> <fmt:setLocale value="${sessionScope.language = 'ru_RU'}" scope="session"/></c:when>
 </c:choose>
 <fmt:setBundle basename="context.language"/>
 <html>
@@ -24,17 +25,22 @@
             window.history.forward();
         }
     </script>
-    <title><fmt:message key="order.title"/> </title>
+    <title><fmt:message key="success.title"/> </title>
 </head>
 <body>
 <div class="page">
     <header>
         <%@include file="../header/header.jsp"%>
     </header>
-    <div class="container justify-content-center col-12 col-sm-6 mt-3">
-        <p>
-            <fmt:message key="order.message"/> +375${sessionScope.user.phoneNumber}
-        </p>
+    <div class="container justify-content-center col-12 col-sm-6 mt-3" >
+        <c:choose>
+            <c:when test="${success_create_order eq true}">
+                    <fmt:message key="order.message"/> +375${sessionScope.user.phoneNumber}
+            </c:when>
+            <c:when test="${success_change_password eq true}">
+                    <fmt:message key="profile.change_password_message"/>
+            </c:when>
+        </c:choose>
     </div>
     <div class="text-center">
         <ctg:footertag/>

@@ -8,8 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type Section mapper.
+ */
 public class SectionMapper implements CustomRowMapper<Section> {
+    /**
+     * The constant SECTION.
+     */
     public static final String SECTION = "section_id";
+    /**
+     * The constant SECTION_NAME.
+     */
     public static final String SECTION_NAME = "section_name";
 
     @Override

@@ -2,27 +2,77 @@ package by.epam.finalproject.model.entity;
 
 import java.time.LocalDate;
 
+/**
+ * The type User.
+ */
 public class User extends CustomEntity {
+    /**
+     * The enum User role.
+     */
     public enum UserRole {
-        CLIENT(1), ADMIN(2), GUEST(3);
+        /**
+         * Client user role.
+         */
+        CLIENT(1),
+        /**
+         * Admin user role.
+         */
+        ADMIN(2),
+        /**
+         * Guest user role.
+         */
+        GUEST(3);
         private long roleId;
 
         UserRole(long id){
             roleId = id;
         }
 
+        /**
+         * Get role id long.
+         *
+         * @return the long
+         */
         public long getRoleId(){
             return roleId;
         }
     }
+
+    /**
+     * The enum User state.
+     */
     public enum UserState {
-        NEW(1), ACTIVE(2), INACTIVE(3), BLOCKED(4), UNBLOCKED(5);
+        /**
+         * New user state.
+         */
+        NEW(1),
+        /**
+         * Active user state.
+         */
+        ACTIVE(2),
+        /**
+         * Inactive user state.
+         */
+        INACTIVE(3),
+        /**
+         * Blocked user state.
+         */
+        BLOCKED(4),
+        /**
+         * Unblocked user state.
+         */
+        UNBLOCKED(5);
         private long stateId;
 
         UserState (long id){
             stateId = id;
         }
 
+        /**
+         * Get state id long.
+         *
+         * @return the long
+         */
         public long getStateId(){
             return stateId;
         }
@@ -39,8 +89,26 @@ public class User extends CustomEntity {
     private UserRole role;
     private UserState state;
 
+    /**
+     * Instantiates a new User.
+     */
     public User(){}
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param userId      the user id
+     * @param firstName   the first name
+     * @param lastName    the last name
+     * @param login       the login
+     * @param password    the password
+     * @param email       the email
+     * @param phoneNumber the phone number
+     * @param birthday    the birthday
+     * @param discountId  the discount id
+     * @param role        the role
+     * @param state       the state
+     */
     public User(long userId, String firstName, String lastName, String login,
                 String password, String email, int phoneNumber, LocalDate birthday, long discountId, UserRole role, UserState state) {
         this.userId = userId;
@@ -56,6 +124,20 @@ public class User extends CustomEntity {
         this.state = state;
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param firstName   the first name
+     * @param lastName    the last name
+     * @param login       the login
+     * @param password    the password
+     * @param email       the email
+     * @param phoneNumber the phone number
+     * @param birthday    the birthday
+     * @param discountId  the discount id
+     * @param role        the role
+     * @param state       the state
+     */
     public User(String firstName, String lastName, String login,
                 String password, String email, int phoneNumber, LocalDate birthday, long discountId, UserRole role, UserState state) {
         this.firstName = firstName;
@@ -70,90 +152,200 @@ public class User extends CustomEntity {
         this.state = state;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(long userId) {
         this.userId = userId;
     }
 
+    /**
+     * Gets first name.
+     *
+     * @return the first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Sets first name.
+     *
+     * @param firstName the first name
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Gets login.
+     *
+     * @return the login
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * Sets login.
+     *
+     * @param login the login
+     */
     public void setLogin(String login) {
         this.login = login;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Gets phone number.
+     *
+     * @return the phone number
+     */
     public int getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Sets phone number.
+     *
+     * @param phoneNumber the phone number
+     */
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Gets birthday.
+     *
+     * @return the birthday
+     */
     public LocalDate getBirthday() {
         return birthday;
     }
 
+    /**
+     * Sets birthday.
+     *
+     * @param birthday the birthday
+     */
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
+    /**
+     * Gets discount id.
+     *
+     * @return the discount id
+     */
     public long getDiscountId() {
         return discountId;
     }
 
+    /**
+     * Sets discount id.
+     *
+     * @param discountId the discount id
+     */
     public void setDiscountId(long discountId) {
         this.discountId = discountId;
     }
 
+    /**
+     * Gets role.
+     *
+     * @return the role
+     */
     public UserRole getRole() {
         return role;
     }
 
+    /**
+     * Sets role.
+     *
+     * @param role the role
+     */
     public void setRole(UserRole role) {
         this.role = role;
     }
 
+    /**
+     * Gets state.
+     *
+     * @return the state
+     */
     public UserState getState() {
         return state;
     }
 
+    /**
+     * Sets state.
+     *
+     * @param state the state
+     */
     public void setState(UserState state) {
         this.state = state;
     }

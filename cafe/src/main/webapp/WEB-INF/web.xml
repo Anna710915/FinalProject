@@ -28,9 +28,6 @@
     <filter-mapping>
         <filter-name>XssProtectionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-<!--        <url-pattern>/controller</url-pattern>-->
-<!--        <dispatcher>FORWARD</dispatcher>-->
-<!--        <dispatcher>REQUEST</dispatcher>-->
     </filter-mapping>
 
 
@@ -63,11 +60,6 @@
         <filter-name>pageSecurityCommandFilter</filter-name>
         <url-pattern>/controller</url-pattern>
     </filter-mapping>
-
-    <error-page>
-        <error-code>403</error-code>
-        <location>/jsp/error/error403.jsp</location>
-    </error-page>
 
     <error-page>
         <error-code>404</error-code>

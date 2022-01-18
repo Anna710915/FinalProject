@@ -146,7 +146,7 @@
             </br>
             <select class="form-select" aria-label="Default select example" name="product_section">
                 <option selected><fmt:message key="menu.product_section"/></option>
-                <c:forEach var="item" items="${sessionScope.section_list}">
+                <c:forEach var="item" items="${applicationScope.section_list}">
                     <option value="${item.sectionId}">${item.sectionName}</option>
                 </c:forEach>
             </select>

@@ -27,13 +27,13 @@
     <div class="container justify-content-center">
         <h3 class="text-center p-3"><fmt:message key="title.update_product"/></h3>
         </br>
-        <form name="AddProductFord" method="post" action="${absolutePath}/controller" novalidate>
+        <form name="AddProductFord" method="post" action="${absolutePath}/controller" class="needs-validation" novalidate>
             <input type="hidden" name="command" value="update_product"/>
             <input type="hidden" name="id" value="${requestScope.menu.foodId}">
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_name"/> </label>
-                <input type="text" name="product_name" value="${requestScope.menu.nameFood}" class="form-control" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                <input type="text" name="product_name" value="${requestScope.menu.nameFood}" class="form-control" required pattern="^[A-Za-zА-Яа-я\s]{3,50}$">
                 <c:choose>
                     <c:when test="${!empty invalid_product_name}">
                         <div class="invalid-feedback-backend" style="color: red">
@@ -82,7 +82,7 @@
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_calories"/></label>
-                <input type="text" name="product_calories" value="${requestScope.menu.calories}" class="form-control" required pattern="\d{1,6}(\.[0-9]{2})?">
+                <input type="text" name="product_calories" value="${requestScope.menu.calories}" class="form-control" required pattern="\d{1,6}(\.[0-9]{1,2})?">
                 <c:if test="${! empty invalid_product_calories}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_calories}"/>
@@ -132,9 +132,9 @@
                 </c:if>
             </div>
             </br>
-            <select class="form-select" aria-label="Default select example" name="product_section">
-                <option selected ><fmt:message key="menu.product_section"/></option>
-                <c:forEach var="item" items="${sessionScope.section_list}">
+            <select class="form-select" aria-label="Default select example" name="product_section" required>
+                <option selected disabled><fmt:message key="menu.product_section"/></option>
+                <c:forEach var="item" items="${applicationScope.section_list}">
                     <option value="${item.sectionId}">${item.sectionName}</option>
                 </c:forEach>
             </select>

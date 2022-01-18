@@ -10,15 +10,24 @@ import by.epam.finalproject.model.service.impl.SectionServiceImpl;
 import by.epam.finalproject.validator.Validator;
 import by.epam.finalproject.validator.impl.ValidatorImpl;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.SECTION_NAME;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.INVALID_SECTION_NAME;
+import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_SECTION_NAME;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_SECTION_NAME_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_SECTION_NAME_MESSAGE;
 
+
+/**
+ * The type Insert new section command.
+ */
 public class InsertNewSectionCommand implements Command {
     private final SectionService service = SectionServiceImpl.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
@@ -27,6 +36,7 @@ public class InsertNewSectionCommand implements Command {
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
         HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         String sectionName = request.getParameter(SECTION_NAME);
         String currentPage = (String) session.getAttribute(CURRENT_PAGE);
         router.setCurrentPage(currentPage);
@@ -44,7 +54,7 @@ public class InsertNewSectionCommand implements Command {
             service.addNewSection(sectionName);
             List<Section> sectionList = service.findAllSections();
             if(!sectionList.isEmpty()){
-                session.setAttribute(SECTION_LIST, sectionList);
+                context.setAttribute(SECTION_LIST, sectionList);
             }
 
             router.setRedirectType();

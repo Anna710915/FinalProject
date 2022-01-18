@@ -29,23 +29,11 @@ public class UserDiscountDaoImplTest {
     }
 
     @Test
-    public void findEntityByIdTest() throws DaoException {
-        UserDiscount actual = abstractDao.findEntityById(2L);
-        assertNotNull(actual);
-    }
-    @Test
     public void createTest() throws DaoException {
         boolean actual = abstractDao.create(new UserDiscount(3, new BigDecimal(0.05), 6));
         assertTrue(actual);
     }
 
-    @Test
-    public void updateTest() throws DaoException {
-        UserDiscount newUserDiscount = new UserDiscount(3, new BigDecimal(0.05), 6);
-        UserDiscount expected =  abstractDao.findEntityById(3);
-        UserDiscount actual =  abstractDao.update(newUserDiscount);
-        assertEquals(actual, expected);
-    }
 
     @Test
     public void deleteByIdTest() throws DaoException {
@@ -53,11 +41,6 @@ public class UserDiscountDaoImplTest {
         assertTrue(actual);
     }
 
-    @Test
-    public void deleteTest() throws DaoException {
-        boolean actual = abstractDao.delete(new UserDiscount(7,new BigDecimal(0.1),24));
-        assertTrue(actual);
-    }
     @AfterClass
     public void close(){
         entityTransaction.end();

@@ -13,21 +13,23 @@ import javax.servlet.http.HttpSession;
 import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.USER_ID;
 
+/**
+ * The type Delete user command.
+ */
 public class DeleteUserCommand implements Command {
-    private static final UserService service = UserServiceImpl.getInstance();
+    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
-        long userId = Long.parseLong(request.getParameter(USER_ID));
         try {
+            long userId = Long.parseLong(request.getParameter(USER_ID));
             Router router = new Router();
             service.deleteUser(userId);
             HttpSession session = request.getSession();
             String page = (String) session.getAttribute(CURRENT_PAGE);
             router.setCurrentPage(page);
-            router.setRedirectType();
             return router;
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a DeleteUserCommand class ", e);
         }
     }

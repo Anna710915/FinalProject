@@ -18,6 +18,9 @@ import static by.epam.finalproject.controller.Parameter.ORDER_LIST;
 import static by.epam.finalproject.controller.Parameter.USER;
 import static by.epam.finalproject.controller.PathPage.ORDERS_PAGE;
 
+/**
+ * The type Go to orders page command.
+ */
 public class GoToOrdersPageCommand implements Command {
     private final OrderService service = OrderServiceImpl.getInstance();
 

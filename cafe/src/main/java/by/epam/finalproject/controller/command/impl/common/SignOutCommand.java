@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 import static by.epam.finalproject.controller.Parameter.LANGUAGE;
 import static by.epam.finalproject.controller.PathPage.HOME_PAGE;
 
+/**
+ * The type Sign out command.
+ */
 public class SignOutCommand implements Command {
 
     @Override

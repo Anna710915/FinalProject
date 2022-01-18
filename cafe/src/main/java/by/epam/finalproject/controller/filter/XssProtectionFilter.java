@@ -11,17 +11,13 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * The type Xss protection filter.
+ */
 public class XssProtectionFilter implements Filter{
     private static final Logger logger = LogManager.getLogger();
     private static final String CONTROLLER_PATTERN = "/controller?";
     private static final String REGEX_SCRIPT = "%3C|%3E|%27";
-
-    public void init(FilterConfig config) throws ServletException {
-    }
-
-    public void destroy() {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {

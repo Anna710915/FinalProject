@@ -15,10 +15,27 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.SUCCESS_ORDER_PAGE;
-import static by.epam.finalproject.controller.PropertiesKey.*;
+import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.Parameter.ADDRESS;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_PAYMENT;
+import static by.epam.finalproject.controller.Parameter.USER_COMMENT;
+import static by.epam.finalproject.controller.Parameter.TOTAL_PRICE;
+import static by.epam.finalproject.controller.Parameter.SUCCESS_CREATE_ORDER;
+import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_ADDRESS;
+import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_PAYMENT;
+import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_COMMENT;
 
+import static by.epam.finalproject.controller.PathPage.SUCCESS_PAGE;
+
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_ORDER_ADDRESS_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_ORDER_PAYMENT_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_ORDER_COMMENT_MESSAGE;
+
+/**
+ * The type Create order command.
+ */
 public class CreateOrderCommand implements Command {
     private final OrderService service = OrderServiceImpl.getInstance();
 
@@ -29,15 +46,16 @@ public class CreateOrderCommand implements Command {
         User user = (User) session.getAttribute(USER);
         Map<Menu, Integer> orderProduct = (HashMap<Menu, Integer>) session.getAttribute(CART);
         Map<String, String> orderInfo = new HashMap<>();
-        double price = Double.parseDouble(request.getParameter(TOTAL_PRICE));
-        BigDecimal totalCost = BigDecimal.valueOf(price);
+
         orderInfo.put(ADDRESS,request.getParameter(ADDRESS));
         orderInfo.put(PRODUCT_PAYMENT, request.getParameter(PRODUCT_PAYMENT));
         orderInfo.put(USER_COMMENT, request.getParameter(USER_COMMENT));
         try {
+            double price = Double.parseDouble(request.getParameter(TOTAL_PRICE));
+            BigDecimal totalCost = BigDecimal.valueOf(price);
             if(service.createOrder(orderProduct, orderInfo, user, totalCost)){
-                router.setCurrentPage(SUCCESS_ORDER_PAGE);
-                router.setRedirectType();
+                router.setCurrentPage(SUCCESS_PAGE);
+                session.setAttribute(SUCCESS_CREATE_ORDER, true);
                 orderProduct.clear();
                 session.setAttribute(CART, orderProduct);
                 return router;
@@ -53,7 +71,7 @@ public class CreateOrderCommand implements Command {
                     }
                 }
             }
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a CreateOrderCommand class. ", e);
         }
         return router;

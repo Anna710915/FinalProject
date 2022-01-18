@@ -25,16 +25,17 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/CSS/styles.css">
+    <link rel="stylesheet" href="${absolutePath}/CSS/styles.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
             window.history.forward();
         }
     </script>
-    <title>Title</title>
+    <title><fmt:message key="main.title"/> </title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 50px">
@@ -46,14 +47,15 @@
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link active" href="${absolutePath}/jsp/pages/home.jsp">${main}</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">${about_us}</a></li>
                         <li class="nav-item"><a class="nav-link" href="${absolutePath}/jsp/pages/common/contacts.jsp">${contacts}</a></li>
 
                           <c:choose>
                               <c:when test="${user.role eq 'ADMIN'}"><%@include file="fragment/admin_header.jspf" %></c:when>
                               <c:when test="${user.role eq 'CLIENT'}"><%@include file="fragment/client_header.jspf" %></c:when>
+                              <c:otherwise>
+                                  <li class="nav-item"><a class="nav-link" href="${absolutePath}/controller?command=find_all_menu">${menu}</a></li>
+                              </c:otherwise>
                           </c:choose>
-
 
             </ul>
         </div>

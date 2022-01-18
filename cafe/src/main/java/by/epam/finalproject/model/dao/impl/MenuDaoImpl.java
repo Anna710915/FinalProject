@@ -4,27 +4,23 @@ import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.MenuDao;
 import by.epam.finalproject.model.entity.Menu;
-import by.epam.finalproject.model.entity.Order;
 import by.epam.finalproject.model.mapper.impl.MenuMapper;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.*;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.Parameter.PRODUCT_SECTION;
-import static by.epam.finalproject.model.mapper.impl.MenuMapper.DISH_NUMBER;
-import static by.epam.finalproject.model.mapper.impl.MenuMapper.PICTURE_PATH;
-
+/**
+ * The type Menu dao.
+ */
 public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
     private static final Logger logger = LogManager.getLogger();
+    private static final int ONE_UPDATE = 1;
     private static final String SQL_SELECT_ALL_MENU = """
             SELECT food_id, name_food, picture_path, composition, weight,
             calories, cooking_time, discount, price, section_id FROM menu""";
@@ -34,27 +30,20 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             WHERE food_id = (?)""";
     private static final String SQL_INSERT_NEW_MENU_ITEM = """
             INSERT INTO menu(name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id) 
+            calories, cooking_time, discount, price, section_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""";
     private static final String SQL_DELETE_MENU_ITEM = """
             DELETE FROM menu WHERE food_id = (?)""";
     private static final String SQL_UPDATE_MENU = """
-            UPDATE menu SET name_food = (?), picture_path = (?), composition = (?),
+            UPDATE menu SET name_food = (?), composition = (?),
             weight = (?), calories = (?), cooking_time = (?), discount = (?),
             price = (?), section_id = (?) WHERE food_id = (?)""";
-    private static final String SQL_SELECT_IMAGE_PATH_BY_NAME = """
-            SELECT picture_path FROM menu WHERE name_food = (?)""";
     private static final String SQL_UPDATE_IMAGE_PATH_BY_NAME = """
             UPDATE menu SET picture_path = (?) WHERE name_food = (?)""";
     private static final String SQL_SELECT_MENU_BY_NAME = """
             SELECT food_id, name_food, picture_path, composition, weight,
             calories, cooking_time, discount, price, section_id FROM menu
             WHERE name_food = (?)""";
-    private static final String SQL_SELECT_ALL_ORDER_FOOD = """
-            SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price,  section_id, dish_number FROM menu
-            JOIN orders_menu ON orders_menu.food_id = menu.food_id
-            WHERE orders_menu.order_id = (?)""";
     private static final String SQL_FIND_MENU_SUBLIST_BY_SECTION_ID = """
             SELECT food_id, name_food, picture_path, composition, weight,
             calories, cooking_time, discount, price,  section_id FROM menu
@@ -66,14 +55,25 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             SELECT food_id, name_food, picture_path, composition, weight,
             calories, cooking_time, discount, price, section_id FROM menu
             LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_ALL_SORTED_MENU = """
+            SELECT food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, section_id FROM menu
+            ORDER BY price - (price * discount)
+            LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_SORTED_SECTION_MENU = """
+            SELECT food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, section_id FROM menu
+            WHERE section_id = ?
+            ORDER BY price - (price * discount)
+            LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_MENU_ROW_COUNT_BY_SECTION_ID = """
+            SELECT COUNT(*) FROM menu WHERE section_id = ?""";
 
     @Override
     public List<Menu> findAll() throws DaoException {
         List<Menu> menuList = new ArrayList<>();
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_MENU);
-            ResultSet resultSet = statement.executeQuery();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_MENU);
+            ResultSet resultSet = statement.executeQuery()){
             while (resultSet.next()){
                 Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
                 if(optionalMenu.isPresent()) {
@@ -82,68 +82,42 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        }finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find all menu method ");
+            throw new DaoException("Exception while find all menu method ", e);
         }
         return menuList;
     }
 
     @Override
-    public Menu findEntityById(long id) throws DaoException {
-        Menu menu = null;
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_BY_ID);
+    public Optional<Menu> findEntityById(long id) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_BY_ID)){
             statement.setLong(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
-                if(optionalMenu.isPresent()) {
-                    menu = optionalMenu.get();
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new MenuMapper().mapRow(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find menu by id method ");
+            throw new DaoException("Exception while find menu by id method ", e);
         }
-        return menu;
+        return Optional.empty();
     }
 
     @Override
     public boolean delete(long id) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_DELETE_MENU_ITEM);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_DELETE_MENU_ITEM)) {
             statement.setLong(1,id);
-            return statement.executeUpdate() != 0 ? true : false;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
-        }
-    }
-
-    @Override
-    public boolean delete(Menu entity) throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_DELETE_MENU_ITEM);
-            statement.setLong(1,entity.getFoodId());
-            return statement.executeUpdate() != 0 ? true : false;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while delete menu by id method ");
+            throw new DaoException("Exception while delete menu by id method ", e);
         }
     }
 
     @Override
     public boolean create(Menu entity) throws DaoException {
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_INSERT_NEW_MENU_ITEM);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_INSERT_NEW_MENU_ITEM)){
             statement.setString(1,entity.getNameFood());
             statement.setString(2,entity.getPicturePath());
             statement.setString(3,entity.getComposition());
@@ -153,171 +127,170 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             statement.setBigDecimal(7,entity.getDiscount());
             statement.setBigDecimal(8,entity.getPrice());
             statement.setLong(9,entity.getSectionId());
-            return statement.executeUpdate() != 0 ? true : false;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while create menu method ");
+            throw new DaoException("Exception while create menu method ", e);
         }
     }
     @Override
-    public Menu update(Menu entity) throws DaoException {
-        PreparedStatement statement = null;
-        Menu menu;
-        try{
-            menu = findEntityById(entity.getFoodId());
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_MENU);
+    public Optional<Menu> update(Menu entity) throws DaoException {
+        try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_MENU)){
+            Optional<Menu> menu = findEntityById(entity.getFoodId());
+            logger.log(Level.INFO, entity.getNameFood());
             statement.setString(1,entity.getNameFood());
-            statement.setString(2,entity.getPicturePath());
-            statement.setString(3,entity.getComposition());
-            statement.setDouble(4,entity.getWeight());
-            statement.setDouble(5,entity.getCalories());
-            statement.setTime(6, Time.valueOf(entity.getCookingTime()));
-            statement.setBigDecimal(7,entity.getDiscount());
-            statement.setBigDecimal(8,entity.getPrice());
-            statement.setLong(9,entity.getSectionId());
-            statement.setLong(10,entity.getFoodId());
-            return statement.executeUpdate() != 0 ? menu : null;
+            logger.log(Level.INFO, entity.getComposition());
+            statement.setString(2,entity.getComposition());
+            logger.log(Level.INFO, entity.getWeight());
+            statement.setDouble(3,entity.getWeight());
+            logger.log(Level.INFO, entity.getCalories());
+            statement.setDouble(4,entity.getCalories());
+            logger.log(Level.INFO, Time.valueOf(entity.getCookingTime()));
+            statement.setTime(5, Time.valueOf(entity.getCookingTime()));
+            logger.log(Level.INFO, entity.getDiscount());
+            statement.setBigDecimal(6,entity.getDiscount());
+            logger.log(Level.INFO, entity.getPrice());
+            statement.setBigDecimal(7,entity.getPrice());
+            logger.log(Level.INFO, entity.getSectionId());
+            statement.setLong(8, entity.getSectionId());
+            logger.log(Level.INFO, entity.getFoodId());
+            statement.setLong(9,entity.getFoodId());
+            return statement.executeUpdate() == ONE_UPDATE ? menu : Optional.empty();
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while update menu method ");
+            throw new DaoException("Exception while update menu method ", e);
         }
-    }
-
-    @Override
-    public Optional<String> findImagePathByName(String name) throws DaoException {
-        PreparedStatement statement = null;
-        Optional<String> imagePath = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_IMAGE_PATH_BY_NAME);
-            statement.setString(1,name);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                imagePath = Optional.of(resultSet.getString(PICTURE_PATH));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
-        }
-        return imagePath;
     }
 
     @Override
     public boolean updateImagePathByName(String name, String filePath) throws DaoException {
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_UPDATE_IMAGE_PATH_BY_NAME);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_IMAGE_PATH_BY_NAME)){
             statement.setString(1,filePath);
             statement.setString(2,name);
-            return statement.executeUpdate() == 1 ? true : false;
+            return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while update image path by name menu method ");
+            throw new DaoException("Exception while update image path by name menu method ", e);
         }
     }
 
     @Override
     public Optional<Menu> findFoodByName(String name) throws DaoException {
-        PreparedStatement statement = null;
         Optional<Menu> food = Optional.empty();
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_BY_NAME);
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_BY_NAME)){
             statement.setString(1,name);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                food = new MenuMapper().mapRow(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    food = new MenuMapper().mapRow(resultSet);
+                }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
+            logger.log(Level.ERROR, "Exception while find food by name method ");
+            throw new DaoException("Exception while find food by name method ", e);
         }
         return food;
     }
 
     @Override
-    public Map<Menu, Integer> findAllOrderFood(Order order) throws DaoException {
-        Map<Menu,Integer> orderMenu = new HashMap<>();
-        PreparedStatement statement = null;
-        try{
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_ORDER_FOOD);
-            statement.setLong(1,order.getOrderId());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
-                if(optionalMenu.isPresent()) {
-                    orderMenu.put(optionalMenu.get(), resultSet.getInt(DISH_NUMBER));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            close(statement);
-        }
-        return orderMenu;
-    }
-
-    @Override
     public List<Menu> findMenuSublistBySectionId(int pageSize, int offset, long sectionId) throws DaoException {
-        PreparedStatement statement = null;
         List<Menu> menuList = new ArrayList<>();
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_FIND_MENU_SUBLIST_BY_SECTION_ID);
+        try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_FIND_MENU_SUBLIST_BY_SECTION_ID)){
             statement.setLong(1, sectionId);
             statement.setInt(2, pageSize);
             statement.setInt(3, offset);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
-                if(optionalMenu.isPresent()){
-                    menuList.add(optionalMenu.get());
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(menuList::add);
                 }
             }
         } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find menu sublist by section id method ");
             throw new DaoException("Exception in a findMenuSublistBySection method. ", e);
-        } finally {
-            close(statement);
         }
         return menuList;
     }
 
     @Override
     public int readRowCount() throws DaoException {
-        PreparedStatement statement = null;
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_MENU_ROW_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next() ? resultSet.getInt(1) : 0;
+        try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_MENU_ROW_COUNT)){
+            try(ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next() ? resultSet.getInt(1) : 0;
+            }
         } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while read row count from menu table method ");
             throw new DaoException("Exception in a readRowCount method. ", e);
-        } finally {
-            close(statement);
         }
     }
 
     @Override
     public List<Menu> findMenuSublist(int pageSize, int offset) throws DaoException {
-        PreparedStatement statement = null;
         List<Menu> menuSublist = new ArrayList<>();
-        try {
-            statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_SUBLIST);
+        try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_SUBLIST)){
             statement.setInt(1, pageSize);
             statement.setInt(2, offset);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
-                if(optionalMenu.isPresent()){
-                    menuSublist.add(optionalMenu.get());
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(menuSublist::add);
                 }
             }
         } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find menu sublist method ");
             throw new DaoException("Exception in a findMenuSublist method. ", e);
-        } finally {
-            close(statement);
         }
         return menuSublist;
+    }
+
+    @Override
+    public List<Menu> findAllSortedMenu(int pageSize, int offset) throws DaoException {
+        List<Menu> sortedList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_SORTED_MENU)){
+            statement.setInt(1, pageSize);
+            statement.setInt(2, offset);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(sortedList::add);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find sorted menu method ");
+            throw new DaoException("Exception in a findAllSortedMenu method. ", e);
+        }
+        return sortedList;
+    }
+
+    @Override
+    public List<Menu> findSortedSectionMenu(int pageSize, int offset, long sectionId) throws DaoException {
+        List<Menu> sortedList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_SORTED_SECTION_MENU)) {
+            statement.setLong(1, sectionId);
+            statement.setInt(2, pageSize);
+            statement.setInt(3, offset);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(sortedList::add);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find sorted menu sublist by section id method ");
+            throw new DaoException("Exception in a findSortedSectionMenu method. ", e);
+        }
+        return sortedList;
+    }
+
+    @Override
+    public int readRowCountBySection(long sectionId) throws DaoException {
+        try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_ROW_COUNT_BY_SECTION_ID)){
+            statement.setLong(1, sectionId);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next() ? resultSet.getInt(1) : 0;
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while read row count from menu by section table method ");
+            throw new DaoException("Exception in a readRowCountBySection method. ", e);
+        }
     }
 }

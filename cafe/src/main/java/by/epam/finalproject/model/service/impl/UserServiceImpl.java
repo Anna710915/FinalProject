@@ -21,17 +21,24 @@ import java.util.Optional;
 
 import static by.epam.finalproject.controller.Parameter.*;
 
+/**
+ * The type User service.
+ */
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
     private static final String REGISTRATION_SUBJECT = "GoodCafe registration";
     private static final String REGISTRATION_BODY = "Registration was successful";
-    private static UserServiceImpl instance;
+    private static final UserServiceImpl instance = new UserServiceImpl();
+    private final Validator validator = ValidatorImpl.getInstance();
+
     private UserServiceImpl(){}
 
+    /**
+     * Get instance user service.
+     *
+     * @return the user service
+     */
     public static UserServiceImpl getInstance(){
-        if(instance == null){
-            instance = new UserServiceImpl();
-        }
         return instance;
     }
 
@@ -43,7 +50,7 @@ public class UserServiceImpl implements UserService {
         try{
             return userDao.findUserByLoginAndPassword(login, encryptPassword);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a signIn service method " , e);
         } finally {
             transaction.end();
         }
@@ -54,7 +61,6 @@ public class UserServiceImpl implements UserService {
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);
         try {
-            Validator validator = ValidatorImpl.getInstance();
             boolean commonResult = validator.checkRegistration(mapData);
             logger.log(Level.INFO, "Common result " + commonResult);
             if(!commonResult){
@@ -96,20 +102,20 @@ public class UserServiceImpl implements UserService {
             }
             return isUserCreate;
         } catch (DaoException e) {
-            throw new ServiceException("Add user error: ", e);
+            throw new ServiceException("Add user error: userRegistration service method ", e);
         } finally {
             transaction.end();
         }
     }
 
-    public List<User> findAllUsers() throws ServiceException{
+    public List<User> findAllClients() throws ServiceException{
         UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);
         try {
-            return userDao.findAll();
+            return userDao.findAllClients();
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a findAllClients service method ", e);
         } finally {
             transaction.end();
         }
@@ -122,7 +128,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.delete(id);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a deleteUser service method ", e);
         } finally {
             transaction.end();
         }
@@ -134,8 +140,8 @@ public class UserServiceImpl implements UserService {
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);
         try{
-            Validator validator = ValidatorImpl.getInstance();
             if(!validator.checkUpdateProfile(updateData)){
+                logger.log(Level.INFO, "checkUpdateProfile is false");
                 return Optional.empty();
             }
             String firstName = updateData.get(USER_FIRST_NAME);
@@ -143,29 +149,34 @@ public class UserServiceImpl implements UserService {
             String email = updateData.get(USER_EMAIL);
             String phone = updateData.get(USER_PHONE_NUMBER);
             String birthday = updateData.get(USER_BIRTHDAY);
+            logger.log(Level.INFO, "birthday - " + birthday);
             int phoneNumber = Integer.parseInt(phone);
             LocalDate date = LocalDate.parse(birthday);
-
+            logger.log(Level.INFO, "LocalDate birthday - " + birthday);
             boolean uniqResult = true;
             if(userDao.findUserByEmail(email).isPresent() && !email.equals(user.getEmail())){
                 updateData.put(USER_EMAIL,NOT_UNIQ_EMAIL);
                 uniqResult = false;
             }
+
             if(userDao.findUserByPhoneNumber(phoneNumber).isPresent() && phoneNumber != user.getPhoneNumber()){
                 updateData.put(USER_PHONE_NUMBER,NOT_UNIQ_PHONE);
                 uniqResult = false;
             }
+
             if(!uniqResult){
                 return Optional.empty();
             }
+
             User newUser = new User(user.getUserId(), firstName, lastName, user.getLogin(),
                     user.getPassword(), email, phoneNumber, date, user.getDiscountId(),
                     user.getRole(), user.getState());
 
-            User oldUser = userDao.update(newUser);
-            return oldUser.equals(user) ? Optional.of(newUser) : Optional.empty();
+            Optional<User> optionalUser = userDao.update(newUser);
+
+            return optionalUser.isPresent() ? Optional.of(newUser) : Optional.empty();
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a updateUserProfile service method ", e);
         } finally {
             transaction.end();
         }
@@ -179,17 +190,18 @@ public class UserServiceImpl implements UserService {
         String oldPassword = map.get(OLD_PASSWORD);
         String newPassword = map.get(NEW_PASSWORD);
         String repeatPassword = map.get(REPEAT_PASSWORD);
-        Validator validator = ValidatorImpl.getInstance();
         try {
             if(!validator.isCorrectPassword(newPassword)){
                 map.put(NEW_PASSWORD, INVALID_NEW_PASSWORD);
                 return false;
             }
 
-            Optional<String> optional = userDao.findPasswordByLogin(user.getLogin());
-            if(!optional.get().equals(PasswordEncryption.md5Apache(oldPassword))){
-                map.put(OLD_PASSWORD, INVALID_OLD_PASSWORD);
-                return false;
+            Optional<String> optionalPassword = userDao.findPasswordByLogin(user.getLogin());
+            if(optionalPassword.isPresent()){
+                if(!optionalPassword.get().equals(PasswordEncryption.md5Apache(oldPassword))){
+                    map.put(OLD_PASSWORD, INVALID_OLD_PASSWORD);
+                    return false;
+                }
             }
 
             if(!newPassword.equals(repeatPassword)){
@@ -201,7 +213,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(encryptNewPassword);
             return result;
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in a changePasswordByOldPassword service method ", e);
         } finally {
             transaction.end();
         }
@@ -222,14 +234,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserByOrder(long orderId) throws ServiceException {
+    public List<User> findAllAdmins() throws ServiceException {
         UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);
         try {
-            return  userDao.findUserByOrder(orderId);
+            return userDao.findAllAdmins();
         } catch (DaoException e) {
-            throw new ServiceException("Exception in a findUserByOrder method. ", e);
+            throw new ServiceException("Exception in a findAllAdmins method. ", e);
         } finally {
             transaction.end();
         }

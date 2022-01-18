@@ -2,7 +2,6 @@ package by.epam.finalproject.model.service.impl;
 
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.exception.ServiceException;
-import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.EntityTransaction;
 import by.epam.finalproject.model.dao.impl.OrderDaoImpl;
 import by.epam.finalproject.model.dao.impl.UserDaoImpl;
@@ -25,20 +24,26 @@ import java.util.Optional;
 
 import static by.epam.finalproject.controller.Parameter.*;
 
+/**
+ * The type Order service.
+ */
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger();
     private static final String EMAIL_ORDER_MESSAGE = "The order has been successfully placed";
     private static final String EMAIL_SUBJECT = "GoodCafe order";
-    private static OrderServiceImpl instance;
+    private static final OrderServiceImpl instance = new OrderServiceImpl();
     private final Validator validator = ValidatorImpl.getInstance();
     private OrderServiceImpl(){}
 
+    /**
+     * Get instance order service.
+     *
+     * @return the order service
+     */
     public static OrderServiceImpl getInstance(){
-        if(instance == null){
-            instance = new OrderServiceImpl();
-        }
         return instance;
     }
+
     @Override
     public boolean createOrder(Map<Menu, Integer> productMap, Map<String, String> orderInfo, User user, BigDecimal totalPrice) throws ServiceException {
         if(!validator.checkOrderInfo(orderInfo)){
@@ -117,6 +122,8 @@ public class OrderServiceImpl implements OrderService {
                 if(optionalUser.isPresent()){
                     User user = optionalUser.get();
                     List<ComponentOrder> menuList = orderDao.findAllMenuOrder(order.getOrderId());
+                    logger.log(Level.INFO, "Menu list size " + menuList.size());
+                    logger.log(Level.INFO, "Order date: " + order.getOrderDate());
                     completeOrders.add(new CompleteOrder(user, order, menuList));
                 }else {
                     logger.log(Level.INFO, "The user doesn't exist. Order ID is " + order.getOrderId());
@@ -168,6 +175,20 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException("Exception in a changeOrderStateById method. ", e);
         } finally {
             transaction.endTransaction();
+        }
+    }
+
+    @Override
+    public boolean deleteOldOrders() throws ServiceException {
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(orderDao);
+        try {
+            return orderDao.deleteOrders();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in deleteOldOrders method. ", e);
+        } finally {
+            transaction.end();
         }
     }
 }

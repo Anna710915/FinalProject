@@ -3,6 +3,9 @@ package by.epam.finalproject.model.entity;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
+/**
+ * The type Menu.
+ */
 public class Menu extends CustomEntity {
 
     private long foodId;
@@ -16,8 +19,25 @@ public class Menu extends CustomEntity {
     private BigDecimal price;
     private long sectionId;
 
+    /**
+     * Instantiates a new Menu.
+     */
     public Menu(){}
 
+    /**
+     * Instantiates a new Menu.
+     *
+     * @param foodId      the food id
+     * @param nameFood    the name food
+     * @param picturePath the picture path
+     * @param composition the composition
+     * @param weight      the weight
+     * @param calories    the calories
+     * @param cookingTime the cooking time
+     * @param discount    the discount
+     * @param price       the price
+     * @param sectionId   the section id
+     */
     public Menu(long foodId, String nameFood, String picturePath, String composition,
                 double weight, double calories, LocalTime cookingTime, BigDecimal discount,
                 BigDecimal price, long sectionId) {
@@ -33,9 +53,23 @@ public class Menu extends CustomEntity {
         this.sectionId = sectionId;
     }
 
+    /**
+     * Instantiates a new Menu.
+     *
+     * @param nameFood    the name food
+     * @param picturePath the picture path
+     * @param composition the composition
+     * @param weight      the weight
+     * @param calories    the calories
+     * @param cookingTime the cooking time
+     * @param discount    the discount
+     * @param price       the price
+     * @param sectionId   the section id
+     */
     public Menu(String nameFood, String picturePath, String composition,
                 double weight, double calories, LocalTime cookingTime,
                 BigDecimal discount, BigDecimal price, long sectionId) {
+
         this.nameFood = nameFood;
         this.picturePath = picturePath;
         this.composition = composition;
@@ -47,82 +81,209 @@ public class Menu extends CustomEntity {
         this.sectionId = sectionId;
     }
 
+    /**
+     * Instantiates a new Menu.
+     *
+     * @param foodId      the food id
+     * @param nameFood    the name food
+     * @param composition the composition
+     * @param weight      the weight
+     * @param calories    the calories
+     * @param cookingTime the cooking time
+     * @param discount    the discount
+     * @param price       the price
+     * @param sectionId   the section id
+     */
+    public Menu(long foodId, String nameFood, String composition, double weight,
+                double calories, LocalTime cookingTime, BigDecimal discount,
+                BigDecimal price, long sectionId) {
+        this.foodId = foodId;
+        this.nameFood = nameFood;
+        this.composition = composition;
+        this.weight = weight;
+        this.calories = calories;
+        this.cookingTime = cookingTime;
+        this.discount = discount;
+        this.price = price;
+        this.sectionId = sectionId;
+    }
+
+    /**
+     * Gets food id.
+     *
+     * @return the food id
+     */
     public long getFoodId() {
         return foodId;
     }
 
+    /**
+     * Sets food id.
+     *
+     * @param foodId the food id
+     */
     public void setFoodId(long foodId) {
         this.foodId = foodId;
     }
 
+    /**
+     * Gets name food.
+     *
+     * @return the name food
+     */
     public String getNameFood() {
         return nameFood;
     }
 
+    /**
+     * Sets name food.
+     *
+     * @param nameFood the name food
+     */
     public void setNameFood(String nameFood) {
         this.nameFood = nameFood;
     }
 
+    /**
+     * Gets picture path.
+     *
+     * @return the picture path
+     */
     public String getPicturePath() {
         return picturePath;
     }
 
+    /**
+     * Sets picture path.
+     *
+     * @param picturePath the picture path
+     */
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
 
+    /**
+     * Gets composition.
+     *
+     * @return the composition
+     */
     public String getComposition() {
         return composition;
     }
 
+    /**
+     * Sets composition.
+     *
+     * @param composition the composition
+     */
     public void setComposition(String composition) {
         this.composition = composition;
     }
 
+    /**
+     * Gets weight.
+     *
+     * @return the weight
+     */
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Sets weight.
+     *
+     * @param weight the weight
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }
 
+    /**
+     * Gets calories.
+     *
+     * @return the calories
+     */
     public double getCalories() {
         return calories;
     }
 
+    /**
+     * Sets calories.
+     *
+     * @param calories the calories
+     */
     public void setCalories(double calories) {
         this.calories = calories;
     }
 
+    /**
+     * Gets cooking time.
+     *
+     * @return the cooking time
+     */
     public LocalTime getCookingTime() {
         return cookingTime;
     }
 
+    /**
+     * Sets cooking time.
+     *
+     * @param cookingTime the cooking time
+     */
     public void setCookingTime(LocalTime cookingTime) {
         this.cookingTime = cookingTime;
     }
 
+    /**
+     * Gets discount.
+     *
+     * @return the discount
+     */
     public BigDecimal getDiscount() {
         return discount;
     }
 
+    /**
+     * Sets discount.
+     *
+     * @param discount the discount
+     */
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
+    /**
+     * Gets price.
+     *
+     * @return the price
+     */
     public BigDecimal getPrice() {
         return price;
     }
 
+    /**
+     * Sets price.
+     *
+     * @param price the price
+     */
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
+    /**
+     * Gets section id.
+     *
+     * @return the section id
+     */
     public long getSectionId() {
         return sectionId;
     }
 
+    /**
+     * Sets section id.
+     *
+     * @param sectionId the section id
+     */
     public void setSectionId(long sectionId) {
         this.sectionId = sectionId;
     }

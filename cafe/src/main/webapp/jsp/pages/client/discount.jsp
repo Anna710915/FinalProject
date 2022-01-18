@@ -14,7 +14,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/CSS/styles.css">
+    <link rel="stylesheet" href="${absolutePath}/CSS/styles.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -32,12 +32,12 @@
         <%@include file="../header/header.jsp"%>
     </header>
     <div class="container justify-content-center col-12 col-sm-6 mt-3">
-        <p><fmt:message key="user.discount"/> <fmt:formatNumber type="number"  maxFractionDigits="0" value="${user_discount * 100}"/>%</p>
+        <p><fmt:message key="user.discount"/> <b><fmt:formatNumber type="number"  maxFractionDigits="0" value="${user_discount * 100}"/>%</b></p>
         <p><fmt:message key="user.discount_condition_part_one"/> </p>
         <p><fmt:message key="user.discount_condition_part_two"/> </p>
         <p><fmt:message key="user.discount_condition_part_three"/> </p>
         <p><fmt:message key="user.discount_condition_part_four"/> </p>
-        <p><fmt:message key="user.discount_year"/> ${number_orders} <fmt:message key="user.discount_product"/> </p>
+        <p><fmt:message key="user.discount_year"/><b> ${number_orders} <fmt:message key="user.discount_product"/></b> </p>
         <table class="table">
             <thead class="table-dark">
             <tr>

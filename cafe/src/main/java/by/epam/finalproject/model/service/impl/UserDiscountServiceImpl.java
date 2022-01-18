@@ -8,20 +8,27 @@ import by.epam.finalproject.model.dao.impl.UserDiscountDaoImpl;
 import by.epam.finalproject.model.entity.UserDiscount;
 import by.epam.finalproject.model.service.UserDiscountService;
 
+import java.util.Optional;
 
+
+/**
+ * The type User discount service.
+ */
 public class UserDiscountServiceImpl implements UserDiscountService {
-    private static UserDiscountServiceImpl instance;
+    private static final UserDiscountServiceImpl instance = new UserDiscountServiceImpl();
 
     private UserDiscountServiceImpl(){}
 
+    /**
+     * Get instance user discount service.
+     *
+     * @return the user discount service
+     */
     public static UserDiscountServiceImpl getInstance(){
-        if(instance == null){
-            instance = new UserDiscountServiceImpl();
-        }
         return instance;
     }
     @Override
-    public UserDiscount findDiscountById(long id) throws ServiceException {
+    public Optional<UserDiscount> findDiscountById(long id) throws ServiceException {
         AbstractDao<UserDiscount> abstractDao = new UserDiscountDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(abstractDao);

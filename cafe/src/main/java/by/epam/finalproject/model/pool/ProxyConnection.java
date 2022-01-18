@@ -9,10 +9,21 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * The type Proxy connection.
+ */
 public class ProxyConnection implements Connection {
+    /**
+     * The Logger.
+     */
     static final Logger logger = LogManager.getLogger();
     private Connection connection;
 
+    /**
+     * Instantiates a new Proxy connection.
+     *
+     * @param connection the connection
+     */
     ProxyConnection(Connection connection){
         this.connection = connection;
     }
@@ -62,6 +73,9 @@ public class ProxyConnection implements Connection {
         ConnectionPool.getInstance().releaseConnection(this);
     }
 
+    /**
+     * Really close connection.
+     */
     void reallyClose(){
         try {
             connection.close();

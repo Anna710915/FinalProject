@@ -20,6 +20,9 @@ import java.util.Optional;
 import static by.epam.finalproject.controller.PathPage.ERROR_500;
 import static by.epam.finalproject.controller.Parameter.COMMAND;
 
+/**
+ * The type Controller.
+ */
 @WebServlet(urlPatterns = {"/controller"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -29,12 +32,10 @@ public class Controller extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.log(Level.DEBUG,"It's a " + request.getMethod());
         processRequest(request, response);
     }
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.log(Level.DEBUG,"It's a " + request.getMethod());
         processRequest(request, response);
     }
 
@@ -58,7 +59,7 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(ERROR_500);
             }
         } catch (CommandException e) {
-            logger.log(Level.ERROR,e.getCause());
+            logger.log(Level.ERROR, e);
             response.sendRedirect(ERROR_500);
         }
     }

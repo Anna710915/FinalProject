@@ -10,11 +10,12 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.LANGUAGE;
 
-
+/**
+ * The type Change language command.
+ */
 public class ChangeLanguageCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 

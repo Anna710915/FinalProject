@@ -10,6 +10,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * The type Pagination tag.
+ */
 public class PaginationTag extends TagSupport {
     private static final Logger logger = LogManager.getLogger();
 
@@ -31,14 +34,29 @@ public class PaginationTag extends TagSupport {
     private int lastPage;
     private String url;
 
+    /**
+     * Sets current page.
+     *
+     * @param currentPage the current page
+     */
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
 
+    /**
+     * Sets last page.
+     *
+     * @param lastPage the last page
+     */
     public void setLastPage(int lastPage) {
         this.lastPage = lastPage;
     }
 
+    /**
+     * Sets url.
+     *
+     * @param url the url
+     */
     public void setUrl(String url) {
         this.url = url;
     }

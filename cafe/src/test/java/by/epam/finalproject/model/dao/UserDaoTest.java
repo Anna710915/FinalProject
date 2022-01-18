@@ -30,11 +30,7 @@ public class UserDaoTest {
         Optional<User> actual = userDao.findUserByLoginAndPassword("2Merkul8",encrypt);
         assertTrue(actual.isPresent());
     }
-    @Test
-    public void findUserByIdTest() throws DaoException {
-        User actual = userDao.findEntityById(1);
-        assertNotNull(actual);
-    }
+
     @Test
     public void findAllUsersTest() throws DaoException {
         List<User> actual = userDao.findAll();

@@ -17,7 +17,13 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The type Connection pool.
+ */
 public class ConnectionPool {
+    /**
+     * The Logger.
+     */
     static final Logger logger = LogManager.getLogger();
     private static final Properties properties = new Properties();
     private static final int POOL_SIZE;
@@ -76,6 +82,11 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Get instance connection pool.
+     *
+     * @return the connection pool
+     */
     public static ConnectionPool getInstance(){
         if(!create.get()){
             try{
@@ -91,6 +102,11 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Get connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection(){
         ProxyConnection connection = null;
         try{
@@ -103,6 +119,11 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Release connection.
+     *
+     * @param connection the connection
+     */
     public void releaseConnection(Connection connection){
         try {
             if(connection.getClass() != ProxyConnection.class){
@@ -117,6 +138,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Destroy pool.
+     */
     public void destroyPool(){
         for(int i = 0; i < POOL_SIZE; i++){
             try {
@@ -129,6 +153,7 @@ public class ConnectionPool {
         }
         deregisterDrivers();
     }
+
     private void deregisterDrivers(){
         logger.log(Level.DEBUG, "Deregister driver method.");
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {

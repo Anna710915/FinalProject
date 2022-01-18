@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="/CSS/styles.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
@@ -45,9 +46,14 @@
     <header>
         <%@include file="../header/header.jsp"%>
     </header>
+    <c:choose>
+        <c:when test="${param.result eq 'true'}">
+            <div class="alert alert-success" role="alert" id="message"><fmt:message key="action.result_success"/></div>
+        </c:when>
+    </c:choose>
     <div class="row">
         <h3 class="text-center p-3"><fmt:message key="profile.settings"/></h3>
-        <form role="form" action="${absolutePath}/controller" method="post" class="needs-validation" novalidate>
+        <form role="form" action="${absolutePath}/controller" method="post"  novalidate>
             <input type="hidden" name="command" value="update_user_profile">
         <div class="container col-12 col-sm-6 mt-3">
             <dl class="row my-3">
@@ -98,8 +104,7 @@
                     <fmt:message key="registration.birthday"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="text" name="birthday" value="${user.birthday}" class="form-control" placeholder="${e_birthday}" required pattern="^(19|20)\d\d-((0[1-9]|1[012])-(0[1-9]|[12]\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)$">
-                    <div id="dateHelp" class="form-text"><fmt:message key="registration.correct_date"></fmt:message></div>
+                    <input type="date" name="birthday" value="${user.birthday}" class="form-control" placeholder="${e_birthday}" required >
                     <c:if test="${!empty invalid_birthday}">
                         <div class="invalid-feedback-backend" style="color: red">
                             <fmt:message key="${invalid_birthday}"/>

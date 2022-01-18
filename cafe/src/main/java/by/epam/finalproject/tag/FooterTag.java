@@ -6,6 +6,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * The type Footer tag.
+ */
 public class FooterTag extends TagSupport {
 
     @Override

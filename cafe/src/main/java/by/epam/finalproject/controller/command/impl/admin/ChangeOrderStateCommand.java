@@ -11,9 +11,13 @@ import by.epam.finalproject.model.service.impl.OrderServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.ERROR_500;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.STATE;
+import static by.epam.finalproject.controller.Parameter.ORDER_ID;
 
+/**
+ * The type Change order state command.
+ */
 public class ChangeOrderStateCommand implements Command {
     private final OrderService service = OrderServiceImpl.getInstance();
 
@@ -25,14 +29,11 @@ public class ChangeOrderStateCommand implements Command {
         router.setCurrentPage(currentPage);
         String state = request.getParameter(STATE);
         Order.OrderState orderState = Order.OrderState.valueOf(state);
-        long id = Long.parseLong(request.getParameter(ORDER_ID));
         try {
-            if(!service.changeOrderStateById(id, orderState)){
-                router.setCurrentPage(ERROR_500);
-                return router;
-            }
+            long id = Long.parseLong(request.getParameter(ORDER_ID));
+            service.changeOrderStateById(id, orderState);
             router.setRedirectType();
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a ChangeOrderStateCommand class. ", e);
         }
         return router;

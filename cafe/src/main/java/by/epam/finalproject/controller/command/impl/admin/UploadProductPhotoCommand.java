@@ -19,16 +19,21 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.PICTURE_PATH;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_NAME;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+
 import static by.epam.finalproject.controller.PathPage.ERROR_500;
 
+
+/**
+ * The type Upload product photo command.
+ */
 public class UploadProductPhotoCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ABSOLUTE_PATH = "C:/Users/admin/source/picture/";
-    private static final MenuService service = MenuServiceImpl.getInstance();
+    private final MenuService service = MenuServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
@@ -46,7 +51,6 @@ public class UploadProductPhotoCommand implements Command {
 
             if(!service.updateProductPhoto(path, name)){
                 logger.log(Level.INFO, "Update product photo is failed");
-                router.setRedirectType();
                 router.setCurrentPage(ERROR_500);
                 return router;
             }

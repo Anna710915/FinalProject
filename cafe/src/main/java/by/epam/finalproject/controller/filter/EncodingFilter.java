@@ -12,6 +12,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
+
+/**
+ * The type Encoding filter.
+ */
 public class EncodingFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
     private static final String CODE = "encoding";

@@ -387,74 +387,97 @@
     <header>
         <%@include file="../header/header.jsp"%>
     </header>
+    <div class="container">
+    <div class="row">
+        <div class="col-2 text-center"><fmt:message key="menu.sort"/></div>
+        <div class="col">
+        <form name="sortByPrice" action="${absolutePath}/controller">
+            <input type="hidden" name="command" value="sort_all_menu_by_price">
+            <c:if test="${not empty param.id}">
+                <input type="hidden" name="id" value="${param.id}">
+            </c:if>
+            <button type="submit" class="btn btn-primary btn-sm"><fmt:message key="menu.sort_by_price"/></button>
+        </form>
+        </div>
+    </div>
+    </div>
     <div class="box box_padding catalog-wrapp catalog-body">
         <div class="catalog">
-            <c:forEach items="${menu_list}" var="menu">
-                <div class="catalog-item">
-                    <div class="product">
-                        <div class="product_header">
-                            <div class="product_title">${menu.nameFood}</div>
-                        </div>
-                        <div class="product_figure">
-                            <c:choose>
-                                <c:when test="${menu.picturePath eq 'picture/default-image_1920.png'}">
-                                    <img src="${menu.picturePath}" alt="" class="product_img">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${absolutePath}/uploadImage?imagePath=${menu.picturePath}" alt="" class="product_img">
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <div class="product_info"><fmt:message key="menu.product_weight"/> <c:out value="${menu.weight}"/></div>
-                        <div class="product_consist mb-2"><fmt:message key="menu.product_composition"/> <c:out value="${menu.composition}"/> <br><br><br></div>
-                        <div class="">
-                                <div class="product_price "><b id="price"><c:out value="${menu.price}"/> </b> <fmt:message key="menu.product_money"/> </div>
-                                <div class="product_price" ><b id="discount"><fmt:message key="menu.product_discount"/></b> <fmt:formatNumber type="number"  maxFractionDigits="0" value="${menu.discount * 100}"/>%  </div>
-                                <div class="product_price"><b id="total_price"><fmt:message key="menu.product_price"/></b> <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2"  value="${menu.price - menu.discount * menu.price}"/>   </div>
-                            <c:if test="${user.role eq 'CLIENT'}">
-                                <form action="${absolutePath}/controller" method="post">
-                                    <input type="hidden" name="command" value="add_product_to_cart">
-                                    <input type="hidden" name="selected" value="${menu.foodId}">
-                                    <div class="product_actions">
-                                        <div class="counter">
-                                            <div class="counter_btn counter_btn_minus btn-secondary">-</div>
-                                            <input type="text" class="counter_number" id="product_number" name="product_number" value="1">
-                                            <div class="counter_btn counter_btn_plus btn-secondary">+</div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary js_add-to-cart"><fmt:message key="action.to_cart"/> </button>
-                                    </div>
-                                </form>
-                            </c:if>
-                            <c:if test="${user.role eq 'ADMIN'}">
-                                <form name="UploadPhoto" method="post" action="${absolutePath}/controller" enctype="multipart/form-data">
-                                    <input type="hidden" name="command" value="upload_product_photo">
-                                    <input type="hidden" name="product_name" value="${menu.nameFood}">
-                                    </br>
-                                    <div class="form-group mb-2">
-                                        <label class="form-label"><fmt:message key="menu.picture"/></label>
-                                        <input type="file" name="picture_path" class="form-control form-control-sm">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-sm mb-2"><fmt:message key="menu.insert_menu"/></button>
-                                </form>
-                                <div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="btn btn-info btn-sm" href="${absolutePath}/controller?command=go_to_update_product_page&id=<c:out value="${menu.foodId}"/>" role="button"><fmt:message key="profile.update"/></a>
-                                        </div>
-                                        <div class="col">
-                                            <form action="${absolutePath}/controller" method="post">
-                                                <input type="hidden" name="command" value="delete_product">
-                                                <input type="hidden" name="id" value="${menu.foodId}">
-                                                <button type="submit" class="btn btn-danger btn-sm"><fmt:message key="action.delete"/></button>
-                                            </form>
-                                        </div>
-                                    </div>
+            <c:choose>
+                <c:when test="${empty menu_list}">
+                    <h3 class="text-center"><fmt:message key="menu.empty"/> </h3>
+                </c:when>
+                <c:otherwise>
+
+                    <c:forEach items="${menu_list}" var="menu">
+                        <div class="catalog-item">
+                            <div class="product">
+                                <div class="product_header">
+                                    <div class="product_title">${menu.nameFood}</div>
                                 </div>
-                            </c:if>
+                                <div class="product_figure">
+                                    <c:choose>
+                                        <c:when test="${menu.picturePath eq 'picture/default-image_1920.png'}">
+                                            <img src="${menu.picturePath}" alt="" class="product_img">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="${absolutePath}/uploadImage?imagePath=${menu.picturePath}" alt="" class="product_img">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="product_info"><fmt:message key="menu.product_weight"/> <c:out value="${menu.weight}"/></div>
+                                <div class="product_consist mb-2"><fmt:message key="menu.product_composition"/> <c:out value="${menu.composition}"/> <br><br><br></div>
+                                <div class="">
+                                    <div class="product_price "><b id="price"><c:out value="${menu.price}"/> </b> <fmt:message key="menu.product_money"/> </div>
+                                    <div class="product_price" ><b id="discount"><fmt:message key="menu.product_discount"/></b> <fmt:formatNumber type="number"  maxFractionDigits="0" value="${menu.discount * 100}"/>%  </div>
+                                    <div class="product_price"><b id="total_price"><fmt:message key="menu.product_price"/></b> <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2"  value="${menu.price - menu.discount * menu.price}"/>   </div>
+                                    <c:if test="${user.role eq 'CLIENT'}">
+                                        <form action="${absolutePath}/controller" method="post">
+                                            <input type="hidden" name="command" value="add_product_to_cart">
+                                            <input type="hidden" name="selected" value="${menu.foodId}">
+                                            <div class="product_actions">
+                                                <div class="counter">
+                                                    <div class="counter_btn counter_btn_minus btn-secondary">-</div>
+                                                    <input type="text" class="counter_number" id="product_number" name="product_number" value="1">
+                                                    <div class="counter_btn counter_btn_plus btn-secondary">+</div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary js_add-to-cart"><fmt:message key="action.to_cart"/> </button>
+                                            </div>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${user.role eq 'ADMIN'}">
+                                        <form name="UploadPhoto" method="post" action="${absolutePath}/controller" enctype="multipart/form-data">
+                                            <input type="hidden" name="command" value="upload_product_photo">
+                                            <input type="hidden" name="product_name" value="${menu.nameFood}">
+                                            </br>
+                                            <div class="form-group mb-2">
+                                                <label class="form-label"><fmt:message key="menu.picture"/></label>
+                                                <input type="file" name="picture_path" class="form-control form-control-sm">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm mb-2"><fmt:message key="menu.insert_menu"/></button>
+                                        </form>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <a class="btn btn-info btn-sm" href="${absolutePath}/controller?command=go_to_update_product_page&id=<c:out value="${menu.foodId}"/>" role="button"><fmt:message key="profile.update"/></a>
+                                                </div>
+                                                <div class="col">
+                                                    <form action="${absolutePath}/controller" method="post">
+                                                        <input type="hidden" name="command" value="delete_product">
+                                                        <input type="hidden" name="id" value="${menu.foodId}">
+                                                        <button type="submit" class="btn btn-danger btn-sm"><fmt:message key="action.delete"/></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </c:forEach>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </div>
     <div class="pages" style="background-color: whitesmoke">

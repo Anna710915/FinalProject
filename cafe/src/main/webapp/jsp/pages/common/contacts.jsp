@@ -44,10 +44,10 @@
         <p class="text-center">
             umami.neobistro@gmail.com
         </p>
-        <div>
+        <p>
             РЕЖИМ РАБОТЫ
             Доставка: 13:00-22:30
-        </div>
+        </p>
         <p class="text-center">
             Ресторан:
             Вс - Чт 13:00-00:00

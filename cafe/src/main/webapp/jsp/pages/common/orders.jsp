@@ -73,6 +73,12 @@
                     </c:when>
                     <c:otherwise>
                         <h3 class="text-center"><fmt:message key="order.confirmed"/> </h3>
+                        <div class="justify-content-center ">
+                            <form name="delete_orders" action="${absolutePath}/controller" method="post">
+                                <input type="hidden" name="command" value="delete_orders">
+                                <button type="submit" class="btn btn-danger"><fmt:message key="action.delete_old_orders"/> </button>
+                            </form>
+                        </div>
                         <table class="table table-striped">
                             <thead>
                             <tr>

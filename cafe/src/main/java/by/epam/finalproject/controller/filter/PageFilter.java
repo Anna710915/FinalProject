@@ -16,13 +16,11 @@ import java.util.Set;
 import static by.epam.finalproject.controller.Parameter.USER;
 import static by.epam.finalproject.controller.PathPage.START_PAGE;
 
+/**
+ * The type Page filter.
+ */
 public class PageFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
-    public void init(FilterConfig config) throws ServletException {
-    }
-
-    public void destroy() {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -58,7 +56,6 @@ public class PageFilter implements Filter {
             }
         }
         if(!isCorrect && user == null){
-            logger.log(Level.INFO,"isCorrect = " + isCorrect);
             user = new User();
             user.setRole(User.UserRole.GUEST);
             session.setAttribute(USER,user);

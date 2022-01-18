@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -25,15 +24,12 @@ import static by.epam.finalproject.controller.Parameter.USER;
 
 import static by.epam.finalproject.controller.PathPage.ERROR_404;
 
+/**
+ * The type Page security command filter.
+ */
 public class PageSecurityCommandFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
 
-    public void init(FilterConfig config) throws ServletException {
-        logger.log(Level.INFO,"PageSecurityFilter: method - init");
-    }
-
-    public void destroy() {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -43,7 +39,6 @@ public class PageSecurityCommandFilter implements Filter {
         HttpSession session = httpServletRequest.getSession();
         String command = httpServletRequest.getParameter(COMMAND);
         if (command == null){
-            logger.log(Level.INFO, "command = " + command);
             request.getRequestDispatcher(ERROR_404).forward(httpServletRequest,httpServletResponse);
             return;
         }
@@ -56,25 +51,19 @@ public class PageSecurityCommandFilter implements Filter {
         }
 
         switch (role){
-            case ADMIN -> {
-                commands = UserPermission.ADMIN.getCommands();
-            }
-            case CLIENT -> {
-                commands = UserPermission.CLIENT.getCommands();
-            }
-            default -> {
-                commands = UserPermission.GUEST.getCommands();
-            }
+            case ADMIN -> commands = UserPermission.ADMIN.getCommands();
+            case CLIENT -> commands = UserPermission.CLIENT.getCommands();
+            default -> commands = UserPermission.GUEST.getCommands();
         }
 
         boolean isCorrect = Arrays.stream(CommandType.values())
                         .anyMatch(commandType -> command.equalsIgnoreCase(commandType.toString()));
 
         if(isCorrect && !commands.contains(command.toUpperCase())){
-            logger.log(Level.INFO,"isCorrect = " + isCorrect + "command = " + command);
             httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
+
         if (!commands.contains(command.toUpperCase())){
             logger.log(Level.INFO, "command = " + command);
             request.getRequestDispatcher(ERROR_404)

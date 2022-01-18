@@ -8,9 +8,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type User discount mapper.
+ */
 public class UserDiscountMapper implements CustomRowMapper<UserDiscount> {
+    /**
+     * The constant DISCOUNT_ID.
+     */
     public static final String DISCOUNT_ID = "discount_id";
+    /**
+     * The constant DISCOUNT.
+     */
     public static final String DISCOUNT = "discount";
+    /**
+     * The constant YEAR_ORDERS.
+     */
     public static final String YEAR_ORDERS = "year_orders";
 
     @Override

@@ -6,6 +6,9 @@ import java.util.Map;
 
 import static by.epam.finalproject.controller.Parameter.*;
 
+/**
+ * The type Validator.
+ */
 public class ValidatorImpl implements Validator {
     private static final String NAME_PATTERN = "^[A-Za-zА-Яа-я]{3,50}$";
     private static final String PRODUCT_NAME_PATTERN = "^[A-Za-zА-Яа-я\\s]{3,50}$";
@@ -13,7 +16,6 @@ public class ValidatorImpl implements Validator {
     private static final String USER_PASSWORD_PATTERN = "^[A-Za-zА-Яа-я0-9\\.]{5,40}$";
     private static final String USER_MAIL_PATTERN = "^[A-Za-z0-9\\.]{1,30}@[a-z]{2,7}\\.[a-z]{2,4}$";
     private static final String USER_PHONE_NUMBER_PATTERN = "\\d{9}";
-    private static final String USER_BIRTHDAY_DATE_PATTERN = "^(19|20)\\d\\d-((0[1-9]|1[012])-(0[1-9]|[12]\\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)$";
     private static final String DIGIT_PRODUCT_PATTERN = "\\d{1,6}(\\.[0-9]{1,2})?";
     private static final String DISCOUNT_PATTERN = "\\d\\.\\d{0,2}";
     private static final String COMPOSITION_PATTERN = "^.{0,200}$";
@@ -21,14 +23,16 @@ public class ValidatorImpl implements Validator {
     private static final String USER_COMMENT_PATTERN = "^.{0,200}$";
     private static final String SECTION_NAME_PATTERN = "^.{1,20}$";
 
-    private static ValidatorImpl instance;
+    private static final ValidatorImpl instance = new ValidatorImpl();
 
     private ValidatorImpl(){}
 
+    /**
+     * Get instance validator.
+     *
+     * @return the validator
+     */
     public static ValidatorImpl getInstance(){
-        if(instance == null){
-            instance = new ValidatorImpl();
-        }
         return instance;
     }
     public boolean isCorrectName(String name){
@@ -49,10 +53,6 @@ public class ValidatorImpl implements Validator {
 
     public boolean isCorrectPhoneNumber(String phoneNumber){
         return isNotNullOrEmpty(phoneNumber) && phoneNumber.matches(USER_PHONE_NUMBER_PATTERN);
-    }
-
-    public boolean isCorrectBirthday(String birthday){
-        return isNotNullOrEmpty(birthday) && birthday.matches(USER_BIRTHDAY_DATE_PATTERN);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ValidatorImpl implements Validator {
             map.put(USER_PHONE_NUMBER,INVALID_PHONE_NUMBER);
             result = false;
         }
-        if(!isCorrectBirthday(birthday)){
+        if(!isNotNullOrEmpty(birthday)){
             map.put(USER_BIRTHDAY,INVALID_BIRTHDAY);
             result = false;
         }
@@ -157,7 +157,7 @@ public class ValidatorImpl implements Validator {
             updateData.put(USER_PHONE_NUMBER,INVALID_PHONE_NUMBER);
             result = false;
         }
-        if(!isCorrectBirthday(birthday)){
+        if(!isNotNullOrEmpty(birthday)){
             updateData.put(USER_BIRTHDAY,INVALID_BIRTHDAY);
             result = false;
         }

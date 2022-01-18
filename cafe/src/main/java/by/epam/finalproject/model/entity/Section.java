@@ -1,32 +1,69 @@
 package by.epam.finalproject.model.entity;
 
+/**
+ * The type Section.
+ */
 public class Section extends CustomEntity{
     private long sectionId;
     private String sectionName;
 
+    /**
+     * Instantiates a new Section.
+     */
     public Section(){}
 
+    /**
+     * Instantiates a new Section.
+     *
+     * @param sectionId   the section id
+     * @param sectionName the section name
+     */
     public Section(long sectionId, String sectionName) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
     }
 
+    /**
+     * Instantiates a new Section.
+     *
+     * @param sectionName the section name
+     */
     public Section(String sectionName) {
         this.sectionName = sectionName;
     }
 
+    /**
+     * Gets section id.
+     *
+     * @return the section id
+     */
     public long getSectionId() {
         return sectionId;
     }
 
+    /**
+     * Sets section id.
+     *
+     * @param sectionId the section id
+     */
     public void setSectionId(long sectionId) {
         this.sectionId = sectionId;
     }
 
+    /**
+     * Gets section name.
+     *
+     * @return the section name
+     */
     public String getSectionName() {
         return sectionName;
     }
 
+    /**
+     * Sets section name.
+     *
+     * @param sectionName the section name
+     */
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
     }

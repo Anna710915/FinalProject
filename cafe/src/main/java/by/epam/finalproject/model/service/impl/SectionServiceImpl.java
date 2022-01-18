@@ -11,15 +11,20 @@ import by.epam.finalproject.model.service.SectionService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Section service.
+ */
 public class SectionServiceImpl implements SectionService {
-    private static SectionServiceImpl instance;
+    private static final SectionServiceImpl instance = new SectionServiceImpl();
 
     private SectionServiceImpl(){}
 
+    /**
+     * Get instance section service.
+     *
+     * @return the section service
+     */
     public static SectionServiceImpl getInstance(){
-        if(instance == null){
-            instance = new SectionServiceImpl();
-        }
         return instance;
     }
 
@@ -60,6 +65,34 @@ public class SectionServiceImpl implements SectionService {
             return sectionDao.findSectionByName(sectionName);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a findSectionByName method. ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public Optional<Section> updateSectionName(Section newSection) throws ServiceException {
+        AbstractDao<Section> abstractDao = new SectionDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(abstractDao);
+        try {
+            return abstractDao.update(newSection);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a updateSectionName method. ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public boolean deleteSectionById(long sectionId) throws ServiceException {
+        AbstractDao<Section> abstractDao = new SectionDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(abstractDao);
+        try {
+            return abstractDao.delete(sectionId);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a deleteSectionById method. ", e);
         } finally {
             transaction.end();
         }

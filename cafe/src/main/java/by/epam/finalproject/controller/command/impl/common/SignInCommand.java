@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,12 +23,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.LOGIN;
+import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.Parameter.PASSWORD;
+import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.Parameter.USER_STATUS_BLOCKED;
+import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.Parameter.ERROR_LOG_OR_PASS;
 
-import static by.epam.finalproject.controller.PathPage.*;
+import static by.epam.finalproject.controller.PathPage.HOME_PAGE;
+import static by.epam.finalproject.controller.PathPage.SIGN_PAGE;
+
 import static by.epam.finalproject.controller.PropertiesKey.ERROR_INCORRECT_LOGIN_OR_PASSWORD_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.USER_BLOCKED_MESSAGE;
 
+/**
+ * The type Sign in command.
+ */
 public class SignInCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();
@@ -36,6 +48,7 @@ public class SignInCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         Router router = new Router();
         String login = request.getParameter(LOGIN);
         String pass = request.getParameter(PASSWORD);
@@ -50,7 +63,7 @@ public class SignInCommand implements Command {
                         session.setAttribute(USER,user);
                         router.setCurrentPage(HOME_PAGE);
                         List<Section> sectionList = sectionService.findAllSections();
-                        session.setAttribute(SECTION_LIST, sectionList);
+                        context.setAttribute(SECTION_LIST, sectionList);
                     }
                     case CLIENT -> {
                         if(user.getState() == User.UserState.BLOCKED){
@@ -61,7 +74,7 @@ public class SignInCommand implements Command {
                             session.setAttribute(USER,user);
                             session.setAttribute(CART, new HashMap<Menu, Integer>());
                             List<Section> sectionList = sectionService.findAllSections();
-                            session.setAttribute(SECTION_LIST, sectionList);
+                            context.setAttribute(SECTION_LIST, sectionList);
                             router.setCurrentPage(HOME_PAGE);
                         }
                     }

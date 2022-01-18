@@ -2,37 +2,77 @@ package by.epam.finalproject.model.entity;
 
 import java.util.List;
 
+/**
+ * The type Complete order.
+ */
 public class CompleteOrder extends CustomEntity{
     private User user;
     private Order order;
     private List<ComponentOrder> menuList;
 
+    /**
+     * Instantiates a new Complete order.
+     *
+     * @param user     the user
+     * @param order    the order
+     * @param menuList the menu list
+     */
     public CompleteOrder(User user, Order order, List<ComponentOrder> menuList) {
         this.user = user;
         this.order = order;
         this.menuList = menuList;
     }
 
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Gets order.
+     *
+     * @return the order
+     */
     public Order getOrder() {
         return order;
     }
 
+    /**
+     * Sets order.
+     *
+     * @param order the order
+     */
     public void setOrder(Order order) {
         this.order = order;
     }
 
+    /**
+     * Gets menu list.
+     *
+     * @return the menu list
+     */
     public List<ComponentOrder> getMenuList() {
         return List.copyOf(menuList);
     }
 
+    /**
+     * Sets menu list.
+     *
+     * @param menuList the menu list
+     */
     public void setMenuList(List<ComponentOrder> menuList) {
         this.menuList = menuList;
     }

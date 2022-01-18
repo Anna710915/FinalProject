@@ -1,26 +1,55 @@
 package by.epam.finalproject.model.entity;
 
+/**
+ * The type Component order.
+ */
 public class ComponentOrder extends CustomEntity{
     private String nameFood;
     private int amount;
 
+    /**
+     * Instantiates a new Component order.
+     *
+     * @param nameFood the name food
+     * @param amount   the amount
+     */
     public ComponentOrder(String nameFood, int amount) {
         this.nameFood = nameFood;
         this.amount = amount;
     }
 
+    /**
+     * Gets name food.
+     *
+     * @return the name food
+     */
     public String getNameFood() {
         return nameFood;
     }
 
+    /**
+     * Sets name food.
+     *
+     * @param nameFood the name food
+     */
     public void setNameFood(String nameFood) {
         this.nameFood = nameFood;
     }
 
+    /**
+     * Gets amount.
+     *
+     * @return the amount
+     */
     public int getAmount() {
         return amount;
     }
 
+    /**
+     * Sets amount.
+     *
+     * @param amount the amount
+     */
     public void setAmount(int amount) {
         this.amount = amount;
     }

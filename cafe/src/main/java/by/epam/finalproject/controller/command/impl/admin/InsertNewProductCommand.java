@@ -10,13 +10,42 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.ADD_MENU_PAGE;
-import static by.epam.finalproject.controller.PropertiesKey.*;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_NAME;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_COMPOSITION;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_WEIGHT;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_CALORIES;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_PRICE;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_TIME;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_DISCOUNT;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_SECTION;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_SECTION;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_WEIGHT;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_CALORIES;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_COMPOSITION;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_DISCOUNT;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_PRICE;
+import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_PRODUCT_NAME;
+import static by.epam.finalproject.controller.Parameter.INVALID_COOKING_TIME;
 
+import static by.epam.finalproject.controller.PathPage.ADD_MENU_PAGE;
+
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_COMPOSITION_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_PRODUCT_NAME_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_CALORIES_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_DISCOUNT_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_NAME_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_PRICE_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_WEIGHT_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_COOKING_TIME_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_SECTION_MESSAGE;
+
+/**
+ * The type Insert new product command.
+ */
 public class InsertNewProductCommand implements Command {
     private static final String DEFAULT_IMAGE = "picture/default-image_1920.png";
-    private static final MenuServiceImpl service = MenuServiceImpl.getInstance();
+    private final MenuServiceImpl service = MenuServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {

@@ -11,11 +11,17 @@ import by.epam.finalproject.model.service.impl.MenuServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
-import static by.epam.finalproject.controller.PathPage.ERROR_500;
+import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_NUMBER;
+import static by.epam.finalproject.controller.Parameter.SELECTED;
+import static by.epam.finalproject.controller.Parameter.CART;
 
+/**
+ * The type Add product to cart command.
+ */
 public class AddProductToCartCommand implements Command {
     private final MenuService service = MenuServiceImpl.getInstance();
 
@@ -23,19 +29,16 @@ public class AddProductToCartCommand implements Command {
     public Router execute(HttpServletRequest request) throws CommandException {
         HttpSession session = request.getSession();
         String currentPage = (String) session.getAttribute(CURRENT_PAGE);
-        Map<Menu, Integer> productMap = (Map) session.getAttribute(CART);
-        long id = Long.parseLong(request.getParameter(SELECTED));
+        Map<Menu, Integer> productMap = (HashMap<Menu, Integer>) session.getAttribute(CART);
         int productNumber = Integer.parseInt(request.getParameter(PRODUCT_NUMBER));
         Router router = new Router();
         try {
-            if(!service.addProductToBasket(productMap, id, productNumber)){
-                router.setCurrentPage(ERROR_500);
-                return router;
-            }
+            long id = Long.parseLong(request.getParameter(SELECTED));
+            service.addProductToBasket(productMap, id, productNumber);
             router.setRedirectType();
             session.setAttribute(CART, productMap);
             router.setCurrentPage(currentPage);
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a AddProductToCartCommand class ", e);
         }
         return router;

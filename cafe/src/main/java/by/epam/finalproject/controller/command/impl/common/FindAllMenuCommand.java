@@ -8,15 +8,20 @@ import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.service.MenuService;
 import by.epam.finalproject.model.service.PaginationService;
 import by.epam.finalproject.model.service.impl.MenuServiceImpl;
-import by.epam.finalproject.util.URLUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.PAGINATION_PAGE;
+import static by.epam.finalproject.controller.Parameter.MENU_LIST;
+import static by.epam.finalproject.controller.Parameter.PAGINATION_LAST_PAGE;
+import static by.epam.finalproject.controller.Parameter.URL;
+import static by.epam.finalproject.controller.Parameter.COMMAND;
 import static by.epam.finalproject.controller.PathPage.MENU_PAGE;
 
+/**
+ * The type Find all menu command.
+ */
 public class FindAllMenuCommand implements Command {
     private static final int PAGE_SIZE = 4;
     private final MenuService menuService = MenuServiceImpl.getInstance();
@@ -40,7 +45,7 @@ public class FindAllMenuCommand implements Command {
             request.setAttribute(MENU_LIST, menuSublist);
             request.setAttribute(PAGINATION_PAGE, currentPage);
             request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
-            request.setAttribute(URL, URLUtil.createURL(Map.of(COMMAND, request.getParameter(COMMAND))));
+            request.setAttribute(URL, Command.createURL(request, request.getParameter(COMMAND)));
             router.setCurrentPage(MENU_PAGE);
         } catch (ServiceException e) {
             throw new CommandException("Exception in a FindAllMenuCommand class", e);

@@ -13,6 +13,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * The type Connection factory.
+ */
 class ConnectionFactory {
     private static final Logger logger = LogManager.getLogger();
     private static final Properties properties = new Properties();
@@ -40,6 +43,13 @@ class ConnectionFactory {
         DATABASE_URL = (String) properties.get("db.url");
     }
     private  ConnectionFactory(){}
+
+    /**
+     * Create connection connection.
+     *
+     * @return the connection
+     * @throws ConnectionPoolException the connection pool exception
+     */
     static Connection createConnection() throws ConnectionPoolException {
         try {
             return DriverManager.getConnection(DATABASE_URL,properties);

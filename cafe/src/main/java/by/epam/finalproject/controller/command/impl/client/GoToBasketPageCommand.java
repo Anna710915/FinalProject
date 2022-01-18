@@ -15,10 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.Parameter.TOTAL_PRICE;
+
 import static by.epam.finalproject.controller.PathPage.BASKET_PAGE;
+import static by.epam.finalproject.controller.PathPage.ERROR_500;
 
+
+/**
+ * The type Go to basket page command.
+ */
 public class GoToBasketPageCommand implements Command {
     private final UserDiscountService service = UserDiscountServiceImpl.getInstance();
     private final CalculateService calculateService = CalculateService.getInstance();
@@ -32,9 +41,15 @@ public class GoToBasketPageCommand implements Command {
         router.setCurrentPage(BASKET_PAGE);
         try {
             if(!productMap.isEmpty()) {
-                UserDiscount userDiscount = service.findDiscountById(user.getDiscountId());
-                double totalPrice = calculateService.calculateTotalPrice(userDiscount, productMap).doubleValue();
-                request.setAttribute(TOTAL_PRICE, totalPrice);
+                Optional<UserDiscount> userDiscount = service.findDiscountById(user.getDiscountId());
+                if(userDiscount.isPresent()) {
+                    double totalPrice = calculateService.calculateTotalPrice(userDiscount.get(), productMap).doubleValue();
+                    request.setAttribute(TOTAL_PRICE, totalPrice);
+                }else{
+                    router.setRedirectType();
+                    router.setCurrentPage(ERROR_500);
+                    return router;
+                }
             }
         } catch (ServiceException e) {
             throw new CommandException("Exception in a GoToBasketPageCommand class", e);
