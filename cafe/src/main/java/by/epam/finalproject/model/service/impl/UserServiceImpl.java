@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public boolean deleteUser(long id) throws ServiceException{
+    public boolean deleteAdmin(long id) throws ServiceException{
         UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(userDao);

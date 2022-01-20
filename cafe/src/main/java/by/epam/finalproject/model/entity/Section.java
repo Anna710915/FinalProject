@@ -6,6 +6,7 @@ package by.epam.finalproject.model.entity;
 public class Section extends CustomEntity{
     private long sectionId;
     private String sectionName;
+    private boolean isAccessible;
 
     /**
      * Instantiates a new Section.
@@ -15,12 +16,25 @@ public class Section extends CustomEntity{
     /**
      * Instantiates a new Section.
      *
-     * @param sectionId   the section id
-     * @param sectionName the section name
+     * @param sectionId    the section id
+     * @param sectionName  the section name
+     * @param isAccessible the is accessible
      */
-    public Section(long sectionId, String sectionName) {
+    public Section(long sectionId, String sectionName, boolean isAccessible) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
+        this.isAccessible = isAccessible;
+    }
+
+    /**
+     * Instantiates a new Section.
+     *
+     * @param sectionName  the section name
+     * @param isAccessible the is accessible
+     */
+    public Section(String sectionName, boolean isAccessible) {
+        this.sectionName = sectionName;
+        this.isAccessible = isAccessible;
     }
 
     /**
@@ -66,6 +80,24 @@ public class Section extends CustomEntity{
      */
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
+    }
+
+    /**
+     * Is accessible boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isAccessible() {
+        return isAccessible;
+    }
+
+    /**
+     * Sets accessible.
+     *
+     * @param accessible the accessible
+     */
+    public void setAccessible(boolean accessible) {
+        isAccessible = accessible;
     }
 
     @Override

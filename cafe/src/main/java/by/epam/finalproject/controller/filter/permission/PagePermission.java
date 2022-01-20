@@ -25,7 +25,8 @@ public enum PagePermission {
             ORDERS_PAGE,
             CONTACTS_PAGE,
             SECTION_PAGE,
-            SUCCESS_PAGE)),
+            SUCCESS_PAGE,
+            RESTORE_PAGE)),
     /**
      * Client page permission.
      */

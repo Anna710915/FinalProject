@@ -53,4 +53,21 @@ public interface SectionService {
      * @throws ServiceException the service exception
      */
     boolean deleteSectionById(long sectionId) throws ServiceException;
+
+    /**
+     * Find all removing sections list.
+     *
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<Section> findAllRemovingSections() throws ServiceException;
+
+    /**
+     * Restore section by id boolean.
+     *
+     * @param sectionId the section id
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
+    boolean restoreSectionById(long sectionId) throws ServiceException;
 }

@@ -76,5 +76,10 @@ public final class PathPage {
      * The constant SECTION_PAGE.
      */
     public static final String SECTION_PAGE = "/jsp/pages/admin/section.jsp";
+
+    /**
+     * The constant RESTORE_PAGE.
+     */
+    public static final String RESTORE_PAGE = "/jsp/pages/admin/restore.jsp";
     private PathPage(){}
 }

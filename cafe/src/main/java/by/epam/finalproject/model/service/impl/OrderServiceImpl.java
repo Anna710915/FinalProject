@@ -56,13 +56,14 @@ public class OrderServiceImpl implements OrderService {
         String address = orderInfo.get(ADDRESS);
         String payment = orderInfo.get(PRODUCT_PAYMENT);
         String comment = orderInfo.get(USER_COMMENT);
+        boolean isCreate = true;
         try{
             Order newOrder = new Order(LocalDateTime.now(), Order.OrderState.NEW, Order.TypePayment.valueOf(payment),
                     address, totalPrice, comment, user.getUserId());
             logger.log(Level.INFO, newOrder);
             long generatedKey = orderDao.createOrder(newOrder);
             if(generatedKey == 0){
-                return false;
+                isCreate = false;
             }
             logger.log(Level.INFO, "generatedKey = " + generatedKey);
             orderDao.createOrderMenu(generatedKey, productMap);
@@ -77,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             transaction.endTransaction();
         }
-        return true;
+        return isCreate;
     }
 
     @Override

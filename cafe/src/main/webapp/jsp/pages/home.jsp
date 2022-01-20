@@ -15,7 +15,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/CSS/styles.css">
+    <link rel="stylesheet" href="${absolutePath}/CSS/style.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -46,7 +46,7 @@
     <p class="text-center"><b>КУХНЯ НА ДОМ ОТ GoodCafe</b></p>
     <p>Заказать еду в Минске с доставкой по городу, а также за пределы МКАД, можно с помощью специальной формы на нашем сайте или по указанным телефонам.
         Оставить заявку по телефону можно с 10:30 до 22:30, на сайте круглосуточно (обработка заказа осуществляется с 10:30 до 22:30). Ориентировочное время доставки 1 ч. - 1 ч.20 мин.
-        В час пик, выходные и праздничные дни, а также за пределы МКАД срок доставки суши может увеличиться. Время доставки с Вами согласует диспетчер службы.
+        В час пик, выходные и праздничные дни, а также за пределы МКАД срок доставки может увеличиться. Время доставки с Вами согласует диспетчер службы.
     </p>
 
     <p>

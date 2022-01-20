@@ -73,17 +73,16 @@ public class UpdateSectionNameCommand implements Command {
                 return router;
             }
             long sectionId = Long.parseLong(request.getParameter(PRODUCT_SECTION));
-            Optional<Section> oldSection = service.updateSectionName(new Section(sectionId, sectionName));
+            Optional<Section> oldSection = service.updateSectionName(new Section(sectionId, sectionName, true));
+            router.setRedirectType();
             if(oldSection.isPresent()) {
                 List<Section> sectionList = service.findAllSections();
                 context.setAttribute(SECTION_LIST, sectionList);
             }else {
                 logger.log(Level.WARN, "Incorrect update section name. Section id = " + sectionId);
-                router.setRedirectType();
                 router.setCurrentPage(ERROR_500);
                 return router;
             }
-            router.setRedirectType();
         } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a UpdateSectionNameCommand class. ", e);
         }

@@ -41,7 +41,7 @@ public class FindAllMenuBySectionCommand implements Command {
             if(currentPageParameter != null){
                 currentPage = Integer.parseInt(currentPageParameter);
             }
-            int totalRecords = menuService.readRowCount();
+            int totalRecords = menuService.readRowCountBySection(sectionId);
             int offset = PaginationService.offset(PAGE_SIZE, currentPage);
             List<Menu> menuSublist = menuService.findMenuSublistBySectionId(PAGE_SIZE, offset, sectionId);
 

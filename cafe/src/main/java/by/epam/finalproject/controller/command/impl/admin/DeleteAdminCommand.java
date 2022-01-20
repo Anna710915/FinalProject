@@ -16,7 +16,7 @@ import static by.epam.finalproject.controller.Parameter.USER_ID;
 /**
  * The type Delete user command.
  */
-public class DeleteUserCommand implements Command {
+public class DeleteAdminCommand implements Command {
     private final UserService service = UserServiceImpl.getInstance();
 
     @Override
@@ -24,7 +24,7 @@ public class DeleteUserCommand implements Command {
         try {
             long userId = Long.parseLong(request.getParameter(USER_ID));
             Router router = new Router();
-            service.deleteUser(userId);
+            service.deleteAdmin(userId);
             HttpSession session = request.getSession();
             String page = (String) session.getAttribute(CURRENT_PAGE);
             router.setCurrentPage(page);

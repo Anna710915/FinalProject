@@ -139,4 +139,21 @@ public interface MenuService {
      * @throws ServiceException the service exception
      */
     int readRowCountBySection(long sectionId) throws ServiceException;
+
+    /**
+     * Find all removing menu list.
+     *
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<Menu> findAllRemovingMenu() throws ServiceException;
+
+    /**
+     * Restore menu product by id boolean.
+     *
+     * @param menuId the menu id
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
+    boolean restoreMenuProductById(long menuId) throws ServiceException;
 }

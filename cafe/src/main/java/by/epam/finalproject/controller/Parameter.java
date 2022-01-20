@@ -344,6 +344,13 @@ public final class Parameter {
      * The constant SUCCESS_CREATE_ORDER.
      */
     public static final String SUCCESS_CREATE_ORDER = "success_create_order";
-
+    /**
+     * The constant RESTORE_MENU.
+     */
+    public static final String RESTORE_MENU = "restore_menu";
+    /**
+     * The constant RESTORE_SECTION.
+     */
+    public static final String RESTORE_SECTION = "restore_section";
     private Parameter(){}
 }

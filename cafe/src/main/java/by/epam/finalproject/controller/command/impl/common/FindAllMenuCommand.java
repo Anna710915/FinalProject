@@ -38,6 +38,11 @@ public class FindAllMenuCommand implements Command {
 
             int offset = PaginationService.offset(PAGE_SIZE, currentPage);
             List<Menu> menuSublist = menuService.findMenuSublist(PAGE_SIZE, offset);
+            if(menuSublist.isEmpty() && currentPage > 1){
+                currentPage--;
+                offset = PaginationService.offset(PAGE_SIZE, currentPage);
+                menuSublist = menuService.findMenuSublist(PAGE_SIZE, offset);
+            }
             int totalRecords = menuService.readRowCount();
             int pages = PaginationService.pages(totalRecords, PAGE_SIZE);
             int lastPage = PaginationService.lastPage(pages, PAGE_SIZE, totalRecords);
@@ -47,7 +52,7 @@ public class FindAllMenuCommand implements Command {
             request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
             request.setAttribute(URL, Command.createURL(request, request.getParameter(COMMAND)));
             router.setCurrentPage(MENU_PAGE);
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a FindAllMenuCommand class", e);
         }
         return router;

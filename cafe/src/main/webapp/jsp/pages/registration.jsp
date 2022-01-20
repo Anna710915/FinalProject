@@ -29,7 +29,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${absolutePath}/CSS/styles.css">
+    <link rel="stylesheet" href="${absolutePath}/CSS/style.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script type="text/javascript">
@@ -90,7 +90,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_phone}</label>
-            <input type="text" name="phone_number" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44)\d{7}">
+            <input type="text" name="phone_number" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
             <div id="phoneHelp" class="form-text"><fmt:message key="registration.correct_phone_number"></fmt:message></div>
             <c:if test="${!empty invalid_phone_number}">
                 <div class="invalid-feedback-backend" style="color: red">

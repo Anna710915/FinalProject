@@ -20,7 +20,7 @@ public enum CommandType {
      */
     SIGN_IN(new SignInCommand()),
     /**
-     * The Sign out.
+     * The Sign-out.
      */
     SIGN_OUT(new SignOutCommand()),
     /**
@@ -40,9 +40,9 @@ public enum CommandType {
      */
     FIND_ALL_USERS(new FindAllUsersCommand()),
     /**
-     * The Delete user.
+     * To Delete user.
      */
-    DELETE_USER(new DeleteUserCommand()),
+    DELETE_USER(new DeleteAdminCommand()),
     /**
      * The Upload product photo.
      */
@@ -56,11 +56,11 @@ public enum CommandType {
      */
     CHANGE_PASSWORD(new ChangePasswordCommand()),
     /**
-     * The Go to update product page.
+     * The Go-to update product page.
      */
     GO_TO_UPDATE_PRODUCT_PAGE(new GoToUpdateProductPageCommand()),
     /**
-     * The Delete product.
+     * To Delete product.
      */
     DELETE_PRODUCT(new DeleteProductCommand()),
     /**
@@ -68,11 +68,11 @@ public enum CommandType {
      */
     BLOCK_USER(new BlockUserByIdCommand()),
     /**
-     * The Unblock user.
+     * To Unblock user.
      */
     UNBLOCK_USER(new UnblockUserByIdCommand()),
     /**
-     * The Create order.
+     * The Creation order.
      */
     CREATE_ORDER(new CreateOrderCommand()),
     /**
@@ -88,15 +88,15 @@ public enum CommandType {
      */
     UPDATE_PRODUCT(new UpdateProductCommand()),
     /**
-     * The Delete product in basket.
+     * To Delete product in basket.
      */
     DELETE_PRODUCT_IN_BASKET(new DeleteProductInBasketCommand()),
     /**
-     * The Calculate user discount.
+     * To Calculate user discount.
      */
     CALCULATE_USER_DISCOUNT(new CalculateUserDiscountCommand()),
     /**
-     * The Go to orders page.
+     * The Go-to orders page.
      */
     GO_TO_ORDERS_PAGE(new GoToOrdersPageCommand()),
     /**
@@ -124,7 +124,7 @@ public enum CommandType {
      */
     DELETE_SECTION(new DeleteSectionCommand()),
     /**
-     * The Delete orders.
+     * To Delete orders.
      */
     DELETE_ORDERS(new DeleteOrdersCommand()),
     /**
@@ -134,7 +134,23 @@ public enum CommandType {
     /**
      * The Sort all menu by price.
      */
-    SORT_ALL_MENU_BY_PRICE(new SortAllMenuByPriceCommand());
+    SORT_ALL_MENU_BY_PRICE(new SortAllMenuByPriceCommand()),
+    /**
+     * The Find all removing products.
+     */
+    FIND_ALL_REMOVING_PRODUCTS(new FindAllRemovingProductsCommand()),
+    /**
+     * The Find all removing sections.
+     */
+    FIND_ALL_REMOVING_SECTIONS(new FindAllRemovingSectionsCommand()),
+    /**
+     * The Restore menu product.
+     */
+    RESTORE_MENU_PRODUCT(new RestoreMenuProductCommand()),
+    /**
+     * The Restore section.
+     */
+    RESTORE_SECTION(new RestoreSectionCommand());
     private final Command command;
 
     CommandType(Command command){
@@ -142,7 +158,7 @@ public enum CommandType {
     }
 
     /**
-     * Get command command.
+     * Get command.
      *
      * @return the command
      */

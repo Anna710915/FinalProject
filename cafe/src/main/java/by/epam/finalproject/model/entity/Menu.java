@@ -18,6 +18,7 @@ public class Menu extends CustomEntity {
     private BigDecimal discount;
     private BigDecimal price;
     private long sectionId;
+    private boolean isAccessible;
 
     /**
      * Instantiates a new Menu.
@@ -27,20 +28,21 @@ public class Menu extends CustomEntity {
     /**
      * Instantiates a new Menu.
      *
-     * @param foodId      the food id
-     * @param nameFood    the name food
-     * @param picturePath the picture path
-     * @param composition the composition
-     * @param weight      the weight
-     * @param calories    the calories
-     * @param cookingTime the cooking time
-     * @param discount    the discount
-     * @param price       the price
-     * @param sectionId   the section id
+     * @param foodId       the food id
+     * @param nameFood     the name food
+     * @param picturePath  the picture path
+     * @param composition  the composition
+     * @param weight       the weight
+     * @param calories     the calories
+     * @param cookingTime  the cooking time
+     * @param discount     the discount
+     * @param price        the price
+     * @param sectionId    the section id
+     * @param isAccessible the is accessible
      */
     public Menu(long foodId, String nameFood, String picturePath, String composition,
                 double weight, double calories, LocalTime cookingTime, BigDecimal discount,
-                BigDecimal price, long sectionId) {
+                BigDecimal price, long sectionId, boolean isAccessible) {
         this.foodId = foodId;
         this.nameFood = nameFood;
         this.picturePath = picturePath;
@@ -51,24 +53,26 @@ public class Menu extends CustomEntity {
         this.discount = discount;
         this.price = price;
         this.sectionId = sectionId;
+        this.isAccessible = isAccessible;
     }
 
     /**
      * Instantiates a new Menu.
      *
-     * @param nameFood    the name food
-     * @param picturePath the picture path
-     * @param composition the composition
-     * @param weight      the weight
-     * @param calories    the calories
-     * @param cookingTime the cooking time
-     * @param discount    the discount
-     * @param price       the price
-     * @param sectionId   the section id
+     * @param nameFood     the name food
+     * @param picturePath  the picture path
+     * @param composition  the composition
+     * @param weight       the weight
+     * @param calories     the calories
+     * @param cookingTime  the cooking time
+     * @param discount     the discount
+     * @param price        the price
+     * @param sectionId    the section id
+     * @param isAccessible the is accessible
      */
     public Menu(String nameFood, String picturePath, String composition,
                 double weight, double calories, LocalTime cookingTime,
-                BigDecimal discount, BigDecimal price, long sectionId) {
+                BigDecimal discount, BigDecimal price, long sectionId, boolean isAccessible) {
 
         this.nameFood = nameFood;
         this.picturePath = picturePath;
@@ -79,24 +83,27 @@ public class Menu extends CustomEntity {
         this.discount = discount;
         this.price = price;
         this.sectionId = sectionId;
+        this.isAccessible = isAccessible;
     }
+
 
     /**
      * Instantiates a new Menu.
      *
-     * @param foodId      the food id
-     * @param nameFood    the name food
-     * @param composition the composition
-     * @param weight      the weight
-     * @param calories    the calories
-     * @param cookingTime the cooking time
-     * @param discount    the discount
-     * @param price       the price
-     * @param sectionId   the section id
+     * @param foodId       the food id
+     * @param nameFood     the name food
+     * @param composition  the composition
+     * @param weight       the weight
+     * @param calories     the calories
+     * @param cookingTime  the cooking time
+     * @param discount     the discount
+     * @param price        the price
+     * @param sectionId    the section id
+     * @param isAccessible the is accessible
      */
     public Menu(long foodId, String nameFood, String composition, double weight,
                 double calories, LocalTime cookingTime, BigDecimal discount,
-                BigDecimal price, long sectionId) {
+                BigDecimal price, long sectionId, boolean isAccessible) {
         this.foodId = foodId;
         this.nameFood = nameFood;
         this.composition = composition;
@@ -106,6 +113,7 @@ public class Menu extends CustomEntity {
         this.discount = discount;
         this.price = price;
         this.sectionId = sectionId;
+        this.isAccessible = isAccessible;
     }
 
     /**
@@ -286,6 +294,24 @@ public class Menu extends CustomEntity {
      */
     public void setSectionId(long sectionId) {
         this.sectionId = sectionId;
+    }
+
+    /**
+     * Is accessible boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isAccessible() {
+        return isAccessible;
+    }
+
+    /**
+     * Sets accessible.
+     *
+     * @param accessible the accessible
+     */
+    public void setAccessible(boolean accessible) {
+        isAccessible = accessible;
     }
 
     @Override

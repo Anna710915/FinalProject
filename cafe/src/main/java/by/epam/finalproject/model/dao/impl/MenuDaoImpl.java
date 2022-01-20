@@ -23,17 +23,24 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
     private static final int ONE_UPDATE = 1;
     private static final String SQL_SELECT_ALL_MENU = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu""";
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
+            WHERE is_accessible = true""";
     private static final String SQL_SELECT_MENU_BY_ID = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
             WHERE food_id = (?)""";
     private static final String SQL_INSERT_NEW_MENU_ITEM = """
             INSERT INTO menu(name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""";
+            calories, cooking_time, discount, price, section_id, is_accessible)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""";
     private static final String SQL_DELETE_MENU_ITEM = """
-            DELETE FROM menu WHERE food_id = (?)""";
+            UPDATE menu
+            SET is_accessible = false
+            WHERE food_id = (?)""";
+    private static final String SQL_DELETE_MENU_BY_SECTION_ID = """
+            UPDATE menu
+            SET is_accessible = false
+            WHERE section_id = (?)""";
     private static final String SQL_UPDATE_MENU = """
             UPDATE menu SET name_food = (?), composition = (?),
             weight = (?), calories = (?), cooking_time = (?), discount = (?),
@@ -42,32 +49,48 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             UPDATE menu SET picture_path = (?) WHERE name_food = (?)""";
     private static final String SQL_SELECT_MENU_BY_NAME = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
             WHERE name_food = (?)""";
     private static final String SQL_FIND_MENU_SUBLIST_BY_SECTION_ID = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price,  section_id FROM menu
-            WHERE section_id = (?)
+            calories, cooking_time, discount, price,  section_id, is_accessible FROM menu
+            WHERE section_id = (?) AND is_accessible = true
             LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_ALL_MENU_ROW_COUNT = """
-            SELECT COUNT(*) FROM menu""";
+            SELECT COUNT(*) FROM menu
+            WHERE is_accessible = true""";
     private static final String SQL_SELECT_MENU_SUBLIST = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
+            WHERE is_accessible = true
             LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_ALL_SORTED_MENU = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
+            WHERE is_accessible = true
             ORDER BY price - (price * discount)
             LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_SORTED_SECTION_MENU = """
             SELECT food_id, name_food, picture_path, composition, weight,
-            calories, cooking_time, discount, price, section_id FROM menu
+            calories, cooking_time, discount, price, section_id, is_accessible FROM menu
             WHERE section_id = ?
             ORDER BY price - (price * discount)
             LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_MENU_ROW_COUNT_BY_SECTION_ID = """
-            SELECT COUNT(*) FROM menu WHERE section_id = ?""";
+            SELECT COUNT(*) FROM menu WHERE section_id = ? AND is_accessible = true""";
+    private static final String SQL_SELECT_ALL_REMOVING_MENU_PRODUCTS = """
+            SELECT food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, menu.section_id, menu.is_accessible FROM menu
+            JOIN sections ON sections.section_id = menu.section_id
+            WHERE menu.is_accessible = false AND sections.is_accessible = true""";
+    private static final String SQL_RESTORE_MENU_BY_PRODUCT_ID = """
+            UPDATE menu
+            SET is_accessible = true
+            WHERE food_id = (?)""";
+    private static final String SQL_RESTORE_MENU_BY_SECTION_ID = """
+            UPDATE menu
+            SET is_accessible = true
+            WHERE section_id = (?)""";
 
     @Override
     public List<Menu> findAll() throws DaoException {
@@ -127,6 +150,7 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             statement.setBigDecimal(7,entity.getDiscount());
             statement.setBigDecimal(8,entity.getPrice());
             statement.setLong(9,entity.getSectionId());
+            statement.setBoolean(10, entity.isAccessible());
             return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Exception while create menu method ");
@@ -291,6 +315,55 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Exception while read row count from menu by section table method ");
             throw new DaoException("Exception in a readRowCountBySection method. ", e);
+        }
+    }
+
+    @Override
+    public boolean deleteMenuBySectionId(long sectionId) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_DELETE_MENU_BY_SECTION_ID)){
+            statement.setLong(1, sectionId);
+            return statement.executeUpdate() >= ONE_UPDATE;
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while delete menu by section id = " + sectionId);
+            throw new DaoException("Exception while delete menu by section id = " + sectionId, e);
+        }
+    }
+
+    @Override
+    public boolean restoreMenuById(long menuId) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_RESTORE_MENU_BY_PRODUCT_ID)) {
+            statement.setLong(1, menuId);
+            return statement.executeUpdate() == ONE_UPDATE;
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while restoring menu by product id ");
+            throw new DaoException("Exception while restoring menu by product id ", e);
+        }
+    }
+
+    @Override
+    public List<Menu> findAllRemovingMenu() throws DaoException {
+        List<Menu> menuList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_REMOVING_MENU_PRODUCTS);
+            ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()){
+                Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                optionalMenu.ifPresent(menuList::add);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while reading removing menu ");
+            throw new DaoException("Exception while reading removing menu ", e);
+        }
+        return menuList;
+    }
+
+    @Override
+    public boolean restoreAllMenuBySectionId(long sectionId) throws DaoException {
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_RESTORE_MENU_BY_SECTION_ID)) {
+            statement.setLong(1, sectionId);
+            return statement.executeUpdate() >= ONE_UPDATE;
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while restoring menu by section id ");
+            throw new DaoException("Exception while restoring menu by section id ", e);
         }
     }
 }

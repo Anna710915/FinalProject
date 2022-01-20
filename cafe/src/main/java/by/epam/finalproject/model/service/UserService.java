@@ -46,7 +46,7 @@ public interface UserService {
      * @return the boolean
      * @throws ServiceException the service exception
      */
-    boolean deleteUser(long id) throws ServiceException;
+    boolean deleteAdmin(long id) throws ServiceException;
 
     /**
      * Update user profile optional.

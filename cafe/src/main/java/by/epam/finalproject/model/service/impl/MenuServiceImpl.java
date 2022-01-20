@@ -79,7 +79,7 @@ public class MenuServiceImpl implements MenuService {
             BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(map.get(PRODUCT_DISCOUNT)));
             BigDecimal price = BigDecimal.valueOf(Double.parseDouble(map.get(PRODUCT_PRICE)));
             long sectionId = Long.parseLong(map.get(PRODUCT_SECTION));
-            Menu menu = new Menu(name, defaultImage, composition, weight, calories, time, discount, price, sectionId);
+            Menu menu = new Menu(name, defaultImage, composition, weight, calories, time, discount, price, sectionId, true);
             return menuDao.create(menu);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a addNewProduct service method ", e);
@@ -155,7 +155,7 @@ public class MenuServiceImpl implements MenuService {
             BigDecimal price = BigDecimal.valueOf(Double.parseDouble(updateData.get(PRODUCT_PRICE)));
             LocalTime time = LocalTime.parse(updateData.get(PRODUCT_TIME), DateTimeFormatter.ofPattern(TIME_PATTERN));
             long sectionId = Long.parseLong(updateData.get(PRODUCT_SECTION));
-            Menu newMenu = new Menu(id, name, composition, weight, calories, time, discount, price, sectionId);
+            Menu newMenu = new Menu(id, name, composition, weight, calories, time, discount, price, sectionId, true);
             return menuDao.update(newMenu);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a updateProduct service method ", e);
@@ -274,6 +274,34 @@ public class MenuServiceImpl implements MenuService {
             return menuDao.readRowCountBySection(sectionId);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a readRowCountBySection service method. ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public List<Menu> findAllRemovingMenu() throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        try {
+            return menuDao.findAllRemovingMenu();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findAllRemovingMenu service method ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public boolean restoreMenuProductById(long menuId) throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        try {
+            return menuDao.restoreMenuById(menuId);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a restoreMenuProductById method ", e);
         } finally {
             transaction.end();
         }

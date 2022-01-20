@@ -34,7 +34,11 @@ public enum UserPermission {
             CommandType.DELETE_SECTION.name(),
             CommandType.DELETE_ORDERS.name(),
             CommandType.FIND_ALL_ADMINS.name(),
-            CommandType.SORT_ALL_MENU_BY_PRICE.name())),
+            CommandType.SORT_ALL_MENU_BY_PRICE.name(),
+            CommandType.FIND_ALL_REMOVING_PRODUCTS.name(),
+            CommandType.FIND_ALL_REMOVING_SECTIONS.name(),
+            CommandType.RESTORE_MENU_PRODUCT.name(),
+            CommandType.RESTORE_SECTION.name())),
     /**
      * Client user permission.
      */

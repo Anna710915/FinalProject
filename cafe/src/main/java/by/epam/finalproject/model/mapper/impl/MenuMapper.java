@@ -3,6 +3,9 @@ package by.epam.finalproject.model.mapper.impl;
 import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.mapper.CustomRowMapper;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +17,7 @@ import static by.epam.finalproject.model.mapper.impl.SectionMapper.SECTION;
  * The type Menu mapper.
  */
 public class MenuMapper implements CustomRowMapper<Menu> {
+    private static final Logger logger = LogManager.getLogger();
     /**
      * The constant FOOD_ID.
      */
@@ -50,10 +54,11 @@ public class MenuMapper implements CustomRowMapper<Menu> {
      * The constant PRICE.
      */
     public static final String PRICE = "price";
+
     /**
-     * The constant DISH_NUMBER.
+     * The constant IS_ACCESSIBLE_MENU_PRODUCT.
      */
-    public static final String DISH_NUMBER = "dish_number";
+    public static final String IS_ACCESSIBLE_MENU_PRODUCT = "is_accessible";
 
     @Override
     public Optional<Menu> mapRow(ResultSet resultSet) throws DaoException {
@@ -70,8 +75,12 @@ public class MenuMapper implements CustomRowMapper<Menu> {
             menu.setDiscount(resultSet.getBigDecimal(DISCOUNT));
             menu.setPrice(resultSet.getBigDecimal(PRICE));
             menu.setSectionId(resultSet.getLong(SECTION));
+            logger.log(Level.INFO, "Accessible - " + resultSet.getBoolean(IS_ACCESSIBLE_MENU_PRODUCT));
+            menu.setAccessible(resultSet.getBoolean(IS_ACCESSIBLE_MENU_PRODUCT));
+            logger.log(Level.INFO, "Accessible - " + menu.isAccessible());
             optionalMenu = Optional.of(menu);
         } catch (SQLException e) {
+            logger.log(Level.WARN, "Not found menu item! ");
             optionalMenu = Optional.empty();
         }
         return optionalMenu;

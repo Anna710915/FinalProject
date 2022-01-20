@@ -88,4 +88,38 @@ public interface MenuDao {
      * @throws DaoException the dao exception
      */
     int readRowCountBySection(long sectionId) throws DaoException;
+
+    /**
+     * Delete menu by section id boolean.
+     *
+     * @param sectionId the section id
+     * @return the boolean
+     * @throws DaoException the dao exception
+     */
+    boolean deleteMenuBySectionId(long sectionId) throws DaoException;
+
+    /**
+     * Restore menu by id boolean.
+     *
+     * @param menuId the menu id
+     * @return the boolean
+     * @throws DaoException the dao exception
+     */
+    boolean restoreMenuById(long menuId) throws DaoException;
+
+    /**
+     * Find all removing menu list.
+     *
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<Menu> findAllRemovingMenu() throws DaoException;
+    /**
+     * Restore all menu by section id boolean.
+     *
+     * @param sectionId the section id
+     * @return the boolean
+     * @throws DaoException the dao exception
+     */
+    boolean restoreAllMenuBySectionId(long sectionId) throws DaoException;
 }

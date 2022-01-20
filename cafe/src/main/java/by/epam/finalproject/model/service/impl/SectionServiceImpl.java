@@ -4,6 +4,7 @@ import by.epam.finalproject.exception.DaoException;
 import by.epam.finalproject.exception.ServiceException;
 import by.epam.finalproject.model.dao.AbstractDao;
 import by.epam.finalproject.model.dao.EntityTransaction;
+import by.epam.finalproject.model.dao.impl.MenuDaoImpl;
 import by.epam.finalproject.model.dao.impl.SectionDaoImpl;
 import by.epam.finalproject.model.entity.Section;
 import by.epam.finalproject.model.service.SectionService;
@@ -48,7 +49,7 @@ public class SectionServiceImpl implements SectionService {
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(abstractDao);
         try {
-            return abstractDao.create(new Section(sectionName));
+            return abstractDao.create(new Section(sectionName, true));
         } catch (DaoException e) {
             throw new ServiceException("Exception in a addNewSection method. ", e);
         } finally {
@@ -87,14 +88,53 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public boolean deleteSectionById(long sectionId) throws ServiceException {
         AbstractDao<Section> abstractDao = new SectionDaoImpl();
+        MenuDaoImpl menuDao = new MenuDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(abstractDao);
+        transaction.initTransaction(abstractDao, menuDao);
+        boolean isDelete;
         try {
-            return abstractDao.delete(sectionId);
+            isDelete = abstractDao.delete(sectionId);
+            menuDao.deleteMenuBySectionId(sectionId);
+            transaction.commit();
         } catch (DaoException e) {
+            transaction.rollback();
             throw new ServiceException("Exception in a deleteSectionById method. ", e);
+        } finally {
+            transaction.endTransaction();
+        }
+        return isDelete;
+    }
+
+    @Override
+    public List<Section> findAllRemovingSections() throws ServiceException {
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(sectionDao);
+        try {
+            return sectionDao.findAllRemovingSections();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findAllRemovingSections method", e);
         } finally {
             transaction.end();
         }
+    }
+
+    @Override
+    public boolean restoreSectionById(long sectionId) throws ServiceException {
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initTransaction(sectionDao, menuDao);
+        boolean isRestore;
+        try {
+            isRestore = sectionDao.restoreSectionById(sectionId);
+            menuDao.restoreAllMenuBySectionId(sectionId);
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException("Exception in a restoreSectionById service method ", e);
+        } finally {
+            transaction.endTransaction();
+        }
+        return isRestore;
     }
 }
