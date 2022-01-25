@@ -112,5 +112,9 @@ public final class PropertiesKey {
      * The constant NOT_UNIQ_SECTION_NAME_MESSAGE.
      */
     public static final String NOT_UNIQ_SECTION_NAME_MESSAGE = "section.not_uniq_name";
+    /**
+     * The constant NOT_UNIQ_NEW_PASSWORD_MESSAGE.
+     */
+    public static final String NOT_UNIQ_NEW_PASSWORD_MESSAGE = "settings.not_uniq_new_password";
     private PropertiesKey(){}
 }

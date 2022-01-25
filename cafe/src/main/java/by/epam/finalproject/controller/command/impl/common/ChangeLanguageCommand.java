@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
-import static by.epam.finalproject.controller.Parameter.LANGUAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.LANGUAGE;
 
 /**
  * The type Change language command.
@@ -36,5 +36,6 @@ public class ChangeLanguageCommand implements Command {
         router.setRedirectType();
         router.setCurrentPage(currentPage);
         return router;
+
     }
 }

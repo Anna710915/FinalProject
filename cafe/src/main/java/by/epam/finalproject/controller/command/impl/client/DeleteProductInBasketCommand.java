@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
-import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CART;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_ID;
 
 /**

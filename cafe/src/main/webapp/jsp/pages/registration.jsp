@@ -53,7 +53,7 @@
         <div class="row gy-3">
         <div class="form-group">
             <label class="form-label">${user_first_name}</label>
-            <input type="text" name="first_name" class="form-control" placeholder="${e_first_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+            <input type="text" name="first_name" class="form-control" value="${param.first_name}" placeholder="${e_first_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
             <c:if test="${!empty invalid_first_name}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_first_name}"/>
@@ -65,7 +65,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_last_name}</label>
-            <input type="text" name="last_name" class="form-control" placeholder="${e_last_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+            <input type="text" name="last_name" class="form-control" value="${param.last_name}" placeholder="${e_last_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
             <c:if test="${!empty invalid_last_name}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_last_name}"/>
@@ -77,7 +77,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_email}</label>
-            <input type="email" name="email" class="form-control form-control-sm" placeholder="${e_email}" required pattern="^[A-Za-z0-9\.]{1,30}@[a-z]{2,7}\.[a-z]{2,4}$">
+            <input type="email" name="email" value="${param.email}" class="form-control form-control-sm" placeholder="${e_email}" required pattern="^[A-Za-z0-9\.]{1,30}@[a-z]{2,7}\.[a-z]{2,4}$">
             <div id="emailHelp" class="form-text"><fmt:message key="registration.correct_gmail"></fmt:message></div>
             <c:if test="${!empty invalid_email}">
                 <div class="invalid-feedback-backend" style="color: red">
@@ -90,7 +90,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_phone}</label>
-            <input type="text" name="phone_number" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
+            <input type="text" name="phone_number" value="${param.phone_number}" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
             <div id="phoneHelp" class="form-text"><fmt:message key="registration.correct_phone_number"></fmt:message></div>
             <c:if test="${!empty invalid_phone_number}">
                 <div class="invalid-feedback-backend" style="color: red">
@@ -103,7 +103,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_birthday}</label>
-            <input type="date" name="birthday" class="form-control" placeholder="${e_birthday}" required>
+            <input type="date" name="birthday" value="${param.birthday}" class="form-control" placeholder="${e_birthday}" required>
             <c:if test="${!empty invalid_birthday}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_birthday}"/>
@@ -115,7 +115,7 @@
         </div>
         <div class="form-group" >
             <label class="form-label">${user_login}</label>
-            <input type="text" name="login" class="form-control" placeholder="${e_login}" required pattern="^[A-Za-zА-Яа-я0-9_]{4,16}$">
+            <input type="text" name="login" value="${param.login}" class="form-control" placeholder="${e_login}" required pattern="^[A-Za-zА-Яа-я0-9_]{4,16}$">
             <div id="loginHelp" class="form-text"><fmt:message key="registration.correct_login"></fmt:message></div>
             <c:if test="${!empty invalid_login}">
                 <div class="invalid-feedback-backend" style="color: red">
@@ -128,7 +128,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">${user_pass}</label>
-            <input type="password" name="password" class="form-control form-control-sm" placeholder="${e_password}" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
+            <input type="password" name="password" value="${param.password}" class="form-control form-control-sm" placeholder="${e_password}" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
             <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
             <c:if test="${!empty invalid_password}">
                 <div class="invalid-feedback-backend" style="color: red">
@@ -139,6 +139,19 @@
                 <fmt:message key="registration.invalid_password"/>
             </div>
         </div>
+            <div class="form-group">
+                <label class="form-label"><fmt:message key="profile.repeat_new_password"/></label>
+                <input type="password" name="repeat_password" value="${param.repeat_password}" class="form-control form-control-sm" placeholder="${e_password}" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
+                <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
+                <c:if test="${!empty invalid_repeat_password}">
+                    <div class="invalid-feedback-backend" style="color: red">
+                        <fmt:message key="${invalid_repeat_password}"/>
+                    </div>
+                </c:if>
+                <div class="invalid-feedback">
+                    <fmt:message key="profile.invalid_repeat_password"/>
+                </div>
+            </div>
         <div class="text-center mb-3">
             <button type="submit" class="btn btn-success"><fmt:message key="registration.submit"/></button>
         </div>

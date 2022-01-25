@@ -19,13 +19,13 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.SECTION_NAME;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_SECTION;
 import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_SECTION;
 import static by.epam.finalproject.controller.Parameter.INVALID_NEW_SECTION_NAME;
 import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_NEW_SECTION_NAME;
-import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
 
 import static by.epam.finalproject.controller.PathPage.ERROR_500;
 

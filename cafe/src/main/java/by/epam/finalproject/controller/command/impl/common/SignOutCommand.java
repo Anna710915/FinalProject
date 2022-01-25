@@ -7,7 +7,7 @@ import by.epam.finalproject.exception.CommandException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.finalproject.controller.Parameter.LANGUAGE;
+import static by.epam.finalproject.controller.SessionAttribute.LANGUAGE;
 import static by.epam.finalproject.controller.PathPage.HOME_PAGE;
 
 /**

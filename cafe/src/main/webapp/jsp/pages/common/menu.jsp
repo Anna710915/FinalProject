@@ -71,7 +71,14 @@
                                     </c:choose>
                                 </div>
                                 <div class="product_info"><fmt:message key="menu.product_weight"/> <c:out value="${menu.weight}"/></div>
-                                <div class="product_consist mb-2"><fmt:message key="menu.product_composition"/> <c:out value="${menu.composition}"/> <br><br><br></div>
+                                <c:choose>
+                                    <c:when test="${not empty menu.composition}">
+                                        <div class="product_consist mb-2"><fmt:message key="menu.product_composition"/> <c:out value="${menu.composition}"/> <br><br><br></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="product_consist mb-2"><br><br><br></div>
+                                    </c:otherwise>
+                                </c:choose>
                                 <div class="">
                                     <div class="product_price "><b id="price"><c:out value="${menu.price}"/> </b> <fmt:message key="menu.product_money"/> </div>
                                     <div class="product_price" ><b id="discount"><fmt:message key="menu.product_discount"/></b> <fmt:formatNumber type="number"  maxFractionDigits="0" value="${menu.discount * 100}"/>%  </div>

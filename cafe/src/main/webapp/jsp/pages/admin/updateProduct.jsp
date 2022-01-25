@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="ctg" uri="customtags" %>
 <c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
 <c:choose>
@@ -56,7 +57,7 @@
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_composition"/></label>
-                <input type="text" name="product_composition"  value="${requestScope.menu.composition}" class="form-control" pattern="^.{0,200}$">
+                <input type="text" name="product_composition"  value="${fn:escapeXml(requestScope.menu.composition)}" class="form-control" pattern="^.{0,200}$">
                 <c:if test="${! empty invalid_product_composition}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_composition}"/>
@@ -70,6 +71,7 @@
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_weight"/></label>
                 <input type="text" name="product_weight" value="${requestScope.menu.weight}" class="form-control" required pattern="\d{1,6}(\.[0-9]{1,2})?">
+                <div id="weightHelp" class="form-text"><fmt:message key="menu.weight_pattern"></fmt:message></div>
                 <c:if test="${! empty invalid_product_weight}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_weight}"/>
@@ -82,7 +84,8 @@
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_calories"/></label>
-                <input type="text" name="product_calories" value="${requestScope.menu.calories}" class="form-control" required pattern="\d{1,6}(\.[0-9]{1,2})?">
+                <input type="text" name="product_calories" value="${requestScope.menu.calories}" class="form-control" required pattern="\d{1,6}(\.[0-9]{0,2})?">
+                <div id="weightHelp" class="form-text"><fmt:message key="menu.weight_pattern"></fmt:message></div>
                 <c:if test="${! empty invalid_product_calories}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_calories}"/>
@@ -108,7 +111,8 @@
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_discount"/></label>
-                <input type="text" name="product_discount" value="${requestScope.menu.discount}" class="form-control" required pattern="\d\.\d{0,2}">
+                <input type="text" name="product_discount" value="${requestScope.menu.discount}" class="form-control" required pattern="0(\.\d{1,2})?">
+                <div id="discountHelp" class="form-text"><fmt:message key="menu_discount_pattern"></fmt:message></div>
                 <c:if test="${! empty invalid_product_discount}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_discount}"/>
@@ -121,7 +125,8 @@
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_cost"/></label>
-                <input type="text" name="product_price" value="${requestScope.menu.price}" class="form-control" required pattern="\d{1,6}(\.[0-9]{2})?">
+                <input type="text" name="product_price" value="${requestScope.menu.price}" class="form-control" required pattern="\d{1,6}(\.[0-9]{1,2})?">
+                <div id="costHelp" class="form-text"><fmt:message key="menu.cost_pattern"></fmt:message></div>
                 <c:if test="${! empty invalid_product_price}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_price}"/>

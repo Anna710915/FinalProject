@@ -124,6 +124,7 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             logger.log(Level.ERROR, "Exception while find menu by id method ");
             throw new DaoException("Exception while find menu by id method ", e);
         }
+        logger.log(Level.INFO, "Menu item is empty ");
         return Optional.empty();
     }
 

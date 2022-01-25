@@ -158,14 +158,19 @@
                         <label class="form-label"><fmt:message key="profile.enter_new_password"/></label>
                         <input type="password" name="new_password" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
                         <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
+                        <div class="invalid-feedback">
+                            <fmt:message key="profile.invalid_repeat_password"/>
+                        </div>
                         <c:if test="${!empty invalid_new_password}">
                             <div class="invalid-feedback-backend" style="color: red">
                                 <fmt:message key="registration.invalid_password"/>
                             </div>
                         </c:if>
-                        <div class="invalid-feedback">
-                            <fmt:message key="registration.invalid_password"/>
-                        </div>
+                        <c:if test="${! empty invalid_new_uniq_password}">
+                            <div class="invalid-feedback-backend" style="color: red">
+                                <fmt:message key="settings.not_uniq_new_password"/>
+                            </div>
+                        </c:if>
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label"><fmt:message key="profile.repeat_new_password"/></label>

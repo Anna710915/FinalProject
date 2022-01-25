@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.Parameter.OLD_PASSWORD;
 import static by.epam.finalproject.controller.Parameter.NEW_PASSWORD;
 import static by.epam.finalproject.controller.Parameter.REPEAT_PASSWORD;
@@ -22,10 +22,14 @@ import static by.epam.finalproject.controller.Parameter.SUCCESS_CHANGE_PASSWORD;
 import static by.epam.finalproject.controller.Parameter.INVALID_NEW_PASSWORD;
 import static by.epam.finalproject.controller.Parameter.INVALID_OLD_PASSWORD;
 import static by.epam.finalproject.controller.Parameter.INVALID_REPEAT_PASSWORD;
+import static by.epam.finalproject.controller.Parameter.INVALID_NEW_UNIQ_PASSWORD;
+
 
 import static by.epam.finalproject.controller.PathPage.SUCCESS_PAGE;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_PASSWORD_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_REPEAT_PASSWORD_MESSAGE;
+import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_NEW_PASSWORD_MESSAGE;
+
 
 /**
  * The type Change password command.
@@ -54,6 +58,7 @@ public class ChangePasswordCommand implements Command {
                 for(String key: map.keySet()){
                     String value = map.get(key);
                     switch (value){
+                        case INVALID_NEW_UNIQ_PASSWORD -> request.setAttribute(INVALID_NEW_UNIQ_PASSWORD, NOT_UNIQ_NEW_PASSWORD_MESSAGE);
                         case INVALID_NEW_PASSWORD -> request.setAttribute(INVALID_NEW_PASSWORD, INVALID_PASSWORD_MESSAGE);
                         case INVALID_OLD_PASSWORD -> request.setAttribute(INVALID_OLD_PASSWORD, INVALID_PASSWORD_MESSAGE);
                         case INVALID_REPEAT_PASSWORD -> request.setAttribute(INVALID_REPEAT_PASSWORD, INVALID_REPEAT_PASSWORD_MESSAGE);

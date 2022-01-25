@@ -15,14 +15,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.Parameter.ADDRESS;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_PAYMENT;
 import static by.epam.finalproject.controller.Parameter.USER_COMMENT;
 import static by.epam.finalproject.controller.Parameter.TOTAL_PRICE;
 import static by.epam.finalproject.controller.Parameter.SUCCESS_CREATE_ORDER;
-import static by.epam.finalproject.controller.Parameter.CART;
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CART;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_ADDRESS;
 import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_PAYMENT;
 import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_COMMENT;

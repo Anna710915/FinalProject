@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.epam.finalproject.controller.Parameter.COMMAND;
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 /**
  * The type Current page filter.

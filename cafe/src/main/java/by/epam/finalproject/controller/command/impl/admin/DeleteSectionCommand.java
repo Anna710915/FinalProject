@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_SECTION;
 import static by.epam.finalproject.controller.Parameter.INVALID_DELETE_PRODUCT_SECTION;
-import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_SECTION_MESSAGE;
 
 /**

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static by.epam.finalproject.controller.Parameter.COMMAND;
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 
 import static by.epam.finalproject.controller.PathPage.ERROR_404;
 

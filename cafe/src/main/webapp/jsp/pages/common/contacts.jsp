@@ -24,7 +24,7 @@
             window.history.forward();
         }
     </script>
-    <title>Title</title>
+    <title><fmt:message key="header.contacts"/> </title>
 </head>
 <body>
 <div class="page">
@@ -34,27 +34,27 @@
 
     <div class="container justify-content-center" style="align-content: center; padding-top: 70px">
         <p class="text-center">
-            АДРЕС
+            <fmt:message key="order.address"/>
         <p class="text-center">
-            Революционная 28, Минск
+            <fmt:message key="cafe.address"/>
         </p>
         <p class="text-center">
             +375 29 135 98 35
         </p>
         <p class="text-center">
-            umami.neobistro@gmail.com
+            merkulanna7@gmail.com
         </p>
         <p class="text-center">
-            РЕЖИМ РАБОТЫ
-            Доставка: 13:00-22:30
+            <fmt:message key="cafe.work"/>
+            <fmt:message key="cafe.delivery"/> : 13:00-22:30
         </p>
         <p class="text-center">
-            Ресторан:
+            Cafe:
             Вс - Чт 13:00-00:00
             Пт - Сб 13:00-01:00
         </p>
         <p class="text-center">
-            БРОНИРОВАНИЕ
+            <fmt:message key="cafe.booking"/>
             +375 29 135 98 35
         </p>
 

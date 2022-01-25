@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             String phone = mapData.get(USER_PHONE_NUMBER);
             String password = mapData.get(PASSWORD);
             String birthday = mapData.get(USER_BIRTHDAY);
-            String encryptPassword = PasswordEncryption.md5Apache(password);
+            String repeatPassword = mapData.get(REPEAT_PASSWORD);
             int phoneNumber = Integer.parseInt(phone);
             LocalDate date = LocalDate.parse(birthday);
             long discountId = 1;
@@ -87,13 +87,17 @@ public class UserServiceImpl implements UserService {
                 uniqResult = false;
             }
             if(userDao.findUserByPhoneNumber(phoneNumber).isPresent()){
-                mapData.put(USER_PHONE_NUMBER,NOT_UNIQ_PHONE);
+                mapData.put(USER_PHONE_NUMBER, NOT_UNIQ_PHONE);
+                uniqResult = false;
+            }
+            if(!password.equals(repeatPassword)){
+                mapData.put(REPEAT_PASSWORD, INVALID_REPEAT_PASSWORD);
                 uniqResult = false;
             }
             if(!uniqResult){
                 return false;
             }
-
+            String encryptPassword = PasswordEncryption.md5Apache(password);
             User user = new User(firstName, lastName, login, encryptPassword, email,
                     phoneNumber, date, discountId, role, User.UserState.NEW);
             boolean isUserCreate = userDao.create(user);
@@ -203,7 +207,10 @@ public class UserServiceImpl implements UserService {
                     return false;
                 }
             }
-
+            if(oldPassword.equals(newPassword)){
+                map.put(NEW_PASSWORD, INVALID_NEW_UNIQ_PASSWORD);
+                return false;
+            }
             if(!newPassword.equals(repeatPassword)){
                 map.put(REPEAT_PASSWORD, INVALID_REPEAT_PASSWORD);
                 return false;

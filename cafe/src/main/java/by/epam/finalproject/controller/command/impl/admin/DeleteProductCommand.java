@@ -13,7 +13,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.Parameter.PRODUCT_ID;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
+
 
 /**
  * The type Delete product command.

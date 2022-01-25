@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static by.epam.finalproject.controller.Parameter.RESTORE_SECTION;
-import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
 import static by.epam.finalproject.controller.PathPage.RESTORE_PAGE;
 
 /**

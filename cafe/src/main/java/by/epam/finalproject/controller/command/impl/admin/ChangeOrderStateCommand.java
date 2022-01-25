@@ -11,7 +11,7 @@ import by.epam.finalproject.model.service.impl.OrderServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 import static by.epam.finalproject.controller.Parameter.STATE;
 import static by.epam.finalproject.controller.Parameter.ORDER_ID;
 

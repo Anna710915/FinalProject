@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.USER;
-import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
+import static by.epam.finalproject.controller.SessionAttribute.CART;
 import static by.epam.finalproject.controller.Parameter.TOTAL_PRICE;
 
 import static by.epam.finalproject.controller.PathPage.BASKET_PAGE;

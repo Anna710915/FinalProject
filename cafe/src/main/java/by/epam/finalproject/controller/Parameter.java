@@ -13,29 +13,13 @@ public final class Parameter {
      */
     public static final String EQUAL = "=";
     /**
-     * The constant REDIRECT_QUESTION_MARK.
-     */
-    public static final String REDIRECT_QUESTION_MARK = "?";
-    /**
-     * The constant ACTION_RESULT.
-     */
-    public static final String ACTION_RESULT = "result";
-    /**
      * The constant ADDRESS.
      */
     public static final String ADDRESS = "address";
     /**
-     * The constant CART.
-     */
-    public static final String CART = "cart";
-    /**
      * The constant COMMAND.
      */
     public static final String COMMAND = "command";
-    /**
-     * The constant CURRENT_PAGE.
-     */
-    public static final String CURRENT_PAGE = "current_page";
     /**
      * The constant PAGINATION_PAGE.
      */
@@ -157,10 +141,6 @@ public final class Parameter {
      */
     public static final String LOGIN = "login";
     /**
-     * The constant LANGUAGE.
-     */
-    public static final String LANGUAGE = "language";
-    /**
      * The constant LIST_USER.
      */
     public static final String LIST_USER = "list_user";
@@ -265,10 +245,6 @@ public final class Parameter {
      */
     public static final String STATE = "state";
     /**
-     * The constant USER.
-     */
-    public static final String USER = "user";
-    /**
      * The constant USER_BIRTHDAY.
      */
     public static final String USER_BIRTHDAY = "birthday";
@@ -321,10 +297,6 @@ public final class Parameter {
      */
     public static final String ORDER_LIST = "order_list";
     /**
-     * The constant SECTION_LIST.
-     */
-    public static final String SECTION_LIST = "section_list";
-    /**
      * The constant ORDER_ID.
      */
     public static final String ORDER_ID = "id";
@@ -352,5 +324,10 @@ public final class Parameter {
      * The constant RESTORE_SECTION.
      */
     public static final String RESTORE_SECTION = "restore_section";
+
+    /**
+     * The constant INVALID_NEW_UNIQ_PASSWORD.
+     */
+    public static final String INVALID_NEW_UNIQ_PASSWORD = "invalid_new_uniq_password";
     private Parameter(){}
 }

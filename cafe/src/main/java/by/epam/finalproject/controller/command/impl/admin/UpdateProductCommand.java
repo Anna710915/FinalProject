@@ -32,7 +32,7 @@ import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_PRICE;
 import static by.epam.finalproject.controller.Parameter.NOT_UNIQ_PRODUCT_NAME;
 import static by.epam.finalproject.controller.Parameter.INVALID_COOKING_TIME;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_ID;
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_COMPOSITION_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_PRODUCT_NAME_MESSAGE;

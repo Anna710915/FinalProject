@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="ctg" uri="customtags" %>
 <c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
 <c:choose>
@@ -38,7 +39,7 @@
       <input type="hidden" name="command" value="insert_new_section">
       <div class="form-group mb-3">
         <label class="form-label"><fmt:message key="section.name"/></label>
-        <input type="text" name="section_name" class="form-control" required pattern=".{1,20}">
+        <input type="text" name="section_name" value="${fn:escapeXml(param.section_name)}" class="form-control" required pattern=".{1,20}">
         <c:if test="${! empty invalid_section_name}">
           <div class="invalid-feedback-backend" style="color: red">
             <fmt:message key="${invalid_section_name}"/>

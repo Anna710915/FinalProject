@@ -17,7 +17,7 @@ public class ValidatorImpl implements Validator {
     private static final String USER_MAIL_PATTERN = "^[A-Za-z0-9\\.]{1,30}@[a-z]{2,7}\\.[a-z]{2,4}$";
     private static final String USER_PHONE_NUMBER_PATTERN = "(29|33|25|44)\\d{7}";
     private static final String DIGIT_PRODUCT_PATTERN = "\\d{1,6}(\\.[0-9]{1,2})?";
-    private static final String DISCOUNT_PATTERN = "\\d\\.\\d{0,2}";
+    private static final String DISCOUNT_PATTERN = "0(\\.\\d{1,2})?";
     private static final String COMPOSITION_PATTERN = "^.{0,200}$";
     private static final String ADDRESS_PATTERN = "^.{1,100}$";
     private static final String USER_COMMENT_PATTERN = "^.{0,200}$";
@@ -100,7 +100,6 @@ public class ValidatorImpl implements Validator {
         String email = map.get(USER_EMAIL);
         String phone = map.get(USER_PHONE_NUMBER);
         String birthday = map.get(USER_BIRTHDAY);
-
         if(!isCorrectName(firstName)){
             map.put(USER_FIRST_NAME,INVALID_FIRST_NAME);
             result = false;

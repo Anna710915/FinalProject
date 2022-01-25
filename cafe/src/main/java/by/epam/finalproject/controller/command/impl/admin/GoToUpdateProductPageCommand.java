@@ -26,7 +26,6 @@ public class GoToUpdateProductPageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
-
         try {
             long menuId = Long.parseLong(request.getParameter(PRODUCT_ID));
             Optional<Menu> menu = service.findProductById(menuId);
@@ -35,7 +34,7 @@ public class GoToUpdateProductPageCommand implements Command {
                 router.setCurrentPage(ERROR_500);
                 return router;
             }
-            request.setAttribute(PRODUCT_MENU, menu);
+            request.setAttribute(PRODUCT_MENU, menu.get());
             router.setCurrentPage(UPDATE_PRODUCT_PAGE);
         } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a GoToUpdateProductPageCommand class", e);

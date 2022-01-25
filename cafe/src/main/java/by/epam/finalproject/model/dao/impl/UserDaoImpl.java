@@ -326,6 +326,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             logger.log(Level.ERROR, "Exception while find user by login and password method ");
             throw new DaoException("Exception while find user by login and password method ", e);
         }
+        logger.log(Level.INFO, "findUserByLoginAndPassword dao method");
         return user;
     }
 

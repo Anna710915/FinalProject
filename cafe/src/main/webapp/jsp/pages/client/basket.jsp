@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="ctg" uri="customtags" %>
 <c:set var="absolutePath">${pageContext.request.contextPath}</c:set>
 <c:choose>
@@ -72,7 +73,7 @@
                     </br>
                     <div class="form-group" class="mb-3">
                         <label class="form-label"><fmt:message key="order.address"/> </label>
-                        <input type="text" name="address" class="form-control form-control-sm" value="" required pattern="^.{1,100}$">
+                        <input type="text" name="address" class="form-control form-control-sm" value="${fn:escapeXml(param.address)}" required pattern="^.{1,100}$">
                         <c:if test="${! empty invalid_order_address}">
                             <div class="invalid-feedback-backend" style="color: red">
                                 <fmt:message key="${invalid_order_address}"/>
@@ -101,7 +102,7 @@
                     </br>
                     <div class="form-group" class="mb-3">
                         <label class="form-label"><fmt:message key="order.comment"/></label>
-                        <input type="text" name="user_comment" class="form-control form-control-sm" value="" pattern="^.{0,200}$">
+                        <input type="text" name="user_comment" class="form-control form-control-sm" value="${fn:escapeXml(param.user_comment)}" pattern="^.{0,200}$">
                         <c:if test="${! empty invalid_order_comment}">
                             <div class="invalid-feedback-backend" style="color: red">
                                 <fmt:message key="${invalid_order_comment}"/>

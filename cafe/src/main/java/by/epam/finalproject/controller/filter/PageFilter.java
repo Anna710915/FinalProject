@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Set;
 
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.PathPage.START_PAGE;
 
 /**

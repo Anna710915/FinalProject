@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.finalproject.controller.Parameter.LOGIN;
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.Parameter.PASSWORD;
-import static by.epam.finalproject.controller.Parameter.SECTION_LIST;
+import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
 import static by.epam.finalproject.controller.Parameter.USER_STATUS_BLOCKED;
-import static by.epam.finalproject.controller.Parameter.CART;
+import static by.epam.finalproject.controller.SessionAttribute.CART;
 import static by.epam.finalproject.controller.Parameter.ERROR_LOG_OR_PASS;
 
 import static by.epam.finalproject.controller.PathPage.HOME_PAGE;

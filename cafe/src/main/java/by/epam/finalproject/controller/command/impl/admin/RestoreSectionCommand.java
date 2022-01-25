@@ -14,7 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
-import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
+import static by.epam.finalproject.controller.Parameter.SECTION_ID;
+
 
 /**
  * The type Restore section command.

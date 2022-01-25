@@ -22,7 +22,7 @@ import java.nio.file.StandardCopyOption;
 
 import static by.epam.finalproject.controller.Parameter.PICTURE_PATH;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_NAME;
-import static by.epam.finalproject.controller.Parameter.CURRENT_PAGE;
+import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 import static by.epam.finalproject.controller.PathPage.ERROR_500;
 

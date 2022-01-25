@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import java.util.Optional;
 
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.Parameter.USER_DISCOUNT;
 import static by.epam.finalproject.controller.Parameter.USER_ORDERS_FOR_THE_YEAR;
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static by.epam.finalproject.controller.Parameter.ORDER_LIST;
-import static by.epam.finalproject.controller.Parameter.USER;
+import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.PathPage.ORDERS_PAGE;
 
 /**
