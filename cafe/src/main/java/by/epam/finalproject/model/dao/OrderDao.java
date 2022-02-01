@@ -74,4 +74,11 @@ public interface OrderDao {
      */
     boolean deleteOrders() throws DaoException;
 
+    /**
+     * Find all sorted orders by date list.
+     *
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<Order> findAllSortedOrdersByDate() throws DaoException;
 }

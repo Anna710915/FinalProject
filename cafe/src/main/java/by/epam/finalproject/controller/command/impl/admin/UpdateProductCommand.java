@@ -73,7 +73,6 @@ public class UpdateProductCommand implements Command {
             if (service.updateProduct(id, map).isEmpty()) {
                 for (String key : map.keySet()) {
                     String value = map.get(key);
-                    logger.log(Level.INFO,"Invalid data: " + key);
                     switch (value) {
                         case INVALID_PRODUCT_COMPOSITION -> request.setAttribute(INVALID_PRODUCT_COMPOSITION, INVALID_PRODUCT_COMPOSITION_MESSAGE);
                         case NOT_UNIQ_PRODUCT_NAME -> request.setAttribute(NOT_UNIQ_PRODUCT_NAME, NOT_UNIQ_PRODUCT_NAME_MESSAGE);

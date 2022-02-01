@@ -69,4 +69,12 @@ public interface OrderService {
      * @throws ServiceException the service exception
      */
     boolean deleteOldOrders() throws ServiceException;
+
+    /**
+     * Find all sorted orders by state list.
+     *
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<Order> findAllSortedOrdersByDate() throws ServiceException;
 }

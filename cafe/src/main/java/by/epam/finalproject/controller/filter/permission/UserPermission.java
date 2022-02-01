@@ -38,7 +38,8 @@ public enum UserPermission {
             CommandType.FIND_ALL_REMOVING_PRODUCTS.name(),
             CommandType.FIND_ALL_REMOVING_SECTIONS.name(),
             CommandType.RESTORE_MENU_PRODUCT.name(),
-            CommandType.RESTORE_SECTION.name())),
+            CommandType.RESTORE_SECTION.name(),
+            CommandType.SORT_ALL_MENU_BY_POPULARITY.name())),
     /**
      * Client user permission.
      */
@@ -55,7 +56,8 @@ public enum UserPermission {
             CommandType.CALCULATE_USER_DISCOUNT.name(),
             CommandType.GO_TO_ORDERS_PAGE.name(),
             CommandType.FIND_ALL_MENU_BY_SECTION.name(),
-            CommandType.SORT_ALL_MENU_BY_PRICE.name())),
+            CommandType.SORT_ALL_MENU_BY_PRICE.name(),
+            CommandType.SORT_ALL_MENU_BY_POPULARITY.name())),
     /**
      * Guest user permission.
      */
@@ -63,7 +65,8 @@ public enum UserPermission {
             CommandType.CHANGE_LANGUAGE.name(),
             CommandType.REGISTRATION.name(),
             CommandType.FIND_ALL_MENU.name(),
-            CommandType.SORT_ALL_MENU_BY_PRICE.name()));
+            CommandType.SORT_ALL_MENU_BY_PRICE.name(),
+            CommandType.SORT_ALL_MENU_BY_POPULARITY.name()));
 
     private final Set<String> commands;
 

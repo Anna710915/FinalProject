@@ -25,7 +25,6 @@ public class ChangeLanguageCommand implements Command {
         Router router = new Router();
         String currentPage = (String) session.getAttribute(CURRENT_PAGE);
         String language = request.getParameter(LANGUAGE);
-        logger.log(Level.INFO,"Language parameter is " + language);
         if(!LanguageUtil.isCorrectLanguage(language)){
             router.setCurrentPage(currentPage);
             return router;

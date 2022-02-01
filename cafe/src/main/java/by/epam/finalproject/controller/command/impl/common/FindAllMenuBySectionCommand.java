@@ -38,12 +38,20 @@ public class FindAllMenuBySectionCommand implements Command {
             long sectionId = Long.parseLong(request.getParameter(SECTION_ID));
             String currentPageParameter = request.getParameter(PAGINATION_PAGE);
             int currentPage = 1;
+
             if(currentPageParameter != null){
                 currentPage = Integer.parseInt(currentPageParameter);
             }
+
             int totalRecords = menuService.readRowCountBySection(sectionId);
             int offset = PaginationService.offset(PAGE_SIZE, currentPage);
             List<Menu> menuSublist = menuService.findMenuSublistBySectionId(PAGE_SIZE, offset, sectionId);
+
+            if(menuSublist.isEmpty() && currentPage > 1){
+                currentPage--;
+                offset = PaginationService.offset(PAGE_SIZE, currentPage);
+                menuSublist = menuService.findMenuSublistBySectionId(PAGE_SIZE, offset, sectionId);
+            }
 
             int pages = PaginationService.pages(totalRecords, PAGE_SIZE);
             int lastPage = PaginationService.lastPage(pages, PAGE_SIZE, totalRecords);
@@ -53,7 +61,7 @@ public class FindAllMenuBySectionCommand implements Command {
             request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
             StringBuilder builderUrl = new StringBuilder(Command.createURL(request, request.getParameter(COMMAND)));
             builderUrl.append(SIGN).append(SECTION_ID).append(EQUAL).append(sectionId);
-            request.setAttribute(URL,builderUrl.toString());
+            request.setAttribute(URL, builderUrl.toString());
             router.setCurrentPage(MENU_PAGE);
         } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a FindAllMenuCommand class", e);

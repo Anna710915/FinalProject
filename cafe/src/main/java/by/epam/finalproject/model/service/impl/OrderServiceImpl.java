@@ -187,7 +187,21 @@ public class OrderServiceImpl implements OrderService {
         try {
             return orderDao.deleteOrders();
         } catch (DaoException e) {
-            throw new ServiceException("Exception in deleteOldOrders method. ", e);
+            throw new ServiceException("Exception in deleteOldOrders service method. ", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public List<Order> findAllSortedOrdersByDate() throws ServiceException {
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(orderDao);
+        try {
+            return orderDao.findAllSortedOrdersByDate();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findAllSortedOrdersByDate service method", e);
         } finally {
             transaction.end();
         }

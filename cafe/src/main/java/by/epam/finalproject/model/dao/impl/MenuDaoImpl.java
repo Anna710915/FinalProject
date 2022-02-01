@@ -70,11 +70,27 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
             WHERE is_accessible = true
             ORDER BY price - (price * discount)
             LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_ALL_SORTED_MENU_BY_POPULARITY = """
+            SELECT menu.food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, section_id, is_accessible, all_dish FROM menu
+            LEFT JOIN (SELECT food_id, SUM(dish_number) AS all_dish FROM orders_menu
+            GROUP BY food_id) AS year_food ON year_food.food_id = menu.food_id
+            WHERE is_accessible = true
+            ORDER BY all_dish DESC
+            LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_SORTED_SECTION_MENU = """
             SELECT food_id, name_food, picture_path, composition, weight,
             calories, cooking_time, discount, price, section_id, is_accessible FROM menu
-            WHERE section_id = ?
+            WHERE section_id = ? AND is_accessible = true
             ORDER BY price - (price * discount)
+            LIMIT ? OFFSET ?""";
+    private static final String SQL_SELECT_ALL_SORTED_SECTION_MENU_BY_POPULARITY = """
+            SELECT menu.food_id, name_food, picture_path, composition, weight,
+            calories, cooking_time, discount, price, section_id, is_accessible, all_dish FROM menu
+            LEFT JOIN (SELECT food_id, SUM(dish_number) AS all_dish FROM orders_menu
+            GROUP BY food_id) AS year_food ON year_food.food_id = menu.food_id
+            WHERE is_accessible = true AND section_id = ?
+            ORDER BY all_dish DESC
             LIMIT ? OFFSET ?""";
     private static final String SQL_SELECT_MENU_ROW_COUNT_BY_SECTION_ID = """
             SELECT COUNT(*) FROM menu WHERE section_id = ? AND is_accessible = true""";
@@ -268,7 +284,7 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
     }
 
     @Override
-    public List<Menu> findAllSortedMenu(int pageSize, int offset) throws DaoException {
+    public List<Menu> findAllSortedMenuByPrice(int pageSize, int offset) throws DaoException {
         List<Menu> sortedList = new ArrayList<>();
         try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_SORTED_MENU)){
             statement.setInt(1, pageSize);
@@ -287,7 +303,7 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
     }
 
     @Override
-    public List<Menu> findSortedSectionMenu(int pageSize, int offset, long sectionId) throws DaoException {
+    public List<Menu> findSortedSectionMenuByPrice(int pageSize, int offset, long sectionId) throws DaoException {
         List<Menu> sortedList = new ArrayList<>();
         try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_SORTED_SECTION_MENU)) {
             statement.setLong(1, sectionId);
@@ -305,7 +321,44 @@ public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
         }
         return sortedList;
     }
+    @Override
+    public List<Menu> findAllSortedMenuByPopularity(int pageSize, int offset) throws DaoException {
+        List<Menu> menuList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_SORTED_MENU_BY_POPULARITY)){
+            statement.setInt(1, pageSize);
+            statement.setInt(2, offset);
+            try(ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(menuList::add);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find sorted menu sublist by popularity method ");
+            throw new DaoException("Exception in a findAllSortedMenuByPopularity method. ", e);
+        }
+        return menuList;
+    }
 
+    @Override
+    public List<Menu> findAllSortedSectionMenuByPopularity(int pageSize, int offset, long sectionId) throws DaoException {
+        List<Menu> menuList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_ALL_SORTED_SECTION_MENU_BY_POPULARITY)){
+            statement.setLong(1, sectionId);
+            statement.setInt(2, pageSize);
+            statement.setInt(3, offset);
+            try(ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    Optional<Menu> optionalMenu = new MenuMapper().mapRow(resultSet);
+                    optionalMenu.ifPresent(menuList::add);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find sorted menu sublist by section id and by popularity method ");
+            throw new DaoException("Exception in a findAllSortedSectionMenuByPopularity method. ", e);
+        }
+        return menuList;
+    }
     @Override
     public int readRowCountBySection(long sectionId) throws DaoException {
         try (PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_MENU_ROW_COUNT_BY_SECTION_ID)){

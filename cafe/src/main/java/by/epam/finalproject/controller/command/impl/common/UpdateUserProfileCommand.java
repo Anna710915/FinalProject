@@ -64,7 +64,6 @@ public class UpdateUserProfileCommand implements Command {
                 session.setAttribute(USER, optionalUser.get());
                 router.setRedirectType();
             }else{
-                System.out.println("------");
                 for (String key : updateProfileData.keySet()) {
                     String currentValue = updateProfileData.get(key);
                     switch (currentValue) {

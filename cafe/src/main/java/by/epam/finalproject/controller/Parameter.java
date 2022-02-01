@@ -303,7 +303,7 @@ public final class Parameter {
     /**
      * The constant SECTION_ID.
      */
-    public static final String SECTION_ID = "id";
+    public static final String SECTION_ID = "section_id";
     /**
      * The constant SECTION_NAME.
      */

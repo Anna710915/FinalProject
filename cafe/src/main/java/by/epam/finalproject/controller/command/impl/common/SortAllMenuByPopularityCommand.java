@@ -13,23 +13,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.epam.finalproject.controller.Parameter.PAGINATION_PAGE;
-import static by.epam.finalproject.controller.Parameter.SECTION_ID;
-import static by.epam.finalproject.controller.Parameter.URL;
-import static by.epam.finalproject.controller.Parameter.SIGN;
-import static by.epam.finalproject.controller.Parameter.EQUAL;
-import static by.epam.finalproject.controller.Parameter.MENU_LIST;
-import static by.epam.finalproject.controller.Parameter.PAGINATION_LAST_PAGE;
-import static by.epam.finalproject.controller.Parameter.COMMAND;
-
+import static by.epam.finalproject.controller.Parameter.*;
 import static by.epam.finalproject.controller.PathPage.MENU_PAGE;
 
 /**
- * The type Sort all menu by price command.
+ * The type Sort all menu by popularity command.
  */
-public class SortAllMenuByPriceCommand implements Command {
+public class SortAllMenuByPopularityCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final int PAGE_SIZE = 4;
     private final MenuService menuService = MenuServiceImpl.getInstance();
@@ -50,27 +43,28 @@ public class SortAllMenuByPriceCommand implements Command {
             List<Menu> menuSublist;
             StringBuilder builderUrl;
             if(sectionId == null) {
-                menuSublist = menuService.sortAllMenuByPrice(PAGE_SIZE, offset);
+                menuSublist = menuService.findSortedMenuSubListByPopularity(PAGE_SIZE, offset);
+                logger.log(Level.INFO, menuSublist);
                 if(menuSublist.isEmpty() && currentPage > 1){
                     currentPage--;
                     offset = PaginationService.offset(PAGE_SIZE, currentPage);
-                    menuSublist = menuService.sortAllMenuByPrice(PAGE_SIZE, offset);
+                    menuSublist = menuService.findSortedMenuSubListByPopularity(PAGE_SIZE, offset);
+                    logger.log(Level.INFO, menuSublist);
                 }
                 totalRecords = menuService.readRowCount();
                 builderUrl = new StringBuilder(Command.createURL(request, request.getParameter(COMMAND)));
             }else{
                 long id = Long.parseLong(sectionId);
-                menuSublist = menuService.sortSectionMenuByPrice(PAGE_SIZE, offset, id);
+                logger.log(Level.INFO, "id = " + id);
+                menuSublist = menuService.findSortedMenuSectionSubListByPopularity(PAGE_SIZE, offset, id);
                 if(menuSublist.isEmpty() && currentPage > 1){
                     currentPage--;
                     offset = PaginationService.offset(PAGE_SIZE, currentPage);
-                    menuSublist = menuService.sortSectionMenuByPrice(PAGE_SIZE, offset, id);
+                    menuSublist = menuService.findSortedMenuSectionSubListByPopularity(PAGE_SIZE, offset, id);
                 }
                 totalRecords = menuService.readRowCountBySection(id);
                 builderUrl = new StringBuilder(Command.createURL(request, request.getParameter(COMMAND)));
                 builderUrl.append(SIGN).append(SECTION_ID).append(EQUAL).append(sectionId);
-                logger.log(Level.INFO,"builder - " + builderUrl);
-                logger.log(Level.INFO, "list - " + menuSublist);
             }
 
             int pages = PaginationService.pages(totalRecords, PAGE_SIZE);

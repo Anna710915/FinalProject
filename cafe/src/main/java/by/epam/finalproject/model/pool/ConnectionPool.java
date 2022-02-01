@@ -21,10 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * The type Connection pool.
  */
 public class ConnectionPool {
-    /**
-     * The Logger.
-     */
-    static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final Properties properties = new Properties();
     private static final int POOL_SIZE;
     private static AtomicBoolean create = new AtomicBoolean(false);
@@ -69,7 +66,7 @@ public class ConnectionPool {
             throw new RuntimeException();
         }else if (freeConnections.size() < POOL_SIZE){
             int connectionSize = freeConnections.size();
-            while (connectionSize!= POOL_SIZE){ //Question
+            while (connectionSize!= POOL_SIZE){
                 try {
                     ProxyConnection connection = new ProxyConnection(ConnectionFactory.createConnection());
                     freeConnections.offer(connection);

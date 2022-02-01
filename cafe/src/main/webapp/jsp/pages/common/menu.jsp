@@ -12,12 +12,8 @@
 <html>
 <head>
     <title><fmt:message key="menu.title"/> </title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<%--    <link rel="stylesheet" href="${absolutePath}/CSS/style.css">--%>
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -35,15 +31,24 @@
     </header>
     <div class="container">
     <div class="row" style="background: whitesmoke">
-        <div class="col-2 text-center"><fmt:message key="menu.sort"/></div>
-        <div class="col">
+        <div class="col-2 text-center"><fmt:message key="action.sort"/></div>
+        <div class="col-auto">
         <form name="sortByPrice" action="${absolutePath}/controller">
             <input type="hidden" name="command" value="sort_all_menu_by_price">
-            <c:if test="${not empty param.id}">
-                <input type="hidden" name="id" value="${param.id}">
+            <c:if test="${not empty param.section_id}">
+                <input type="hidden" name="section_id" value="${param.section_id}">
             </c:if>
-            <button type="submit" class="btn btn-primary btn-sm"><fmt:message key="menu.sort_by_price"/></button>
+            <button type="submit" class="btn btn-warning btn-sm"><fmt:message key="menu.sort_by_price"/></button>
         </form>
+        </div>
+        <div class="col-auto">
+            <form name="sortByPopularity" action="${absolutePath}/controller">
+                <input type="hidden" name="command" value="sort_all_menu_by_popularity">
+                <c:if test="${not empty param.section_id}">
+                    <input type="hidden" name="section_id" value="${param.section_id}">
+                </c:if>
+                <button type="submit" class="btn btn-danger btn-sm"><fmt:message key="menu.sort_by_popularity"/></button>
+            </form>
         </div>
     </div>
     </div>

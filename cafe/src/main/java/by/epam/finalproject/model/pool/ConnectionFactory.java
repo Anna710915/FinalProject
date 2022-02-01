@@ -52,7 +52,7 @@ class ConnectionFactory {
      */
     static Connection createConnection() throws ConnectionPoolException {
         try {
-            return DriverManager.getConnection(DATABASE_URL,properties);
+            return DriverManager.getConnection(DATABASE_URL, properties);
         }catch (SQLException e){
             throw new ConnectionPoolException("Connection is not received: " + e.getMessage());
         }

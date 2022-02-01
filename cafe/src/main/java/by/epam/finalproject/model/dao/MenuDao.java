@@ -59,14 +59,14 @@ public interface MenuDao {
     int readRowCount() throws DaoException;
 
     /**
-     * Find all sorted menu list.
+     * Find all sorted menu list by price.
      *
      * @param pageSize the page size
      * @param offset   the offset
      * @return the list
      * @throws DaoException the dao exception
      */
-    List<Menu> findAllSortedMenu(int pageSize, int offset) throws DaoException;
+    List<Menu> findAllSortedMenuByPrice(int pageSize, int offset) throws DaoException;
 
     /**
      * Find sorted section menu list.
@@ -77,9 +77,28 @@ public interface MenuDao {
      * @return the list
      * @throws DaoException the dao exception
      */
-    List<Menu> findSortedSectionMenu(int pageSize, int offset, long sectionId) throws DaoException;
+    List<Menu> findSortedSectionMenuByPrice(int pageSize, int offset, long sectionId) throws DaoException;
 
+    /**
+     * Find all sorted menu by popularity list.
+     *
+     * @param pageSize the page size
+     * @param offset   the offset
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<Menu> findAllSortedMenuByPopularity(int pageSize, int offset) throws DaoException;
 
+    /**
+     * Find all sorted section menu by popularity list.
+     *
+     * @param pageSize  the page size
+     * @param offset    the offset
+     * @param sectionId the section id
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<Menu> findAllSortedSectionMenuByPopularity(int pageSize, int offset, long sectionId) throws DaoException;
     /**
      * Read row count by section int.
      *
@@ -114,6 +133,7 @@ public interface MenuDao {
      * @throws DaoException the dao exception
      */
     List<Menu> findAllRemovingMenu() throws DaoException;
+
     /**
      * Restore all menu by section id boolean.
      *

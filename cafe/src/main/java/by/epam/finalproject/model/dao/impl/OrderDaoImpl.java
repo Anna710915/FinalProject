@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +45,8 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
             SELECT order_id, order_date, order_state, type_payment, user_comment,
             total_cost, address, user_id FROM orders WHERE user_id = (?)""";
     private static final String SQL_UPDATE_ORDER_STATE_BY_ID = """
-            UPDATE orders SET order_state = (?),
-            order_date = (?) WHERE order_id = (?)""";
+            UPDATE orders SET order_state = (?)
+            WHERE order_id = (?)""";
     private static final String SQL_INSERT_ORDER_MENU_BY_ORDER_ID = """
             INSERT INTO orders_menu(order_id, food_id, dish_number)
             VALUES (?, ?, ?)""";
@@ -65,6 +64,10 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private static final String SQL_DELETE_OLD_USERS_ORDERS = """
             DELETE FROM orders
             WHERE order_date < DATE_SUB(NOW(), INTERVAL 1 YEAR)""";
+    private static final String SQL_SELECT_SORTED_ORDERS_BY_DATE = """
+            SELECT order_id, order_date, order_state, type_payment, user_comment,
+            total_cost, address, user_id FROM orders
+            ORDER BY order_date DESC""";
 
 
     @Override
@@ -190,11 +193,9 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public boolean updateOrderStateById(long orderId, Order.OrderState orderState) throws DaoException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_UPDATE_ORDER_STATE_BY_ID)){
             statement.setString(1,orderState.getState());
-            statement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now().format(formatter)));
-            statement.setLong(3, orderId);
+            statement.setLong(2, orderId);
             return statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Exception while update order state by id ");
@@ -259,5 +260,21 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
             logger.log(Level.ERROR, "Exception while delete old orders ");
             throw new DaoException("Exception in a deleteOrders method. ", e);
         }
+    }
+
+    @Override
+    public List<Order> findAllSortedOrdersByDate() throws DaoException {
+        List<Order> orderList = new ArrayList<>();
+        try(PreparedStatement statement = this.proxyConnection.prepareStatement(SQL_SELECT_SORTED_ORDERS_BY_DATE);
+            ResultSet resultSet = statement.executeQuery()){
+            while (resultSet.next()){
+                Optional<Order> optionalOrder = new OrderMapper().mapRow(resultSet);
+                optionalOrder.ifPresent(orderList::add);
+            }
+        }catch (SQLException e) {
+            logger.log(Level.ERROR, "Exception while find all sorted orders by date ");
+            throw new DaoException("Exception while find all sorted orders by date ", e);
+        }
+        return orderList;
     }
 }

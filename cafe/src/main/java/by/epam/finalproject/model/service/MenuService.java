@@ -156,4 +156,25 @@ public interface MenuService {
      * @throws ServiceException the service exception
      */
     boolean restoreMenuProductById(long menuId) throws ServiceException;
+
+    /**
+     * Find sorted menu sub list by popularity list.
+     *
+     * @param pageSize the page size
+     * @param offset   the offset
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<Menu> findSortedMenuSubListByPopularity(int pageSize, int offset) throws ServiceException;
+
+    /**
+     * Find sorted menu section sub list by popularity list.
+     *
+     * @param pageSize  the page size
+     * @param offset    the offset
+     * @param sectionId the section id
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<Menu> findSortedMenuSectionSubListByPopularity(int pageSize, int offset, long sectionId) throws ServiceException;
 }

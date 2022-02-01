@@ -150,7 +150,12 @@ public enum CommandType {
     /**
      * The Restore section.
      */
-    RESTORE_SECTION(new RestoreSectionCommand());
+    RESTORE_SECTION(new RestoreSectionCommand()),
+
+    /**
+     * The Sort all menu by popularity.
+     */
+    SORT_ALL_MENU_BY_POPULARITY(new SortAllMenuByPopularityCommand());
     private final Command command;
 
     CommandType(Command command){

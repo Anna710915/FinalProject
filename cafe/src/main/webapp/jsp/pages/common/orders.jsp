@@ -32,7 +32,7 @@
     <header>
         <%@include file="../header/header.jsp"%>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <c:choose>
             <c:when test="${sessionScope.user.role eq 'CLIENT'}">
                 <c:choose>
@@ -73,50 +73,53 @@
                     </c:when>
                     <c:otherwise>
                         <h3 class="text-center"><fmt:message key="order.confirmed"/> </h3>
-                        <div class="justify-content-center ">
-                            <form name="delete_orders" action="${absolutePath}/controller" method="post">
-                                <input type="hidden" name="command" value="delete_orders">
-                                <button type="submit" class="btn btn-danger"><fmt:message key="action.delete_old_orders"/> </button>
-                            </form>
+                        <div class="row">
+                            <div class="col" >
+                                <form name="delete_orders" action="${absolutePath}/controller" method="post">
+                                    <input type="hidden" name="command" value="delete_orders">
+                                    <button type="submit" class="btn btn-danger" ><fmt:message key="action.delete_old_orders"/> </button>
+                                </form>
+                            </div>
                         </div>
+
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th scope="col"><fmt:message key="order.id"/></th>
-                                <th scope="col"><fmt:message key="order.date_state_change"/> </th>
-                                <th scope="col"><fmt:message key="order.state"/> </th>
-                                <th scope="col"><fmt:message key="menu.product_price"/></th>
-                                <th scope="col"><fmt:message key="order.payment"/></th>
-                                <th scope="col"><fmt:message key="order.address"/></th>
-                                <th scope="col"><fmt:message key="order.comment"/></th>
-                                <th scope="col"><fmt:message key="registration.login"/></th>
-                                <th scope="col"><fmt:message key="registration.phone"/> </th>
-                                <th scope="col"><fmt:message key="menu.products"/> </th>
-                                <th scope="col"><fmt:message key="admin.users_action"/></th>
+                                <th scope="col" class="col"><fmt:message key="order.id"/></th>
+                                <th scope="col" class="col"><fmt:message key="order.date_state_change"/> </th>
+                                <th scope="col" class="col"><fmt:message key="order.state"/> </th>
+                                <th scope="col" class="col"><fmt:message key="menu.product_price"/></th>
+                                <th scope="col" class="col"><fmt:message key="order.payment"/></th>
+                                <th scope="col" class="col"><fmt:message key="order.address"/></th>
+                                <th scope="col" class="col"><fmt:message key="order.comment"/></th>
+                                <th scope="col" class="col"><fmt:message key="registration.login"/></th>
+                                <th scope="col" class="col"><fmt:message key="registration.phone"/> </th>
+                                <th scope="col" class="col-2"><fmt:message key="menu.products"/> </th>
+                                <th scope="col" class="col"><fmt:message key="admin.users_action"/></th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach var="orderItem" items="${order_list}">
                                 <tr>
-                                    <td><c:out value="${orderItem.order.orderId}"/></td>
+                                    <td class="col"><c:out value="${orderItem.order.orderId}"/></td>
                                     <fmt:parseDate  value="${orderItem.order.orderDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both"/>
                                     <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm:ss" var="stdDatum" />
-                                    <td><c:out value="${stdDatum}"/></td>
-                                    <td><c:out value="${orderItem.order.orderState}"/></td>
-                                    <td><c:out value="${orderItem.order.totalCost}"/></td>
-                                    <td><c:out value="${orderItem.order.typePayment}"/> </td>
-                                    <td><c:out value="${orderItem.order.address}"/></td>
-                                    <td><c:out value="${orderItem.order.userComment}"/></td>
-                                    <td><c:out value="${orderItem.user.login}"/> </td>
-                                    <td><c:out value="${orderItem.user.phoneNumber}"/> </td>
-                                    <td>
+                                    <td class="col"><c:out value="${stdDatum}"/></td>
+                                    <td class="col"><c:out value="${orderItem.order.orderState}"/></td>
+                                    <td class="col"><c:out value="${orderItem.order.totalCost}"/></td>
+                                    <td class="col"><c:out value="${orderItem.order.typePayment}"/> </td>
+                                    <td class="col"><c:out value="${orderItem.order.address}"/></td>
+                                    <td class="col"><c:out value="${orderItem.order.userComment}"/></td>
+                                    <td class="col"><c:out value="${orderItem.user.login}"/> </td>
+                                    <td class="col"><c:out value="${orderItem.user.phoneNumber}"/> </td>
+                                    <td class="col-2">
                                         <c:forEach var="item" items="${orderItem.menuList}">
-                                            <p><c:out value="${item.nameFood}"/> - <c:out value="${item.amount}"/></p>
+                                            <p style="margin-top: 0; margin-bottom: 0"><c:out value="${item.nameFood}"/> - <c:out value="${item.amount}"/></p>
                                         </c:forEach>
                                     </td>
-                                    <td>
+                                    <td class="col">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <fmt:message key="order.change_state"/>
                                             </button>
                                             <ul class="dropdown-menu">

@@ -243,7 +243,7 @@ public class MenuServiceImpl implements MenuService {
         transaction.init(menuDao);
         try {
             logger.log(Level.INFO, "page size = " + pageSize + " offset = " + offset);
-            return menuDao.findAllSortedMenu(pageSize, offset);
+            return menuDao.findAllSortedMenuByPrice(pageSize, offset);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a sortAllMenuByPrice service method. ", e);
         } finally {
@@ -257,7 +257,7 @@ public class MenuServiceImpl implements MenuService {
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(menuDao);
         try {
-            return menuDao.findSortedSectionMenu(pageSize, offset, sectionId);
+            return menuDao.findSortedSectionMenuByPrice(pageSize, offset, sectionId);
         } catch (DaoException e) {
             throw new ServiceException("Exception in a sortSectionMenuByPrice service method. ", e);
         } finally {
@@ -303,6 +303,34 @@ public class MenuServiceImpl implements MenuService {
         } catch (DaoException e) {
             throw new ServiceException("Exception in a restoreMenuProductById method ", e);
         } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public List<Menu> findSortedMenuSubListByPopularity(int pageSize, int offset) throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        try {
+            return menuDao.findAllSortedMenuByPopularity(pageSize, offset);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findSortedMenuSubListByPopularity service method", e);
+        } finally {
+            transaction.end();
+        }
+    }
+
+    @Override
+    public List<Menu> findSortedMenuSectionSubListByPopularity(int pageSize, int offset, long sectionId) throws ServiceException {
+        MenuDaoImpl menuDao = new MenuDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.init(menuDao);
+        try {
+            return menuDao.findAllSortedSectionMenuByPopularity(pageSize, offset, sectionId);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in a findSortedMenuSectionSubListByPopularity service method", e);
+        }finally {
             transaction.end();
         }
     }
