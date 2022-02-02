@@ -23,6 +23,7 @@
         }
     </script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/style.css" type="text/css">
+    <script src="${absolutePath}/js/counter.js"></script>
 </head>
 <body class="body" style="background: whitesmoke">
 <div class="page">

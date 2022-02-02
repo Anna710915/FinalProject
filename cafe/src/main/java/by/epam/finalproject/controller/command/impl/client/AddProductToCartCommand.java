@@ -33,10 +33,12 @@ public class AddProductToCartCommand implements Command {
         int productNumber = Integer.parseInt(request.getParameter(PRODUCT_NUMBER));
         Router router = new Router();
         try {
-            long id = Long.parseLong(request.getParameter(SELECTED));
-            service.addProductToBasket(productMap, id, productNumber);
+            if(productNumber >= 1) {
+                long id = Long.parseLong(request.getParameter(SELECTED));
+                service.addProductToBasket(productMap, id, productNumber);
+                session.setAttribute(CART, productMap);
+            }
             router.setRedirectType();
-            session.setAttribute(CART, productMap);
             router.setCurrentPage(currentPage);
         } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a AddProductToCartCommand class ", e);

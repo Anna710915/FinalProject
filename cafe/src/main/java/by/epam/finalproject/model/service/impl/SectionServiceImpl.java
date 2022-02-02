@@ -8,6 +8,9 @@ import by.epam.finalproject.model.dao.impl.MenuDaoImpl;
 import by.epam.finalproject.model.dao.impl.SectionDaoImpl;
 import by.epam.finalproject.model.entity.Section;
 import by.epam.finalproject.model.service.SectionService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +19,7 @@ import java.util.Optional;
  * The type Section service.
  */
 public class SectionServiceImpl implements SectionService {
+    private static final Logger logger = LogManager.getLogger();
     private static final SectionServiceImpl instance = new SectionServiceImpl();
 
     private SectionServiceImpl(){}
@@ -128,6 +132,7 @@ public class SectionServiceImpl implements SectionService {
         boolean isRestore;
         try {
             isRestore = sectionDao.restoreSectionById(sectionId);
+            logger.log(Level.INFO, "isRestore = " + isRestore);
             menuDao.restoreAllMenuBySectionId(sectionId);
         } catch (DaoException e) {
             transaction.rollback();

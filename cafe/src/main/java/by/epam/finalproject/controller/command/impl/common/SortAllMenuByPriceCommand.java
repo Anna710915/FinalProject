@@ -8,9 +8,6 @@ import by.epam.finalproject.model.entity.Menu;
 import by.epam.finalproject.model.service.MenuService;
 import by.epam.finalproject.model.service.PaginationService;
 import by.epam.finalproject.model.service.impl.MenuServiceImpl;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -30,20 +27,14 @@ import static by.epam.finalproject.controller.PathPage.MENU_PAGE;
  * The type Sort all menu by price command.
  */
 public class SortAllMenuByPriceCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
     private static final int PAGE_SIZE = 4;
     private final MenuService menuService = MenuServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         Router router = new Router();
-        String currentPageParameter = request.getParameter(PAGINATION_PAGE);
         String sectionId = request.getParameter(SECTION_ID);
-        int currentPage = 1;
-        if(currentPageParameter != null){
-            currentPage = Integer.parseInt(currentPageParameter);
-        }
-
+        int currentPage = currentPaginationPage(request);
         int offset = PaginationService.offset(PAGE_SIZE, currentPage);
         int totalRecords;
         try {
@@ -69,20 +60,30 @@ public class SortAllMenuByPriceCommand implements Command {
                 totalRecords = menuService.readRowCountBySection(id);
                 builderUrl = new StringBuilder(Command.createURL(request, request.getParameter(COMMAND)));
                 builderUrl.append(SIGN).append(SECTION_ID).append(EQUAL).append(sectionId);
-                logger.log(Level.INFO,"builder - " + builderUrl);
-                logger.log(Level.INFO, "list - " + menuSublist);
             }
-
             int pages = PaginationService.pages(totalRecords, PAGE_SIZE);
             int lastPage = PaginationService.lastPage(pages, PAGE_SIZE, totalRecords);
-            request.setAttribute(MENU_LIST, menuSublist);
-            request.setAttribute(PAGINATION_PAGE, currentPage);
-            request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
-            request.setAttribute(URL, builderUrl.toString());
+            addRequestAttribute(request, menuSublist, currentPage, lastPage, builderUrl.toString());
             router.setCurrentPage(MENU_PAGE);
         } catch (ServiceException | NumberFormatException e) {
             throw new CommandException("Exception in a SortAllMenuByPriceCommand class. ", e);
         }
         return router;
+    }
+
+    private int currentPaginationPage(HttpServletRequest request){
+        String currentPageParameter = request.getParameter(PAGINATION_PAGE);
+        int currentPage = 1;
+        if(currentPageParameter != null){
+            currentPage = Integer.parseInt(currentPageParameter);
+        }
+        return currentPage;
+    }
+
+    private void addRequestAttribute(HttpServletRequest request, List<Menu> menuSublist, int currentPage, int lastPage, String url){
+        request.setAttribute(MENU_LIST, menuSublist);
+        request.setAttribute(PAGINATION_PAGE, currentPage);
+        request.setAttribute(PAGINATION_LAST_PAGE, lastPage);
+        request.setAttribute(URL, url);
     }
 }

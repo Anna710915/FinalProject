@@ -96,7 +96,7 @@
                                         <div class="col">
                                             <form action="${absolutePath}/controller" method="post">
                                                 <input type="hidden" name="command" value="restore_section">
-                                                <input type="hidden" name="id" value="${section.sectionId}">
+                                                <input type="hidden" name="section_id" value="${section.sectionId}">
                                                 <button type="submit" class="btn-danger"><fmt:message key="action.restore"/></button>
                                             </form>
                                         </div>
