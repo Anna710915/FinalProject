@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The type Xss protection filter.
+ * The type Xss protection filter protect an application from dangerous requests.
  */
 public class XssProtectionFilter implements Filter{
     private static final Logger logger = LogManager.getLogger();

@@ -18,7 +18,7 @@ import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 
 /**
- * The type Delete product command.
+ * The type Delete product command. It is used a safe removal.
  */
 public class DeleteProductCommand implements Command {
     private static final Logger logger = LogManager.getLogger();

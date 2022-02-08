@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The type Order dao.
+ * The type OrderDaoImpl class executes requests to the DB.
  */
 public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private static final Logger logger = LogManager.getLogger();

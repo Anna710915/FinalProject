@@ -1,7 +1,7 @@
 package by.epam.finalproject.model.entity;
 
 /**
- * The type Component order.
+ * The type ComponentOrder class contains name food field and its amount.
  */
 public class ComponentOrder extends CustomEntity{
     private String nameFood;

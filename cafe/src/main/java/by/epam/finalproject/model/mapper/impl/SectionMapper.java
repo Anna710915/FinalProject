@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 /**
- * The type Section mapper.
+ * The type SectionMapper. Extract sections rows form ResultSet.
  */
 public class SectionMapper implements CustomRowMapper<Section> {
     /**

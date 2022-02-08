@@ -1,7 +1,7 @@
 package by.epam.finalproject.controller;
 
 /**
- * The type Router.
+ * The type Router class is used for keeping pages URL and the type of sending.
  */
 public class Router {
     /**

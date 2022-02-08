@@ -7,7 +7,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /**
- * The type Footer tag.
+ * The type FooterTag class.
  */
 public class FooterTag extends TagSupport {
 
@@ -24,7 +24,7 @@ public class FooterTag extends TagSupport {
     }
 
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag(){
         return EVAL_PAGE;
     }
 }

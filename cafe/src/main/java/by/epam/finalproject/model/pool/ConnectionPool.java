@@ -18,7 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * The type Connection pool.
+ * The type ConnectionPool class. Announces two limited thread - safe queues
+ * for free and giving away connections. It is a singleton class with private
+ * constructor and static method to initialize this class.
  */
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
@@ -63,7 +65,7 @@ public class ConnectionPool {
         }
         if(freeConnections.isEmpty()){
             logger.log(Level.FATAL,"There are not connections!");
-            throw new RuntimeException();
+            throw new RuntimeException("There are not connections!");
         }else if (freeConnections.size() < POOL_SIZE){
             int connectionSize = freeConnections.size();
             while (connectionSize!= POOL_SIZE){
@@ -108,7 +110,7 @@ public class ConnectionPool {
         ProxyConnection connection = null;
         try{
             connection = freeConnections.take();
-            giveAwayConnections.offer(connection);
+            giveAwayConnections.put(connection);
         }catch (InterruptedException e){
             logger.log(Level.ERROR,"The thread was interrupted!" + e.getMessage());
             Thread.currentThread().interrupt();
@@ -117,7 +119,8 @@ public class ConnectionPool {
     }
 
     /**
-     * Release connection.
+     * Release connection. The connection returns
+     * to the pool.
      *
      * @param connection the connection
      */
@@ -136,7 +139,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Destroy pool.
+     * Destroy pool and deregister drivers.
      */
     public void destroyPool(){
         for(int i = 0; i < POOL_SIZE; i++){

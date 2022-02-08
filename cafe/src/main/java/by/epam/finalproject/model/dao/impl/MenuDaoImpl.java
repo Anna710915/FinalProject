@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.util.*;
 
 /**
- * The type Menu dao.
+ * The type MenuDaoImpl class executes requests to the DB.
  */
 public class MenuDaoImpl extends AbstractDao<Menu> implements MenuDao {
     private static final Logger logger = LogManager.getLogger();

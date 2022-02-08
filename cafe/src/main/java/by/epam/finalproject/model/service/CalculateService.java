@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.Map;
 
 /**
- * The type Calculate service.
+ * The type CalculateService class.
  */
 public class CalculateService {
     private static final CalculateService instance = new CalculateService();
@@ -17,14 +17,15 @@ public class CalculateService {
     /**
      * Get instance calculate service.
      *
-     * @return the calculate service
+     * @return the CalculateService object
      */
     public static CalculateService getInstance(){
         return instance;
     }
 
     /**
-     * Calculate total price big decimal.
+     * Calculate total price for order. If a product discount equals zero
+     * it uses a user discount for calculating the total price.
      *
      * @param discount the discount
      * @param map      the map

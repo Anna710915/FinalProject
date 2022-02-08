@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The type User discount dao.
+ * The type UserDiscountDaoImpl class executes requests to the DB.
  */
 public class UserDiscountDaoImpl extends AbstractDao<UserDiscount> implements UserDiscountDao {
     private static final Logger logger = LogManager.getLogger();

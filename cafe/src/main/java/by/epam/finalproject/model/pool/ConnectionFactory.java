@@ -14,7 +14,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * The type Connection factory.
+ * The type Connection factory. Connection parameters keep
+ * in a property file named database.properties.
+ * The ConnectionFactory class uses this property file
+ * which contains, as usual, such parameters as a login,
+ * password access and others.
  */
 class ConnectionFactory {
     private static final Logger logger = LogManager.getLogger();
@@ -45,7 +49,7 @@ class ConnectionFactory {
     private  ConnectionFactory(){}
 
     /**
-     * Create connection connection.
+     * Create connection method Get connection using DriverManager class.
      *
      * @return the connection
      * @throws ConnectionPoolException the connection pool exception

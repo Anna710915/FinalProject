@@ -77,5 +77,18 @@ public class UserValidator {
         boolean actual = validator.isCorrectPhoneNumber(phone);
         assertEquals(actual, expected);
     }
+
+    @DataProvider(name = "date")
+    public Object[][] dateData(){
+        return new Object[][]{
+                {true, "1993-03-16"}
+        };
+    }
+
+    @Test(dataProvider = "date")
+    public void isCorrectDataTest(boolean expected, String date){
+        boolean actual = validator.isCorrectDate(date);
+        assertEquals(actual, expected);
+    }
 }
 

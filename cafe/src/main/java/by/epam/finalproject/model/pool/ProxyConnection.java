@@ -10,7 +10,9 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * The type Proxy connection.
+ * The type ProxyConnection class wrap a real connection to
+ * change some functional logic and protect the connection pool
+ * from dangerous connections (or wild connections).
  */
 public class ProxyConnection implements Connection {
     /**

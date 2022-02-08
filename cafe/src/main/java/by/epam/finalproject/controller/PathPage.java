@@ -1,7 +1,7 @@
 package by.epam.finalproject.controller;
 
 /**
- * The type Path page.
+ * The type PathPage class.
  */
 public final class PathPage {
     /**
@@ -81,5 +81,10 @@ public final class PathPage {
      * The constant RESTORE_PAGE.
      */
     public static final String RESTORE_PAGE = "/jsp/pages/admin/restore.jsp";
+
+    /**
+     * The constant PASSWORD_PAGE.
+     */
+    public static final String PASSWORD_PAGE = "/jsp/pages/common/password.jsp";
     private PathPage(){}
 }

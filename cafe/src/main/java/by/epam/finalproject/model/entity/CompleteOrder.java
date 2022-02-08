@@ -3,7 +3,7 @@ package by.epam.finalproject.model.entity;
 import java.util.List;
 
 /**
- * The type Complete order.
+ * The type CompleteOrder. Contains a ComponentOrder list.
  */
 public class CompleteOrder extends CustomEntity{
     private User user;

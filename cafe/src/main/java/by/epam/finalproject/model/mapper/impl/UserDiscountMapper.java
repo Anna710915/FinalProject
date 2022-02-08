@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 /**
- * The type User discount mapper.
+ * The type UserDiscountMapper. Extract user discounts rows form ResultSet.
  */
 public class UserDiscountMapper implements CustomRowMapper<UserDiscount> {
     /**

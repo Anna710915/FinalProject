@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The type Section service.
+ * The type Section service. This class contains business logic
+ * for sections.
  */
 public class SectionServiceImpl implements SectionService {
     private static final Logger logger = LogManager.getLogger();

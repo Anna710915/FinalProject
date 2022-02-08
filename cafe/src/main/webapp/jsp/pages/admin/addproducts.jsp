@@ -22,9 +22,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${absolutePath}/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/style.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
@@ -40,7 +41,7 @@
     <div class="container justify-content-center">
         <h3 class="text-center p-3"><fmt:message key="menu.new_product"/></h3>
         </br>
-        <form name="AddProductFord" method="post" action="${absolutePath}/controller" class="needs-validation" novalidate>
+        <form name="AddProductFord" method="post" action="${absolutePath}/controller"  novalidate>
             <input type="hidden" name="command" value="insert_new_product"/>
             </br>
             <div class="form-group" class="mb-3">
@@ -69,7 +70,7 @@
             <div class="form-group" class="mb-3">
             <label class="form-label"><fmt:message key="menu.product_composition"/></label>
             <input type="text" name="product_composition" value="${fn:escapeXml(param.product_composition)}" class="form-control" pattern=".{0,200}">
-                <c:if test="${! empty invalid_product_composition}">
+                <c:if test="${!empty invalid_product_composition}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_composition}"/>
                     </div>
@@ -83,7 +84,7 @@
             <label class="form-label"><fmt:message key="menu.product_weight"/></label>
             <input type="text" name="product_weight" class="form-control" value="${param.product_weight}" required pattern="\d{1,6}(\.[0-9]{1,2})?">
                 <div id="weightHelp" class="form-text"><fmt:message key="menu.weight_pattern"></fmt:message></div>
-                <c:if test="${! empty invalid_product_weight}">
+                <c:if test="${!empty invalid_product_weight}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_weight}"/>
                     </div>
@@ -97,7 +98,7 @@
             <label class="form-label"><fmt:message key="menu.product_calories"/></label>
                 <input type="text" name="product_calories" class="form-control" value="${param.product_calories}" required pattern="\d{1,6}(\.[0-9]{2})?">
                 <div id="weightHelp" class="form-text"><fmt:message key="menu.weight_pattern"></fmt:message></div>
-                <c:if test="${! empty invalid_product_calories}">
+                <c:if test="${!empty invalid_product_calories}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_calories}"/>
                     </div>
@@ -110,7 +111,7 @@
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_time"/></label>
                 <input type="time" name="product_time" value="${param.product_time}" class="form-control">
-                <c:if test="${! empty invalid_cooking_time}">
+                <c:if test="${!empty invalid_cooking_time}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_cooking_time}"/>
                     </div>
@@ -124,7 +125,7 @@
                 <label class="form-label"><fmt:message key="menu.product_discount"/></label>
                 <input type="text" name="product_discount" value="${param.product_discount}" class="form-control" required pattern="0(\.\d{1,2})?">
                 <div id="discountHelp" class="form-text"><fmt:message key="menu_discount_pattern"></fmt:message></div>
-                <c:if test="${! empty invalid_product_discount}">
+                <c:if test="${!empty invalid_product_discount}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_discount}"/>
                     </div>
@@ -138,7 +139,7 @@
                 <label class="form-label"><fmt:message key="menu.product_cost"/></label>
                 <input type="text" name="product_price" value="${param.product_price}" class="form-control" required pattern="\d{1,6}(\.[0-9]{1,2})?">
                 <div id="costHelp" class="form-text"><fmt:message key="menu.cost_pattern"></fmt:message></div>
-                <c:if test="${! empty invalid_product_price}">
+                <c:if test="${!empty invalid_product_price}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_product_price}"/>
                     </div>
@@ -149,12 +150,12 @@
             </div>
             </br>
             <select class="form-select" aria-label="Default select example" name="product_section">
-                <option selected><fmt:message key="menu.product_section"/></option>
+                <option selected disabled><fmt:message key="menu.product_section"/></option>
                 <c:forEach var="item" items="${applicationScope.section_list}">
                     <option value="${item.sectionId}">${item.sectionName}</option>
                 </c:forEach>
             </select>
-            <c:if test="${! empty invalid_product_section}">
+            <c:if test="${!empty invalid_product_section}">
                 <div class="invalid-feedback-backend" style="color: red">
                     <fmt:message key="${invalid_product_section}"/>
                 </div>

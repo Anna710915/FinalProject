@@ -25,7 +25,8 @@ import java.util.Optional;
 import static by.epam.finalproject.controller.Parameter.*;
 
 /**
- * The type Order service.
+ * The type OrderService. This class contains business logic
+ * for orders products.
  */
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger();
@@ -82,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int calculateProductsNumberPerYear(long userId) throws ServiceException {
+    public int calculateOrdersNumberPerYear(long userId) throws ServiceException {
         OrderDaoImpl orderDao = new OrderDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.init(orderDao);
@@ -150,10 +151,8 @@ public class OrderServiceImpl implements OrderService {
         try{
             boolean result;
             switch (state){
-                case PROCESSING, COMPLETED, CANCELLED ->
-                        result = orderDao.updateOrderStateById(orderId, state);
-                case RECEIVED -> {
-                    result = orderDao.updateOrderStateById(orderId,state);
+                case PROCESSING, COMPLETED, CANCELLED, RECEIVED -> {
+                    result = orderDao.updateOrderStateById(orderId, state);
                     Optional<User> optionalUser = userDao.findUserByOrder(orderId);
                     if(optionalUser.isPresent()){
                         User user = optionalUser.get();

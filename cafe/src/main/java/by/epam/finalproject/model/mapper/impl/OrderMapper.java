@@ -2,17 +2,22 @@ package by.epam.finalproject.model.mapper.impl;
 
 import by.epam.finalproject.model.entity.Order;
 import by.epam.finalproject.model.mapper.CustomRowMapper;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import static by.epam.finalproject.model.mapper.impl.UserMapper.USER_ID;
 
 /**
- * The type Order mapper.
+ * The type OrderMapper. Extract orders rows form ResultSet.
  */
 public class OrderMapper implements CustomRowMapper<Order> {
+    private static final Logger logger = LogManager.getLogger();
     /**
      * The constant ORDER_ID.
      */
@@ -48,7 +53,8 @@ public class OrderMapper implements CustomRowMapper<Order> {
         Optional<Order> optionalOrder;
         try {
             order.setOrderId(resultSet.getLong(ORDER_ID));
-            order.setOrderDate(resultSet.getTimestamp(ORDER_DATE).toLocalDateTime());
+            order.setOrderDate(resultSet.getTimestamp(ORDER_DATE).toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime());
+            logger.log(Level.INFO, "Order date: " + order.getOrderDate());
             order.setOrderState(Order.OrderState.valueOf(resultSet.getString(ORDER_STATE)
                     .trim().toUpperCase()));
             order.setTypePayment(Order.TypePayment.valueOf(resultSet.getString(TYPE_PAYMENT)

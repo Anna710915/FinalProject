@@ -20,7 +20,7 @@ import java.util.Optional;
 import static by.epam.finalproject.model.mapper.impl.UserMapper.PASSWORD;
 
 /**
- * The type User dao.
+ * The type UserDaoImpl class executes requests to the DB.
  */
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final Logger logger = LogManager.getLogger();

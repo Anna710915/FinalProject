@@ -21,7 +21,7 @@ import static by.epam.finalproject.controller.SessionAttribute.SECTION_LIST;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_PRODUCT_SECTION_MESSAGE;
 
 /**
- * The type Delete section command.
+ * The type Delete section command. It is used a safe removal.
  */
 public class DeleteSectionCommand implements Command {
     private final SectionService service = SectionServiceImpl.getInstance();

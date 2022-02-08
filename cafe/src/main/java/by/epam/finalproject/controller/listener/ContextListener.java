@@ -7,14 +7,10 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * The type Context listener.
+ * The type Context listener. It closes the connection pool.
  */
 @WebListener
 public class ContextListener implements ServletContextListener {
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        ConnectionPool.getInstance();
-    }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {

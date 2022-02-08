@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The type Section dao.
+ * The type SectionDaoImpl class executes requests to the DB.
  */
 public class SectionDaoImpl extends AbstractDao<Section> implements SectionDao {
     private static final Logger logger = LogManager.getLogger();

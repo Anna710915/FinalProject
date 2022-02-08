@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The type Abstract dao.
+ * The type AbstractDao class contains ProxyConnection field to connect with
+ * DB in one transaction period and announces common methods for subclasses.
  *
  * @param <T> the type parameter
  */

@@ -13,7 +13,7 @@ import static by.epam.finalproject.controller.Parameter.COMMAND;
 import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 /**
- * The type Current page filter.
+ * The type Current page filter class monitors a current user page.
  */
 public class CurrentPageFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();

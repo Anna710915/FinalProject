@@ -24,7 +24,8 @@ import static by.epam.finalproject.controller.Parameter.*;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_PRICE;
 
 /**
- * The type Menu service.
+ * The type MenuService class. This class contains business logic
+ * for menu products.
  */
 public class MenuServiceImpl implements MenuService {
     private static final Logger logger = LogManager.getLogger();

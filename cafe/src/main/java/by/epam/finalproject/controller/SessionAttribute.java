@@ -1,7 +1,7 @@
 package by.epam.finalproject.controller;
 
 /**
- * The type Session attribute.
+ * The type SessionAttribute class.
  */
 public final class SessionAttribute {
     /**

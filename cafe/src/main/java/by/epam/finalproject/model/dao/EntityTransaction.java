@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * The type Entity transaction.
+ * The type EntityTransaction class is used to initialize transactions and release
+ * connections to the pool when the transaction ends. Contains commit and rollback
+ * transactions method.
  */
 public class EntityTransaction {
     /**
@@ -38,7 +40,7 @@ public class EntityTransaction {
     }
 
     /**
-     * End transaction.
+     * End transaction and release connection to the pool.
      */
     public void endTransaction(){
         if(connection != null){
@@ -53,7 +55,7 @@ public class EntityTransaction {
     }
 
     /**
-     * Commit.
+     * Commit a transaction.
      */
     public void commit(){
         try{
@@ -64,7 +66,7 @@ public class EntityTransaction {
     }
 
     /**
-     * Rollback.
+     * Rollback a transaction.
      */
     public void rollback(){
         try{
@@ -87,7 +89,7 @@ public class EntityTransaction {
     }
 
     /**
-     * End transaction. Release connection.
+     * End transaction. Release the connection.
      */
     public void end(){
         if(connection != null){

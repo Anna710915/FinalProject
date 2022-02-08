@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.Properties;
 
 /**
- * The type Mail.
+ * The type Mail class.
  */
 public class Mail {
     private static final Logger logger = LogManager.getLogger();

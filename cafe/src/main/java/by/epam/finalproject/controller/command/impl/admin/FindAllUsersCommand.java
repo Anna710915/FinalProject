@@ -29,9 +29,9 @@ public class FindAllUsersCommand implements Command {
         Router router = new Router();
         try {
             List<User> listUsers = userService.findAllClients();
-            request.setAttribute(LIST_USER,listUsers);
+            request.setAttribute(LIST_USER, listUsers);
             router.setCurrentPage(USERS_PAGE);
-            logger.log(Level.INFO,USERS_PAGE);
+            logger.log(Level.INFO, USERS_PAGE);
         } catch (ServiceException e) {
             throw new CommandException("Exception in a FindAllUsersCommand class ", e);
         }

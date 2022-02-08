@@ -22,6 +22,7 @@ public class ValidatorImpl implements Validator {
     private static final String ADDRESS_PATTERN = "^.{1,100}$";
     private static final String USER_COMMENT_PATTERN = "^.{0,200}$";
     private static final String SECTION_NAME_PATTERN = "^.{1,20}$";
+    private static final String DATE_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
 
     private static final ValidatorImpl instance = new ValidatorImpl();
 
@@ -35,22 +36,28 @@ public class ValidatorImpl implements Validator {
     public static ValidatorImpl getInstance(){
         return instance;
     }
+
+    @Override
     public boolean isCorrectName(String name){
         return isNotNullOrEmpty(name) && name.matches(NAME_PATTERN);
     }
 
+    @Override
     public boolean isCorrectLogin(String login){
         return isNotNullOrEmpty(login) && login.matches(USER_LOGIN_PATTERN);
     }
 
+    @Override
     public boolean isCorrectPassword(String password){
         return isNotNullOrEmpty(password) && password.matches(USER_PASSWORD_PATTERN);
     }
 
-    public boolean isCorrectEmail(String gmail){
-        return isNotNullOrEmpty(gmail) && gmail.matches(USER_MAIL_PATTERN);
+    @Override
+    public boolean isCorrectEmail(String mail){
+        return isNotNullOrEmpty(mail) && mail.matches(USER_MAIL_PATTERN);
     }
 
+    @Override
     public boolean isCorrectPhoneNumber(String phoneNumber){
         return isNotNullOrEmpty(phoneNumber) && phoneNumber.matches(USER_PHONE_NUMBER_PATTERN);
     }
@@ -91,6 +98,11 @@ public class ValidatorImpl implements Validator {
     }
 
     @Override
+    public boolean isCorrectDate(String date) {
+        return isNotNullOrEmpty(date) && date.matches(DATE_PATTERN);
+    }
+
+    @Override
     public boolean checkRegistration(Map<String, String> map) {
         boolean result = true;
         String firstName = map.get(USER_FIRST_NAME);
@@ -124,7 +136,7 @@ public class ValidatorImpl implements Validator {
             map.put(USER_PHONE_NUMBER,INVALID_PHONE_NUMBER);
             result = false;
         }
-        if(!isNotNullOrEmpty(birthday)){
+        if(!isCorrectDate(birthday)){
             map.put(USER_BIRTHDAY,INVALID_BIRTHDAY);
             result = false;
         }
@@ -156,7 +168,7 @@ public class ValidatorImpl implements Validator {
             updateData.put(USER_PHONE_NUMBER,INVALID_PHONE_NUMBER);
             result = false;
         }
-        if(!isNotNullOrEmpty(birthday)){
+        if(!isCorrectDate(birthday)){
             updateData.put(USER_BIRTHDAY,INVALID_BIRTHDAY);
             result = false;
         }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
-import static by.epam.finalproject.controller.Parameter.SECTION_NAME;
+import static by.epam.finalproject.controller.Parameter.NEW_SECTION_NAME;
 import static by.epam.finalproject.controller.Parameter.PRODUCT_SECTION;
 import static by.epam.finalproject.controller.Parameter.INVALID_PRODUCT_SECTION;
 import static by.epam.finalproject.controller.Parameter.INVALID_NEW_SECTION_NAME;
@@ -47,7 +47,7 @@ public class UpdateSectionNameCommand implements Command {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         String currentPage = (String) session.getAttribute(CURRENT_PAGE);
-        String sectionName = request.getParameter(SECTION_NAME);
+        String sectionName = request.getParameter(NEW_SECTION_NAME);
         router.setCurrentPage(currentPage);
         try {
             boolean result = true;

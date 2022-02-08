@@ -14,7 +14,7 @@ import java.util.Optional;
 import static by.epam.finalproject.model.mapper.impl.SectionMapper.SECTION;
 
 /**
- * The type Menu mapper.
+ * The type MenuMapper. Extract menu rows form ResultSet.
  */
 public class MenuMapper implements CustomRowMapper<Menu> {
     private static final Logger logger = LogManager.getLogger();

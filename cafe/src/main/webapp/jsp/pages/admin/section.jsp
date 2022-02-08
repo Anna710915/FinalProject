@@ -79,7 +79,7 @@
       </br>
       <div class="form-group mb-3">
         <label class="form-label"><fmt:message key="section.new_section_name"/></label>
-        <input type="text" name="section_name" class="form-control" required pattern=".{1,20}">
+        <input type="text" name="new_section_name" value="${fn:escapeXml(param.new_section_name)}" class="form-control" required pattern=".{1,20}">
         <c:if test="${! empty invalid_new_section_name}">
           <div class="invalid-feedback-backend" style="color: red">
             <fmt:message key="${invalid_new_section_name}"/>

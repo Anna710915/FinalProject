@@ -60,18 +60,18 @@ public class SignInCommand implements Command {
                 logger.log(Level.INFO,"Sign in" + user.getRole());
                 switch (user.getRole()){
                     case ADMIN -> {
-                        session.setAttribute(USER,user);
+                        session.setAttribute(USER, user);
                         router.setCurrentPage(HOME_PAGE);
                         List<Section> sectionList = sectionService.findAllSections();
                         context.setAttribute(SECTION_LIST, sectionList);
                     }
                     case CLIENT -> {
                         if(user.getState() == User.UserState.BLOCKED){
-                            request.setAttribute(USER_STATUS_BLOCKED,USER_BLOCKED_MESSAGE);
+                            request.setAttribute(USER_STATUS_BLOCKED, USER_BLOCKED_MESSAGE);
                             router.setCurrentPage(SIGN_PAGE);
                         }else {
                             logger.log(Level.INFO,"Client page");
-                            session.setAttribute(USER,user);
+                            session.setAttribute(USER, user);
                             session.setAttribute(CART, new HashMap<Menu, Integer>());
                             List<Section> sectionList = sectionService.findAllSections();
                             context.setAttribute(SECTION_LIST, sectionList);

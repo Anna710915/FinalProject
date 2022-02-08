@@ -25,7 +25,8 @@ import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.PathPage.ERROR_404;
 
 /**
- * The type Page security command filter.
+ * The type Page security command filter class determines what commands
+ * the client can use.
  */
 public class PageSecurityCommandFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();

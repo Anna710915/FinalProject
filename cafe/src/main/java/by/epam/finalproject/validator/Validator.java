@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public interface Validator {
     /**
-     * Is correct name boolean.
+     * Check name.
      *
      * @param name the name
      * @return the boolean
@@ -15,7 +15,7 @@ public interface Validator {
     boolean isCorrectName(String name);
 
     /**
-     * Is correct login boolean.
+     * Check login.
      *
      * @param login the login
      * @return the boolean
@@ -23,7 +23,7 @@ public interface Validator {
     boolean isCorrectLogin(String login);
 
     /**
-     * Is correct password boolean.
+     * Check password.
      *
      * @param password the password
      * @return the boolean
@@ -31,15 +31,15 @@ public interface Validator {
     boolean isCorrectPassword(String password);
 
     /**
-     * Is correct email boolean.
+     * Check email .
      *
-     * @param gmail the gmail
+     * @param mail the mail
      * @return the boolean
      */
-    boolean isCorrectEmail(String gmail);
+    boolean isCorrectEmail(String mail);
 
     /**
-     * Is correct phone number boolean.
+     * Check phone number.
      *
      * @param phoneNumber the phone number
      * @return the boolean
@@ -47,7 +47,7 @@ public interface Validator {
     boolean isCorrectPhoneNumber(String phoneNumber);
 
     /**
-     * Check registration boolean.
+     * Check registration.
      *
      * @param map the map
      * @return the boolean
@@ -55,7 +55,7 @@ public interface Validator {
     boolean checkRegistration(Map<String, String> map);
 
     /**
-     * Check product data boolean.
+     * Check product data.
      *
      * @param map the map
      * @return the boolean
@@ -63,7 +63,7 @@ public interface Validator {
     boolean checkProductData(Map<String, String> map);
 
     /**
-     * Is correct product digit boolean.
+     * Check product digit.
      *
      * @param digit the digit
      * @return the boolean
@@ -71,7 +71,7 @@ public interface Validator {
     boolean isCorrectProductDigit(String digit);
 
     /**
-     * Is correct discount boolean.
+     * Check discount.
      *
      * @param discount the discount
      * @return the boolean
@@ -79,7 +79,7 @@ public interface Validator {
     boolean isCorrectDiscount(String discount);
 
     /**
-     * Is correct product name boolean.
+     * Check product.
      *
      * @param name the name
      * @return the boolean
@@ -87,7 +87,7 @@ public interface Validator {
     boolean isCorrectProductName(String name);
 
     /**
-     * Check update profile boolean.
+     * Check update profile.
      *
      * @param updateData the update data
      * @return the boolean
@@ -95,7 +95,7 @@ public interface Validator {
     boolean checkUpdateProfile(Map<String, String> updateData);
 
     /**
-     * Is correct composition boolean.
+     * Check composition.
      *
      * @param composition the composition
      * @return the boolean
@@ -103,7 +103,7 @@ public interface Validator {
     boolean isCorrectComposition(String composition);
 
     /**
-     * Is correct address boolean.
+     * Check address.
      *
      * @param address the address
      * @return the boolean
@@ -111,7 +111,7 @@ public interface Validator {
     boolean isCorrectAddress(String address);
 
     /**
-     * Is correct user comment boolean.
+     * Check user comment.
      *
      * @param comment the comment
      * @return the boolean
@@ -119,7 +119,7 @@ public interface Validator {
     boolean isCorrectUserComment(String comment);
 
     /**
-     * Check order info boolean.
+     * Check order information.
      *
      * @param orderInfo the order info
      * @return the boolean
@@ -127,10 +127,18 @@ public interface Validator {
     boolean checkOrderInfo(Map<String, String> orderInfo);
 
     /**
-     * Is correct section name boolean.
+     * Check section name.
      *
      * @param sectionName the section name
      * @return the boolean
      */
     boolean isCorrectSectionName(String sectionName);
+
+    /**
+     * Check date.
+     *
+     * @param date the date
+     * @return the boolean
+     */
+    boolean isCorrectDate(String date);
 }

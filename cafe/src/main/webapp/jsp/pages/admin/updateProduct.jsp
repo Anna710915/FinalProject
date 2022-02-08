@@ -13,12 +13,13 @@
 <html>
 <head>
     <title><fmt:message key="title.update_product"/> </title>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${absolutePath}/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/style.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
@@ -34,12 +35,13 @@
     <div class="container justify-content-center">
         <h3 class="text-center p-3"><fmt:message key="title.update_product"/></h3>
         </br>
-        <form name="AddProductFord" method="post" action="${absolutePath}/controller" class="needs-validation" novalidate>
+        <form name="AddProductFord" method="post" action="${absolutePath}/controller"  novalidate>
             <input type="hidden" name="command" value="update_product"/>
             <input type="hidden" name="id" value="${requestScope.menu.foodId}">
             </br>
             <div class="form-group" class="mb-3">
                 <label class="form-label"><fmt:message key="menu.product_name"/> </label>
+
                 <input type="text" name="product_name" value="${requestScope.menu.nameFood}" class="form-control" required pattern="^[A-Za-zА-Яа-я\s]{3,50}$">
                 <c:choose>
                     <c:when test="${!empty invalid_product_name}">

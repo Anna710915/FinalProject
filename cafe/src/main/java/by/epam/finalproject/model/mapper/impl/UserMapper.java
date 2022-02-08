@@ -10,7 +10,7 @@ import java.util.Optional;
 import static by.epam.finalproject.model.mapper.impl.UserDiscountMapper.DISCOUNT_ID;
 
 /**
- * The type User mapper.
+ * The type UserMapper. Extract users rows form ResultSet.
  */
 public class UserMapper implements CustomRowMapper<User> {
     /**

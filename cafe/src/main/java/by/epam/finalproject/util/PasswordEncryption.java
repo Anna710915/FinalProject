@@ -7,7 +7,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class PasswordEncryption {
     /**
-     * Md5 apache string.
+     * Md5 apache encryption.
      *
      * @param password the password
      * @return the string

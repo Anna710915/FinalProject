@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 /**
- * The type Encoding filter.
+ * The type Encoding filter class sets the code type for request and responses.
  */
 public class EncodingFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
@@ -22,7 +22,7 @@ public class EncodingFilter implements Filter {
     private String code;
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
         logger.log(Level.INFO,"Encoding filter: method - init");
         code = config.getInitParameter(CODE);
     }

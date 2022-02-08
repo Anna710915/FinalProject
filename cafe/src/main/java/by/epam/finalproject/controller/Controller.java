@@ -21,7 +21,8 @@ import static by.epam.finalproject.controller.PathPage.ERROR_500;
 import static by.epam.finalproject.controller.Parameter.COMMAND;
 
 /**
- * The type Controller.
+ * The type Controller class. Manage requests and forms responses for clients.
+ * Override GET and POST methods.
  */
 @WebServlet(urlPatterns = {"/controller"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,

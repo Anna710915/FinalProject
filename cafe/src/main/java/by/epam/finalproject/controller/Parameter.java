@@ -309,14 +309,6 @@ public final class Parameter {
      */
     public static final String SECTION_NAME = "section_name";
     /**
-     * The constant SUCCESS_CHANGE_PASSWORD.
-     */
-    public static final String SUCCESS_CHANGE_PASSWORD = "success_change_password";
-    /**
-     * The constant SUCCESS_CREATE_ORDER.
-     */
-    public static final String SUCCESS_CREATE_ORDER = "success_create_order";
-    /**
      * The constant RESTORE_MENU.
      */
     public static final String RESTORE_MENU = "restore_menu";
@@ -329,5 +321,10 @@ public final class Parameter {
      * The constant INVALID_NEW_UNIQ_PASSWORD.
      */
     public static final String INVALID_NEW_UNIQ_PASSWORD = "invalid_new_uniq_password";
+
+    /**
+     * The constant NEW_SECTION_NAME.
+     */
+    public static final String NEW_SECTION_NAME = "new_section_name";
     private Parameter(){}
 }

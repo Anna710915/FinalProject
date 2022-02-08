@@ -25,6 +25,7 @@
             window.history.forward();
         }
     </script>
+    <script type="text/javascript" src="${absolutePath}/js/f5.js"></script>
     <title><fmt:message key="header.orders"/> </title>
 </head>
 <body>
@@ -54,9 +55,7 @@
                             <c:forEach var="order" items="${order_list}">
                                 <tr>
                                     <td><c:out value="${order.orderId}"/></td>
-                                    <fmt:parseDate  value="${order.orderDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both"/>
-                                    <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm:ss" var="stdDatum" />
-                                    <td><c:out value="${stdDatum}"/></td>
+                                    <td><c:out value="${order.orderDate.toLocalDate()} ${order.orderDate.toLocalTime()}"/></td>
                                     <td><c:out value="${order.orderState}"/></td>
                                     <td><c:out value="${order.totalCost}"/></td>
                                 </tr>
@@ -102,9 +101,7 @@
                             <c:forEach var="orderItem" items="${order_list}">
                                 <tr>
                                     <td class="col"><c:out value="${orderItem.order.orderId}"/></td>
-                                    <fmt:parseDate  value="${orderItem.order.orderDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both"/>
-                                    <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm:ss" var="stdDatum" />
-                                    <td class="col"><c:out value="${stdDatum}"/></td>
+                                    <td><c:out value="${order.orderDate.toLocalDate()} ${order.orderDate.toLocalTime()}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.orderState}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.totalCost}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.typePayment}"/> </td>

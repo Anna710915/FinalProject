@@ -15,17 +15,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.epam.finalproject.controller.Parameter.*;
 import static by.epam.finalproject.controller.SessionAttribute.USER;
-import static by.epam.finalproject.controller.Parameter.ADDRESS;
-import static by.epam.finalproject.controller.Parameter.PRODUCT_PAYMENT;
-import static by.epam.finalproject.controller.Parameter.USER_COMMENT;
-import static by.epam.finalproject.controller.Parameter.TOTAL_PRICE;
-import static by.epam.finalproject.controller.Parameter.SUCCESS_CREATE_ORDER;
 import static by.epam.finalproject.controller.SessionAttribute.CART;
 import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
-import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_ADDRESS;
-import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_PAYMENT;
-import static by.epam.finalproject.controller.Parameter.INVALID_ORDER_COMMENT;
 
 import static by.epam.finalproject.controller.PathPage.SUCCESS_PAGE;
 
@@ -55,7 +48,7 @@ public class CreateOrderCommand implements Command {
             BigDecimal totalCost = BigDecimal.valueOf(price);
             if(service.createOrder(orderProduct, orderInfo, user, totalCost)){
                 router.setCurrentPage(SUCCESS_PAGE);
-                session.setAttribute(SUCCESS_CREATE_ORDER, true);
+                router.setRedirectType();
                 orderProduct.clear();
                 session.setAttribute(CART, orderProduct);
                 return router;

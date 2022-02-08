@@ -11,7 +11,6 @@
 <fmt:setBundle basename="context.language"/>
 <html>
 <head>
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +33,7 @@
         <%@include file="../header/header.jsp"%>
     </header>
     <div class="container justify-content-center col-12 col-sm-6 mt-3" >
-        <fmt:message key="order.message"/> +375${sessionScope.user.phoneNumber}
+        <fmt:message key="profile.change_password_message"/>
     </div>
     <div class="text-center">
         <ctg:footertag/>

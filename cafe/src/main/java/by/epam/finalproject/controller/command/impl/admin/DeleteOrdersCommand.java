@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 
 /**
- * The type Delete orders command.
+ * The type Delete orders command. Delete orders that older than last year orders.
  */
 public class DeleteOrdersCommand implements Command {
     private final OrderService service = OrderServiceImpl.getInstance();

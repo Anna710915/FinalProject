@@ -39,6 +39,7 @@
             window.history.forward();
         }
     </script>
+    <script type="text/javascript" src="${absolutePath}/js/f5.js"></script>
     <title><fmt:message key="profile.settings"/></title>
 </head>
 <body>
@@ -61,7 +62,14 @@
                     <fmt:message key="registration.first_name"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="text" name="first_name" value="${user.firstName}" class="form-control" placeholder="${e_first_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                    <c:choose>
+                        <c:when test="${!empty param.first_name}">
+                            <input type="text" name="first_name" value="${param.first_name}" class="form-control" placeholder="${e_first_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="text" name="first_name" value="${user.firstName}" class="form-control" placeholder="${e_first_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                        </c:otherwise>
+                    </c:choose>
                     <c:if test="${!empty invalid_first_name}">
                     <div class="invalid-feedback-backend" style="color: red">
                         <fmt:message key="${invalid_first_name}"/>
@@ -75,7 +83,15 @@
                     <fmt:message key="registration.last_name"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="text" name="last_name" value="${user.lastName}" class="form-control" placeholder="${e_last_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                    <c:choose>
+                        <c:when test="${!empty param.last_name}">
+                            <input type="text" name="last_name" value="${param.last_name}" class="form-control" placeholder="${e_last_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+
+                        </c:when>
+                        <c:otherwise>
+                            <input type="text" name="last_name" value="${user.lastName}" class="form-control" placeholder="${e_last_name}" required pattern="^[A-Za-zА-Яа-я]{3,50}$">
+                        </c:otherwise>
+                    </c:choose>
                     <c:if test="${!empty invalid_last_name}">
                         <div class="invalid-feedback-backend" style="color: red">
                             <fmt:message key="${invalid_last_name}"/>
@@ -89,7 +105,14 @@
                     <fmt:message key="registration.email"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="email" name="email" value="${user.email}" class="form-control" placeholder="${e_email}" required pattern="^[A-Za-z0-9\.]{1,30}@[a-z]{2,7}\.[a-z]{2,4}$">
+                    <c:choose>
+                        <c:when test="${!empty param.email}">
+                            <input type="email" name="email" value="${param.email}" class="form-control" placeholder="${e_email}" required pattern="^[A-Za-z0-9\.]{1,30}@[a-z]{2,7}\.[a-z]{2,4}$">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="email" name="email" value="${user.email}" class="form-control" placeholder="${e_email}" required pattern="^[A-Za-z0-9\.]{1,30}@[a-z]{2,7}\.[a-z]{2,4}$">
+                        </c:otherwise>
+                    </c:choose>
                     <div id="emailHelp" class="form-text"><fmt:message key="registration.correct_gmail"></fmt:message></div>
                     <c:if test="${!empty invalid_email}">
                         <div class="invalid-feedback-backend" style="color: red">
@@ -104,7 +127,14 @@
                     <fmt:message key="registration.birthday"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="date" name="birthday" value="${user.birthday}" class="form-control" placeholder="${e_birthday}" required >
+                    <c:choose>
+                        <c:when test="${!empty param.birthday}">
+                            <input type="date" name="birthday" value="${param.birthday}" class="form-control" placeholder="${e_birthday}" required >
+                        </c:when>
+                        <c:otherwise>
+                            <input type="date" name="birthday" value="${user.birthday}" class="form-control" placeholder="${e_birthday}" required >
+                        </c:otherwise>
+                    </c:choose>
                     <c:if test="${!empty invalid_birthday}">
                         <div class="invalid-feedback-backend" style="color: red">
                             <fmt:message key="${invalid_birthday}"/>
@@ -118,7 +148,14 @@
                     <fmt:message key="registration.phone"/>
                 </dt>
                 <div class="form-group col-10 mb-3">
-                    <input type="text" name="phone_number" value="${user.phoneNumber}" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
+                    <c:choose>
+                        <c:when test="${!empty param.phone_number}">
+                            <input type="text" name="phone_number" value="${param.phone_number}" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="text" name="phone_number" value="${user.phoneNumber}" class="form-control" placeholder="${e_phone}" required pattern="(29|25|44|33)\d{7}">
+                        </c:otherwise>
+                    </c:choose>
                     <div id="phoneHelp" class="form-text"><fmt:message key="registration.correct_phone_number"></fmt:message></div>
                     <c:if test="${!empty invalid_phone_number}">
                         <div class="invalid-feedback-backend" style="color: red">
@@ -137,13 +174,13 @@
         </form>
 
         <h3 class="text-center p-3"><fmt:message key="profile.change_password"/></h3>
-        <form role="form" action="${absolutePath}/controller" method="post" class="needs-validation" novalidate>
+        <form role="form" action="${absolutePath}/controller" method="post" novalidate>
             <input type="hidden" name="command" value="change_password">
             <div class="container col-12 col-sm-6 mt-3">
                 <dl class="row my-3">
                     <div class="form-group mb-3">
                         <label class="form-label"><fmt:message key="profile.enter_old_password"/></label>
-                        <input type="password" name="old_password" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
+                        <input type="password" name="old_password" value="${param.old_password}" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
                         <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
                         <c:if test="${!empty invalid_old_password}">
                             <div class="invalid-feedback-backend" style="color: red">
@@ -156,7 +193,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label"><fmt:message key="profile.enter_new_password"/></label>
-                        <input type="password" name="new_password" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
+                        <input type="password" name="new_password" value="${param.new_password}" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
                         <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
                         <div class="invalid-feedback">
                             <fmt:message key="profile.invalid_repeat_password"/>
@@ -174,7 +211,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label"><fmt:message key="profile.repeat_new_password"/></label>
-                        <input type="password" name="repeat_password" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
+                        <input type="password" name="repeat_password" value="${param.repeat_password}" class="form-control" required pattern="^[A-Za-zА-Яа-я0-9\.]{5,40}$">
                         <div id="passHelp" class="form-text"><fmt:message key="registration.correct_password"></fmt:message></div>
                         <c:if test="${!empty invalid_repeat_password}">
                             <div class="invalid-feedback-backend" style="color: red">

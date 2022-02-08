@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -76,7 +75,7 @@ public class PaginationTag extends TagSupport {
             int prevPage = currentPage - 1 > 0 ? currentPage - 1 : 1;
             writer.write("<ul class=\"pagination\">");
             writer.write(getLinkElement(prevPage, "&lt; Prev"));
-            //show left pages
+
             if (showAllPrev) {
                 for (int i = 1; i <= currentPage - 1; i++) {
                     writer.write(getLinkElement(i, String.valueOf(i)));
@@ -91,10 +90,10 @@ public class PaginationTag extends TagSupport {
                     writer.write(getLinkElement(i, String.valueOf(i)));
                 }
             }
-            //show current pageclass="page-item"
+
             writer.write(String.format("<li class=\"active page-item\"><a class=\"page-link\" href=\"%s&currentPage=%d\">%d</a></li>",
                     url, currentPage, currentPage));
-            //show last pages
+
             if (showAllNext) {
                 for (int i = currentPage + 1; i <= lastPage; i++) {
                     writer.write(getLinkElement(i, String.valueOf(i)));
@@ -122,7 +121,7 @@ public class PaginationTag extends TagSupport {
         return String.format("<li class=\"page-item\"><a class=\"page-link\" href=\"%s&currentPage=%d\">%s</a></li>", url, i, text);
     }
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         return EVAL_PAGE;
     }
 }

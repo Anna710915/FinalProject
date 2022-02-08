@@ -31,7 +31,7 @@ public class ChangeLanguageCommand implements Command {
         }
         logger.log(Level.INFO,"Language parameter is " + language);
         logger.log(Level.INFO,"Current page is " + currentPage);
-        session.setAttribute(LANGUAGE,language);
+        session.setAttribute(LANGUAGE, language);
         router.setRedirectType();
         router.setCurrentPage(currentPage);
         return router;

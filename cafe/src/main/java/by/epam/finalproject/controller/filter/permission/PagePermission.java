@@ -1,4 +1,6 @@
 package by.epam.finalproject.controller.filter.permission;
+import by.epam.finalproject.controller.PathPage;
+
 import java.util.Set;
 
 import static by.epam.finalproject.controller.PathPage.*;
@@ -25,7 +27,7 @@ public enum PagePermission {
             ORDERS_PAGE,
             CONTACTS_PAGE,
             SECTION_PAGE,
-            SUCCESS_PAGE,
+            PASSWORD_PAGE,
             RESTORE_PAGE)),
     /**
      * Client page permission.
@@ -42,7 +44,8 @@ public enum PagePermission {
             BASKET_PAGE,
             SUCCESS_PAGE,
             ORDERS_PAGE,
-            CONTACTS_PAGE)),
+            CONTACTS_PAGE,
+            PASSWORD_PAGE)),
     /**
      * Guest page permission.
      */

@@ -33,7 +33,7 @@ public interface OrderService {
      * @return the int
      * @throws ServiceException the service exception
      */
-    int calculateProductsNumberPerYear(long userId) throws ServiceException;
+    int calculateOrdersNumberPerYear(long userId) throws ServiceException;
 
     /**
      * Find all user orders list.

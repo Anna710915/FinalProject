@@ -17,7 +17,8 @@ import static by.epam.finalproject.controller.SessionAttribute.USER;
 import static by.epam.finalproject.controller.PathPage.START_PAGE;
 
 /**
- * The type Page filter.
+ * The type Page filter class determines what pages
+ * the client can use.
  */
 public class PageFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
@@ -58,7 +59,7 @@ public class PageFilter implements Filter {
         if(!isCorrect && user == null){
             user = new User();
             user.setRole(User.UserRole.GUEST);
-            session.setAttribute(USER,user);
+            session.setAttribute(USER, user);
             httpResponse.sendRedirect(START_PAGE);
             return;
         }else if(!isCorrect){

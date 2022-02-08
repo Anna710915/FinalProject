@@ -155,7 +155,12 @@ public enum CommandType {
     /**
      * The Sort all menu by popularity.
      */
-    SORT_ALL_MENU_BY_POPULARITY(new SortAllMenuByPopularityCommand());
+    SORT_ALL_MENU_BY_POPULARITY(new SortAllMenuByPopularityCommand()),
+
+    /**
+     * The settings page.
+     */
+    GO_TO_SETTINGS(new GoToSettingsCommand());
     private final Command command;
 
     CommandType(Command command){

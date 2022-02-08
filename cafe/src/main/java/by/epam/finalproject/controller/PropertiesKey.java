@@ -1,7 +1,7 @@
 package by.epam.finalproject.controller;
 
 /**
- * The type Properties key.
+ * The type PropertiesKey class.
  */
 public final class PropertiesKey {
     /**
@@ -116,5 +116,6 @@ public final class PropertiesKey {
      * The constant NOT_UNIQ_NEW_PASSWORD_MESSAGE.
      */
     public static final String NOT_UNIQ_NEW_PASSWORD_MESSAGE = "settings.not_uniq_new_password";
+
     private PropertiesKey(){}
 }

@@ -38,7 +38,7 @@ public class CalculateUserDiscountCommand implements Command {
             Optional<UserDiscount> userDiscount = discountService.findDiscountById(user.getDiscountId());
             userDiscount.ifPresent(discount -> request.setAttribute(USER_DISCOUNT, discount.getDiscount()));
 
-            int numberUserOrders = orderService.calculateProductsNumberPerYear(user.getUserId());
+            int numberUserOrders = orderService.calculateOrdersNumberPerYear(user.getUserId());
             request.setAttribute(USER_ORDERS_FOR_THE_YEAR, numberUserOrders);
             router.setCurrentPage(DISCOUNT_PAGE);
         } catch (ServiceException e) {

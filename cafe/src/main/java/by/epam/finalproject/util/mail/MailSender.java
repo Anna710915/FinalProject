@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * The type Mail sender.
+ * The type Mail sender. Announces a mail subject, mail text and mail receiver.
  */
 public class MailSender {
     private static final Logger logger = LogManager.getLogger();
@@ -28,7 +28,7 @@ public class MailSender {
     /**
      * Instantiates a new Mail sender.
      *
-     * @param sendToMail  the send to mail
+     * @param sendToMail  send to mail
      * @param mailSubject the mail subject
      * @param mailText    the mail text
      * @param properties  the properties
@@ -41,7 +41,7 @@ public class MailSender {
     }
 
     /**
-     * Send.
+     * Send mail method.
      */
     public void send(){
         try{
@@ -54,6 +54,7 @@ public class MailSender {
             logger.log(Level.ERROR, "Error generating or sending message:" + e);
         }
     }
+
     private void initMessage() throws UtilException{
         Session mailSession = SessionFactory.createSession(properties);
         mailSession.setDebug(true);
@@ -61,7 +62,7 @@ public class MailSender {
         try {
             message.setSubject(mailSubject);
             message.setText(mailText);
-            message.setRecipient(Message.RecipientType.TO,new InternetAddress(sendToMail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(sendToMail));
         } catch (MessagingException e) {
             throw new UtilException("Message exception in set methods: initMessage()");
         }

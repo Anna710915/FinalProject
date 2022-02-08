@@ -22,7 +22,8 @@ import java.util.Optional;
 import static by.epam.finalproject.controller.Parameter.*;
 
 /**
- * The type User service.
+ * The type User service. This class contains business logic
+ * for users.
  */
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
@@ -195,17 +196,16 @@ public class UserServiceImpl implements UserService {
         String newPassword = map.get(NEW_PASSWORD);
         String repeatPassword = map.get(REPEAT_PASSWORD);
         try {
-            if(!validator.isCorrectPassword(newPassword)){
-                map.put(NEW_PASSWORD, INVALID_NEW_PASSWORD);
-                return false;
-            }
-
             Optional<String> optionalPassword = userDao.findPasswordByLogin(user.getLogin());
             if(optionalPassword.isPresent()){
                 if(!optionalPassword.get().equals(PasswordEncryption.md5Apache(oldPassword))){
                     map.put(OLD_PASSWORD, INVALID_OLD_PASSWORD);
                     return false;
                 }
+            }
+            if(!validator.isCorrectPassword(newPassword)){
+                map.put(NEW_PASSWORD, INVALID_NEW_PASSWORD);
+                return false;
             }
             if(oldPassword.equals(newPassword)){
                 map.put(NEW_PASSWORD, INVALID_NEW_UNIQ_PASSWORD);

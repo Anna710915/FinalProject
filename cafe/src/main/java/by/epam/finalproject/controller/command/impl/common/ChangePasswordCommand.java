@@ -13,19 +13,11 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.epam.finalproject.controller.Parameter.*;
+import static by.epam.finalproject.controller.PathPage.PASSWORD_PAGE;
 import static by.epam.finalproject.controller.SessionAttribute.CURRENT_PAGE;
 import static by.epam.finalproject.controller.SessionAttribute.USER;
-import static by.epam.finalproject.controller.Parameter.OLD_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.NEW_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.REPEAT_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.SUCCESS_CHANGE_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.INVALID_NEW_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.INVALID_OLD_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.INVALID_REPEAT_PASSWORD;
-import static by.epam.finalproject.controller.Parameter.INVALID_NEW_UNIQ_PASSWORD;
 
-
-import static by.epam.finalproject.controller.PathPage.SUCCESS_PAGE;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_PASSWORD_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.INVALID_REPEAT_PASSWORD_MESSAGE;
 import static by.epam.finalproject.controller.PropertiesKey.NOT_UNIQ_NEW_PASSWORD_MESSAGE;
@@ -51,8 +43,8 @@ public class ChangePasswordCommand implements Command {
         try {
             boolean result = service.changePasswordByOldPassword(map, user);
             if(result){
-                router.setCurrentPage(SUCCESS_PAGE);
-                session.setAttribute(SUCCESS_CHANGE_PASSWORD, true);
+                router.setCurrentPage(PASSWORD_PAGE);
+                router.setRedirectType();
                 session.setAttribute(USER, user);
             } else{
                 for(String key: map.keySet()){

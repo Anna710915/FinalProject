@@ -12,7 +12,8 @@ import java.util.Optional;
 
 
 /**
- * The type User discount service.
+ * The type UserDiscountService. This class contains business logic
+ * for orders products users discounts.
  */
 public class UserDiscountServiceImpl implements UserDiscountService {
     private static final UserDiscountServiceImpl instance = new UserDiscountServiceImpl();

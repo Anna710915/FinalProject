@@ -96,7 +96,7 @@
                                             <div class="product_actions">
                                                 <div class="counter">
                                                     <div class="counter_btn counter_btn_minus btn-secondary">-</div>
-                                                    <input type="text" class="counter_number" id="product_number" name="product_number" value="1">
+                                                    <input  type="text"  class="counter_number" max="100" id="product_number" name="product_number" value="1">
                                                     <div class="counter_btn counter_btn_plus btn-secondary">+</div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary js_add-to-cart"><fmt:message key="action.to_cart"/> </button>
@@ -140,7 +140,7 @@
     </div>
     <div class="pages" style="background-color: whitesmoke">
         <div class="justify-content-center" >
-            <ctg:pagination currentPage="${requestScope.currentPage}" lastPage="${requestScope.lastPage}" url="${url}"/>
+            <ctg:pagination currentPage="${requestScope.currentPage}" lastPage="${requestScope.lastPage}" url="${requestScope.url}"/>
         </div>
     </div>
     <div class="text-center">

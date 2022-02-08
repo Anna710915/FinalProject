@@ -23,7 +23,7 @@ public class ImageController extends HttpServlet {
     private static final String CONTENT_TYPE = "image/jpeg";
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         String path = request.getParameter(IMAGE_PATH);
         byte[] imageBytes = Files.readAllBytes(Paths.get(path));
         response.setContentType(CONTENT_TYPE);
