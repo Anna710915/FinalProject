@@ -101,7 +101,7 @@
                             <c:forEach var="orderItem" items="${order_list}">
                                 <tr>
                                     <td class="col"><c:out value="${orderItem.order.orderId}"/></td>
-                                    <td><c:out value="${order.orderDate.toLocalDate()} ${order.orderDate.toLocalTime()}"/></td>
+                                    <td><c:out value="${orderItem.order.orderDate.toLocalDate()} ${orderItem.order.orderDate.toLocalTime()}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.orderState}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.totalCost}"/></td>
                                     <td class="col"><c:out value="${orderItem.order.typePayment}"/> </td>

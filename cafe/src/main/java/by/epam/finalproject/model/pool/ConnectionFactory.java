@@ -22,21 +22,20 @@ import java.util.Properties;
  */
 class ConnectionFactory {
     private static final Logger logger = LogManager.getLogger();
+    private static final String fileName = "sqldata/database.properties";
     private static final Properties properties = new Properties();
     private static final String DATABASE_URL;
     private static String fileProperties;
 
     static {
         try {
-            String fileName = "sqldata/database.properties";
             ClassLoader loader = ConnectionFactory.class.getClassLoader();
             URL resource = loader.getResource(fileName);
-            if(resource != null) {
-                fileProperties = resource.getFile();
-            }else{
+            if(resource == null) {
                 logger.log(Level.ERROR,"Resource is null! " + fileName);
                 throw new IllegalArgumentException();
             }
+            fileProperties = resource.getFile();
             properties.load(new FileReader(fileProperties));
             String driverName = (String) properties.get("db.driver");
             Class.forName(driverName);

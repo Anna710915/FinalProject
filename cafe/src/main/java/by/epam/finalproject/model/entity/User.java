@@ -51,17 +51,14 @@ public class User extends CustomEntity {
          */
         ACTIVE(2),
         /**
-         * Inactive user state.
-         */
-        INACTIVE(3),
-        /**
          * Blocked user state.
          */
-        BLOCKED(4),
+        BLOCKED(3),
         /**
          * Unblocked user state.
          */
-        UNBLOCKED(5);
+        UNBLOCKED(4);
+
         private long stateId;
 
         UserState (long id){
