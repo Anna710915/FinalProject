@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
-    private static final String fileName = "sqldata/database.properties";
+    private static final String FILE_NAME = "sqldata/database.properties";
     private static final Properties properties = new Properties();
     private static final int POOL_SIZE;
     private static AtomicBoolean create = new AtomicBoolean(false);
@@ -36,9 +36,9 @@ public class ConnectionPool {
     static {
         try {
             ClassLoader loader = ConnectionFactory.class.getClassLoader();
-            URL resource = loader.getResource(fileName);
+            URL resource = loader.getResource(FILE_NAME);
             if(resource == null) {
-                logger.log(Level.ERROR,"Resource is null! " + fileName);
+                logger.log(Level.ERROR,"Resource is null! " + FILE_NAME);
                 throw new IllegalArgumentException("Resource is null!");
             }
             String fileProperties = resource.getFile();
